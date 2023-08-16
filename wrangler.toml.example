@@ -1,0 +1,9 @@
+name = "shrimp"
+main = "src/worker.ts"
+compatibility_date = "2023-08-14"
+node_compat = true
+
+[[d1_databases]]
+binding = "DB"
+database_name = "shrimp-db"
+database_id = "<YOUR_DB_ID>"
