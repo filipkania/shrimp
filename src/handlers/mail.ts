@@ -14,10 +14,18 @@ export async function emailHandler(message: ForwardableEmailMessage, env: Env) {
 	await db
 		.insert(mails)
 		.values({
-			headers: Array.from(email.headers.entries()).reduce((acc, curr) => ({ ...acc, [curr[1].key]: curr[1].value }), {}),
 			from: email.from.address,
-			content: email.text,
-
+		
+			messageId: email.messageId,
+			references: email.references,
+		
+			headers: email.headers,
+		
+			subject: email.subject,
+		
+			text: email.text,
+			html: email.html,
+		
 			receivedAt: new Date(),
 		})
 		.run();

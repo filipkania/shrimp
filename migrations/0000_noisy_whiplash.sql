@@ -7,8 +7,13 @@ CREATE TABLE `contacts` (
 CREATE TABLE `mails` (
 	`id` integer PRIMARY KEY NOT NULL,
 	`from` text NOT NULL,
-	`headers` text,
-	`content` text
+	`message_id` text,
+	`references` text,
+	`headers` text NOT NULL,
+	`subject` text,
+	`text` text,
+	`html` text,
+	`received_at` text NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE `recipients` (

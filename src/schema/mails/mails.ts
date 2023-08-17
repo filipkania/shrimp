@@ -9,8 +9,15 @@ export const mails = sqliteTable("mails", {
 
 	from: text("from").notNull(),
 
-	headers: JSONType<{ [key: string]: string }[]>("headers"),
-	content: text("content"),
+	messageId: text("message_id"),
+	references: text("references"),
+
+	headers: JSONType<{ [key: string]: string }[]>("headers").notNull(),
+
+	subject: text("subject"),
+
+	text: text("text"),
+	html: text("html"),
 
 	receivedAt: DateType("received_at").notNull(),
 });
