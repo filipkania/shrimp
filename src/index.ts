@@ -9,10 +9,16 @@ export type Env = {
 
 const app = new Hono<{ Bindings: Env }>();
 
+app.use("*", async (c, next) => {
+	const st = new Date().getTime();
+	await next();
+	c.header("X-Response-Time", (new Date().getTime() - st).toString())
+});
+
 app.get("/helloworld", async (c) => {
 	const db = drizzle(c.env.DB, { schema });
 	return c.json(await db.query.mails.findMany());
-})
+});
 
 app.onError((err, c) => {
 	console.error(`${err}`);
