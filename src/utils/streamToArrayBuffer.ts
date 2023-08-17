@@ -1,4 +1,4 @@
-export async function streamToArrayBuffer(stream: ReadableStream, streamSize: number) {
+export const streamToArrayBuffer = async (stream: ReadableStream, streamSize: number) => {
 	let result = new Uint8Array(streamSize);
 	let bytesRead = 0;
 
@@ -13,4 +13,4 @@ export async function streamToArrayBuffer(stream: ReadableStream, streamSize: nu
 	}
 
 	return result;
-}
+};

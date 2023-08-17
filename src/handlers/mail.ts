@@ -1,36 +1,30 @@
 import { drizzle } from "drizzle-orm/d1";
 import { Env } from "..";
 import { streamToArrayBuffer } from "../utils/streamToArrayBuffer";
-import PostalMime from "postal-mime";
-import { mails } from "../schema";
 
-export async function emailHandler(message: ForwardableEmailMessage, env: Env) {
+import PostalMime from "postal-mime";
+import { postalMimeToEmail } from "../utils/postalMimeToEmail";
+
+import mail from "../db/mail";
+
+export const emailHandler = async (message: ForwardableEmailMessage, env: Env) => {
 	const rawEmail = await streamToArrayBuffer(message.raw, message.rawSize);
 	const parser = new PostalMime();
 	const email = await parser.parse(rawEmail);
 
 	const db = drizzle(env.DB);
 
-	await db
-		.insert(mails)
-		.values({
-			fromAddress: email.from.address,
-			fromName: email.from.name,
+	const mailId = await mail.insert(db, {
+		...postalMimeToEmail(email),
+		receivedAt: new Date(),
+	});
 
-			messageId: email.messageId,
-			references: email.references,
+	await mail.addRecipients(db, mailId, email.to);
+	if (email.cc) {
+		await mail.addCCs(db, mailId, email.cc);
+	}
 
-			headers: email.headers.reduce((acc, curr) => ({
-				...acc,
-				[curr.key]: curr.value, 
-			}), {}),
-
-			subject: email.subject,
-
-			text: email.text,
-			html: email.html,
-
-			receivedAt: new Date(),
-		})
-		.run();
-}
+	if (email.replyTo) {
+		await mail.addReplyTos(db, mailId, email.replyTo);
+	}
+};

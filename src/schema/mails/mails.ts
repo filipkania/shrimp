@@ -10,7 +10,7 @@ export const mails = sqliteTable("mails", {
 	id: int("id").primaryKey(),
 
 	fromAddress: text("from_address").notNull(),
-	fromName: text("from_name"),
+	fromName: text("from_name").notNull(),
 
 	messageId: text("message_id"),
 	references: text("references"),
