@@ -17,6 +17,8 @@ export async function emailHandler(message: ForwardableEmailMessage, env: Env) {
 			headers: Array.from(email.headers.entries()).reduce((acc, curr) => ({ ...acc, [curr[1].key]: curr[1].value }), {}),
 			from: email.from.address,
 			content: email.text,
+
+			receivedAt: new Date(),
 		})
 		.run();
 }
