@@ -37,7 +37,7 @@ export const handler = async (c: AppContext) => {
 			.setIssuedAt()
 			.setIssuer("urn:shrimp:issuer")
 			.setExpirationTime("2d")
-			.sign(new TextEncoder().encode("it-is-very-secret"));
+			.sign(new TextEncoder().encode(c.env.JWT_SECRET));
 
 		return c.json({
 			token,

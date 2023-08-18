@@ -10,7 +10,7 @@ export const authMiddleware = async (c: AppContext, next: Next) => {
 	}
 
 	try {
-		const { payload } = await jwtVerify(rawToken, new TextEncoder().encode("it-is-very-secret"), {
+		const { payload } = await jwtVerify(rawToken, new TextEncoder().encode(c.env.JWT_SECRET), {
 			issuer: "urn:shrimp:issuer",
 		});
 

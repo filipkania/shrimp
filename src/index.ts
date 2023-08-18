@@ -11,6 +11,7 @@ import { handler as LoginHandler } from "./routes/login";
 
 export type Env = {
 	DB: D1Database;
+	JWT_SECRET: string;
 };
 
 export type HonoVariables = {
