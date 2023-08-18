@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "sqlite",
-  "id": "d26b2a2f-026c-40c1-bedb-eaedbc324711",
+  "id": "8893f17f-cb6a-4fb8-bb99-17e9c9952657",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "contacts": {
@@ -52,9 +52,9 @@
           "notNull": true,
           "autoincrement": false
         },
-        "from_address": {
-          "name": "from_address",
-          "type": "text",
+        "from_id": {
+          "name": "from_id",
+          "type": "integer",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
@@ -121,8 +121,8 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "recipients": {
-      "name": "recipients",
+    "mails_recipients": {
+      "name": "mails_recipients",
       "columns": {
         "mail_id": {
           "name": "mail_id",
@@ -141,9 +141,9 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "recipients_mail_id_mails_id_fk": {
-          "name": "recipients_mail_id_mails_id_fk",
-          "tableFrom": "recipients",
+        "mails_recipients_mail_id_mails_id_fk": {
+          "name": "mails_recipients_mail_id_mails_id_fk",
+          "tableFrom": "mails_recipients",
           "tableTo": "mails",
           "columnsFrom": [
             "mail_id"
@@ -154,9 +154,9 @@
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
-        "recipients_contact_id_contacts_id_fk": {
-          "name": "recipients_contact_id_contacts_id_fk",
-          "tableFrom": "recipients",
+        "mails_recipients_contact_id_contacts_id_fk": {
+          "name": "mails_recipients_contact_id_contacts_id_fk",
+          "tableFrom": "mails_recipients",
           "tableTo": "contacts",
           "columnsFrom": [
             "contact_id"
@@ -171,8 +171,8 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "ccs": {
-      "name": "ccs",
+    "mails_ccs": {
+      "name": "mails_ccs",
       "columns": {
         "mail_id": {
           "name": "mail_id",
@@ -191,9 +191,9 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "ccs_mail_id_mails_id_fk": {
-          "name": "ccs_mail_id_mails_id_fk",
-          "tableFrom": "ccs",
+        "mails_ccs_mail_id_mails_id_fk": {
+          "name": "mails_ccs_mail_id_mails_id_fk",
+          "tableFrom": "mails_ccs",
           "tableTo": "mails",
           "columnsFrom": [
             "mail_id"
@@ -204,9 +204,9 @@
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
-        "ccs_contact_id_contacts_id_fk": {
-          "name": "ccs_contact_id_contacts_id_fk",
-          "tableFrom": "ccs",
+        "mails_ccs_contact_id_contacts_id_fk": {
+          "name": "mails_ccs_contact_id_contacts_id_fk",
+          "tableFrom": "mails_ccs",
           "tableTo": "contacts",
           "columnsFrom": [
             "contact_id"
@@ -221,8 +221,8 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "reply_tos": {
-      "name": "reply_tos",
+    "mails_reply_tos": {
+      "name": "mails_reply_tos",
       "columns": {
         "mail_id": {
           "name": "mail_id",
@@ -241,9 +241,9 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "reply_tos_mail_id_mails_id_fk": {
-          "name": "reply_tos_mail_id_mails_id_fk",
-          "tableFrom": "reply_tos",
+        "mails_reply_tos_mail_id_mails_id_fk": {
+          "name": "mails_reply_tos_mail_id_mails_id_fk",
+          "tableFrom": "mails_reply_tos",
           "tableTo": "mails",
           "columnsFrom": [
             "mail_id"
@@ -254,9 +254,9 @@
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
-        "reply_tos_contact_id_contacts_id_fk": {
-          "name": "reply_tos_contact_id_contacts_id_fk",
-          "tableFrom": "reply_tos",
+        "mails_reply_tos_contact_id_contacts_id_fk": {
+          "name": "mails_reply_tos_contact_id_contacts_id_fk",
+          "tableFrom": "mails_reply_tos",
           "tableTo": "contacts",
           "columnsFrom": [
             "contact_id"

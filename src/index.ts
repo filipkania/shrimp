@@ -22,6 +22,7 @@ app.get("/helloworld", async (c) => {
 	return c.json(
 		await db.query.mails.findMany({
 			with: {
+				from: true,
 				ccs: {
 					with: {
 						contact: true,
@@ -40,7 +41,7 @@ app.get("/helloworld", async (c) => {
 			},
 		})
 	);
-});
+})
 
 app.onError((err, c) => {
 	console.error(`${err}`);

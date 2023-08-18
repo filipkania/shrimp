@@ -3,7 +3,7 @@ import { mails } from "./mails";
 import { contacts } from "../contacts";
 import { relations } from "drizzle-orm";
 
-export const mailReplyTos = sqliteTable("reply_tos", {
+export const mailReplyTos = sqliteTable("mails_reply_tos", {
 	mailId: int("mail_id")
 		.notNull()
 		.references(() => mails.id, { onDelete: "cascade" }),

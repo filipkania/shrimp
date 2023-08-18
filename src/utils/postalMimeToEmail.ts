@@ -2,7 +2,6 @@ import { Email as ParsedEmail } from "postal-mime";
 
 export const postalMimeToEmail = (mail: ParsedEmail) => {
 	return {
-		fromAddress: mail.from.address,
 		fromName: mail.from.name,
 
 		messageId: mail.messageId,
