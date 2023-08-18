@@ -8,6 +8,13 @@
       "when": 1692345074917,
       "tag": "0000_silent_cyclops",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1692362222016,
+      "tag": "0001_clumsy_mole_man",
+      "breakpoints": true
     }
   ]
 }

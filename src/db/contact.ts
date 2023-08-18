@@ -1,5 +1,5 @@
 import { InferModel, sql } from "drizzle-orm";
-import { DrizzleD1Database } from "drizzle-orm/d1";
+import type { DrizzleD1Database } from "drizzle-orm/d1";
 import { contacts } from "../schema";
 
 type Contact = InferModel<typeof contacts, "insert">;

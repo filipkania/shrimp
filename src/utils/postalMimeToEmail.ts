@@ -1,4 +1,4 @@
-import { Email as ParsedEmail } from "postal-mime";
+import type { Email as ParsedEmail } from "postal-mime";
 
 export const postalMimeToEmail = (mail: ParsedEmail) => {
 	return {

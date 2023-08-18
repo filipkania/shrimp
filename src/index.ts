@@ -1,50 +1,41 @@
 import { Hono } from "hono";
+import type { Context } from "hono";
+
 import { emailHandler } from "./handlers/mail";
-import { drizzle } from "drizzle-orm/d1";
+import type { DrizzleD1Database } from "drizzle-orm/d1";
+
 import * as schema from "./schema";
-import contact from "./db/contact";
+import routes from "./routes";
+import { authMiddleware } from "./middlewares/auth";
+import { handler as LoginHandler } from "./routes/login";
 
 export type Env = {
 	DB: D1Database;
 };
 
-const app = new Hono<{ Bindings: Env }>();
+export type HonoVariables = {
+	drizzle: DrizzleD1Database<typeof schema>;
+	user?: {
+		id: number;
+		username: string;
+	};
+};
+export type AppContext = Context<{ Bindings: Env, Variables: HonoVariables }, any, {}>;
 
-app.use("*", async (c, next) => {
-	const st = new Date().getTime();
-	await next();
-	c.header("X-Response-Time", (new Date().getTime() - st).toString());
+const app = new Hono<{ Bindings: Env, Variables: HonoVariables }>();
+
+app.post("/login", LoginHandler);
+app.use("*", authMiddleware);
+
+// register all routes from routes/ directory
+routes.forEach((route) => {
+	const { method, route: path, handler } = route;
+	app.on(method, path, handler);
 });
-
-app.get("/helloworld", async (c) => {
-	const db = drizzle(c.env.DB, { schema });
-
-	return c.json(
-		await db.query.mails.findMany({
-			with: {
-				from: true,
-				ccs: {
-					with: {
-						contact: true,
-					},
-				},
-				recipients: {
-					with: {
-						contact: true,
-					},
-				},
-				replyTos: {
-					with: {
-						contact: true,
-					},
-				},
-			},
-		})
-	);
-})
 
 app.onError((err, c) => {
 	console.error(`${err}`);
+	throw err;
 	return c.text("Internal Server Error", 500);
 });
 
