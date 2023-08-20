@@ -10,7 +10,7 @@ const LoginPage = () => {
 
       <div className="flex h-screen">
         <div className="absolute w-full py-8 lg:relative lg:block lg:bg-zinc-900">
-          <span className="mx-10 text-2xl font-semibold text-black lg:text-white">
+          <span className="mx-10 text-2xl font-semibold text-black dark:text-white lg:text-white">
             Shrimp
           </span>
         </div>
