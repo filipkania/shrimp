@@ -1,7 +1,7 @@
 import { AuthContext, AuthValues } from "./AuthContext";
 import { useLocalStorage, useSetState } from "@mantine/hooks";
 import { useRouter } from "next/router";
-import { useEffect, type PropsWithChildren, useLayoutEffect } from "react";
+import { useEffect, type PropsWithChildren } from "react";
 import { queryAPI } from "../useAPI";
 import type { MeQuery } from "@/types/API";
 
@@ -30,7 +30,7 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
     setToken(contextValues.token);
   }, [contextValues.token, setToken]);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (!contextValues.token) {
       if (router.pathname !== "/auth/login") {
         router.push("/auth/login");

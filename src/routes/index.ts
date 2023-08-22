@@ -1,1 +1,3 @@
-export default [];
+import * as Me from "./me";
+
+export default [Me];

@@ -21,9 +21,9 @@ export type HonoVariables = {
 		username: string;
 	};
 };
-export type AppContext = Context<{ Bindings: Env, Variables: HonoVariables }, any, {}>;
+export type AppContext = Context<{ Bindings: Env; Variables: HonoVariables }, any, {}>;
 
-const app = new Hono<{ Bindings: Env, Variables: HonoVariables }>();
+const app = new Hono<{ Bindings: Env; Variables: HonoVariables }>().basePath("/api");
 
 app.post("/login", LoginHandler);
 app.use("*", authMiddleware);

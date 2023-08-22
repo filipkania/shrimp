@@ -1,4 +1,5 @@
-import { createContext } from "react";
+import { useRouter } from "next/router";
+import { createContext, useContext, useEffect } from "react";
 
 export type AuthValues = {
   token: string | null;
@@ -23,3 +24,5 @@ export const AuthContext = createContext<ContextType>({
   logout: () => null,
   set: () => null,
 });
+
+export const useAuth = () => useContext(AuthContext);
