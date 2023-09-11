@@ -5,28 +5,50 @@ import { NextSeo } from "next-seo";
 import { useState, type FormEvent } from "react";
 
 import { SymbolIcon } from "@radix-ui/react-icons";
-import { queryAPI } from "@/lib/useAPI";
-import { LoginQuery } from "@/types/API";
-import { useAuth } from "@/lib/auth/AuthContext";
-import { useRouter } from "next/router";
+import { API } from "@/lib/api";
+import { APIError, LoginQuery } from "@/types/API";
+import { useToast } from "@/components/ui/use-toast";
 
 const LoginPage = () => {
-  const auth = useAuth();
-  const router = useRouter();
-
-  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const { toast } = useToast();
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
 
-    queryAPI()
-      .url("/api/login")
-      .post({
-        "username": "ASDf"
-      })
-      // .finally(() => setLoading(false));
+    const form = new FormData(e.currentTarget);
+    console.log(form.entries())
+    const { username, password } = Object.fromEntries(form.entries());
+
+    let user: LoginQuery;
+    try {
+      const { data } = await API.post("/login", {
+        username,
+        password,
+      });
+
+      console.log(data);
+      user = data;
+    } catch (err) {
+      console.log(err)
+      if (err?.response?.status === 401) {
+        const { message }: APIError = err.response.data;
+
+        toast({
+          title: message,
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: "Something went wrong...",
+          description: "Try again later.",
+          variant: "destructive"
+        });
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -34,7 +56,7 @@ const LoginPage = () => {
       <NextSeo title="Login" />
 
       <div className="flex h-screen">
-        <div className="absolute w-full py-8 lg:relative lg:block lg:bg-zinc-900">
+        <div className="absolute w-full overflow-hidden py-8 lg:relative lg:block lg:bg-zinc-900">
           <span className="mx-10 text-2xl font-semibold text-black dark:text-white lg:text-white">
             Shrimp
           </span>
@@ -43,7 +65,7 @@ const LoginPage = () => {
         <div className="container flex w-full max-w-[65rem] items-center justify-center">
           <form
             className="flex flex-col gap-3 sm:min-w-[25rem]"
-            onSubmit={handleSubmit}
+            onSubmit={handleLogin}
           >
             <div className="flex flex-col text-center lg:text-left">
               <span className="text-3xl font-semibold tracking-tight">
@@ -57,7 +79,7 @@ const LoginPage = () => {
             <div>
               <Label htmlFor="username">Your username</Label>
               <Input
-                id="username"
+                name="username"
                 placeholder="pizza"
                 autoComplete="username"
                 required
@@ -67,7 +89,7 @@ const LoginPage = () => {
             <div>
               <Label htmlFor="password">Password</Label>
               <Input
-                id="password"
+                name="password"
                 placeholder="pizza"
                 type="password"
                 autoComplete="current-password"
@@ -83,10 +105,6 @@ const LoginPage = () => {
               {loading && <SymbolIcon className="animate-spin" />}
               Sign in
             </Button>
-
-            {error && (
-              <span className="mt-2 text-center text-red-500">{error}</span>
-            )}
           </form>
         </div>
       </div>

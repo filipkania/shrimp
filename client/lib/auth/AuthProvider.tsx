@@ -2,7 +2,6 @@ import { AuthContext, AuthValues } from "./AuthContext";
 import { useLocalStorage, useSetState } from "@mantine/hooks";
 import { useRouter } from "next/router";
 import { useEffect, type PropsWithChildren } from "react";
-import { queryAPI } from "../useAPI";
 import type { MeQuery } from "@/types/API";
 
 const AuthProvider = ({ children }: PropsWithChildren) => {
@@ -38,13 +37,14 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
       return;
     }
 
-    queryAPI<MeQuery>("/api/me").then((data) => {
-      setContextValues({
-        user: data,
-      });
-    }).catch(() => {
-      contextValues.logout();
-    });
+    // TODO: rewrite to axios
+    // queryAPI<MeQuery>("/api/me").then((data) => {
+    //   setContextValues({
+    //     user: data,
+    //   });
+    // }).catch(() => {
+    //   contextValues.logout();
+    // });
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [contextValues.token]);
 

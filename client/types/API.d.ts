@@ -8,3 +8,7 @@ export type LoginQuery = {
   username: string;
   token: string;
 };
+
+export type APIError = {
+  message: string;
+};

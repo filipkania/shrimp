@@ -1,8 +1,10 @@
-import AuthProvider from "@/lib/auth/AuthProvider";
 import "@/styles/globals.css";
+
+import AuthProvider from "@/lib/auth/AuthProvider";
+import { Toaster } from "@/components/ui/toaster"
+
 import { DefaultSeo } from "next-seo";
 import type { AppProps } from "next/app";
-import { useRouter } from "next/router";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -16,6 +18,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
       <AuthProvider>
         <Component {...pageProps} />
+        <Toaster />
       </AuthProvider>
     </>
   );
