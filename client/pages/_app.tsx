@@ -9,7 +9,13 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { DefaultSeo } from "next-seo";
 import type { AppProps } from "next/app";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 10000,
+    }
+  }
+});
 
 export default function App({ Component, pageProps }: AppProps) {
   return (

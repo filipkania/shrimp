@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const API_URL =
-  process.env.NODE_ENV === "production" ? "/api" : "http://localhost:8787/api";
+  process.env.NODE_ENV === "production" ? "/api" : "https://shrimp.fkania2.workers.dev/api";
 
 export const API = axios.create({
   baseURL: API_URL,
