@@ -1,13 +1,10 @@
-import { useRouter } from "next/router";
-import { createContext, useContext, useEffect } from "react";
+import { MeQuery } from "@/types/API";
+import { createContext, useContext } from "react";
 
 export type AuthValues = {
   token: string | null;
 
-  user: {
-    id: number;
-    username: string;
-  } | null;
+  user: MeQuery | null;
 
   logout: () => void;
 };
