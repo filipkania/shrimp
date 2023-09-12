@@ -1,3 +1,12 @@
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { useAuth } from "@/lib/auth/AuthContext";
+import { User2, UserCircle } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useMemo } from "react";
@@ -21,6 +30,7 @@ const buttonStyles = {
 
 export const Header = () => {
   const router = useRouter();
+  const auth = useAuth();
 
   const renderedRoutes = useMemo(() => {
     return routes.map(({ name, href, exact }, key) => {
@@ -50,7 +60,21 @@ export const Header = () => {
           Shrimp
         </Link>
 
-        <nav className="flex items-center gap-6">{renderedRoutes}</nav>
+        <nav className="flex items-center gap-6">
+          {renderedRoutes}
+
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="sm">
+                <User2 className="h-5 w-5 text-foreground/60" />
+              </Button>
+            </DropdownMenuTrigger>
+
+            <DropdownMenuContent className="w-56">
+              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </nav>
       </div>
     </div>
   );
