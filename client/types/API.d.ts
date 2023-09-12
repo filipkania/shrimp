@@ -4,8 +4,6 @@ export type MeQuery = {
 };
 
 export type LoginQuery = {
-  id: number;
-  username: string;
   token: string;
 };
 

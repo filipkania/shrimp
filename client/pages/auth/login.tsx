@@ -7,18 +7,24 @@ import { useState, type FormEvent } from "react";
 import { SymbolIcon } from "@radix-ui/react-icons";
 import { API } from "@/lib/api";
 import { APIError, LoginQuery } from "@/types/API";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast, dispatch } from "@/components/ui/use-toast";
+
+import type { AxiosError } from "axios";
+import { useAuth } from "@/lib/auth/AuthContext";
+import { useRouter } from "next/router";
 
 const LoginPage = () => {
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
+
+  const auth = useAuth();
+  const router = useRouter();
 
   const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
 
     const form = new FormData(e.currentTarget);
-    console.log(form.entries())
     const { username, password } = Object.fromEntries(form.entries());
 
     let user: LoginQuery;
@@ -28,12 +34,20 @@ const LoginPage = () => {
         password,
       });
 
-      console.log(data);
       user = data;
+      auth.set({
+        token: user.token,
+      });
+
+      router.push("/");
+
+      // dismiss all toasts
+      dispatch({ type: "DISMISS_TOAST" });
     } catch (err) {
-      console.log(err)
-      if (err?.response?.status === 401) {
-        const { message }: APIError = err.response.data;
+      const error = err as AxiosError<APIError>;
+
+      if (error.response?.status === 401) {
+        const message = error.response.data.message;
 
         toast({
           title: message,
@@ -43,7 +57,7 @@ const LoginPage = () => {
         toast({
           title: "Something went wrong...",
           description: "Try again later.",
-          variant: "destructive"
+          variant: "destructive",
         });
       }
     } finally {

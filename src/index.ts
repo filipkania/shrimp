@@ -1,4 +1,5 @@
 import { Hono } from "hono";
+import { cors } from "hono/cors";
 import type { Context } from "hono";
 
 import { emailHandler } from "./handlers/mail";
@@ -25,19 +26,19 @@ export type AppContext = Context<{ Bindings: Env; Variables: HonoVariables }, an
 
 const app = new Hono<{ Bindings: Env; Variables: HonoVariables }>().basePath("/api");
 
+app.use("*", cors());
 app.post("/login", LoginHandler);
 app.use("*", authMiddleware);
 
 // register all routes from routes/ directory
 routes.forEach((route) => {
 	const { method, route: path, handler } = route;
-	app.on(method, path, handler);
+	app.on(method, path, handler as any);
 });
 
 app.onError((err, c) => {
 	console.error(`${err}`);
 	throw err;
-	return c.text("Internal Server Error", 500);
 });
 
 export default {
