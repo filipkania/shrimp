@@ -33,10 +33,15 @@ export const MailEntry = ({ className, data }: Props) => {
 
   return (
     <Link
-      href="/"
+      href={{
+        pathname: "/mail",
+        query: {
+          id: data?.id,
+        }
+      }}
       className={cn(
         "flex cursor-pointer items-center justify-center gap-4 px-5 py-3",
-        className
+        className,
       )}
     >
       <Tooltip>

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useMemo } from "react";
 import { AccountDropdown } from "./AccountDropdown";
+import { cn } from "@/lib/utils";
 
 export const routes = [
   {
@@ -42,7 +43,12 @@ export const Header = () => {
   }, [router]);
 
   return (
-    <div className="sticky left-0 top-0 z-50 h-14 w-full overflow-x-hidden border-b backdrop-blur-md">
+    <div
+      className={cn(
+        "sticky left-0 top-0 z-50 h-14 w-full overflow-x-hidden border-b backdrop-blur-md",
+        router.pathname === "/auth/login" && "hidden"
+      )}
+    >
       <div className="container flex h-full items-center justify-between">
         <Link
           href="/"
