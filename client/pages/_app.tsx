@@ -8,6 +8,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 import { DefaultSeo } from "next-seo";
 import type { AppProps } from "next/app";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -29,8 +30,10 @@ export default function App({ Component, pageProps }: AppProps) {
 
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
-          <Component {...pageProps} />
-          <Toaster />
+          <TooltipProvider>
+            <Component {...pageProps} />
+            <Toaster />
+          </TooltipProvider>
         </AuthProvider>
 
         <ReactQueryDevtools initialIsOpen={false} />
