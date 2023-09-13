@@ -1,8 +1,13 @@
 import { MailEntry } from "@/components/pages/Mails/MailEntry";
 import { Header } from "@/components/shared/Header";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useAuth } from "@/lib/auth/AuthContext";
 import { cn } from "@/lib/utils";
+import { Plus } from "lucide-react";
+import Link from "next/link";
 
 export default function Home() {
   const { user } = useAuth();
@@ -20,8 +25,14 @@ export default function Home() {
         </h1>
 
         <div className="mt-3 overflow-hidden rounded-md border">
-          <div className="flex min-h-[3.5rem] w-full items-center border-b px-6">
-            x
+          <div className="flex flex-row-reverse min-h-[3.5rem] gap-2 w-full items-center border-b px-5">
+              <Link href="/mail/new">
+                <Button variant="outline">
+                  <Plus />
+                </Button>
+              </Link>
+
+              <Input placeholder="Search..." className="max-w-[15rem]"/>
           </div>
 
           {new Array(5).fill(0).map((_, i) => (
