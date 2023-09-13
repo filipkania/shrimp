@@ -2,8 +2,8 @@ import { MailEntry } from "@/components/pages/Mails/MailEntry";
 import { Header } from "@/components/shared/Header";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useMails } from "@/lib/api/useMails";
 import { useAuth } from "@/lib/auth/AuthContext";
 import { cn } from "@/lib/utils";
 import { Plus } from "lucide-react";
@@ -11,6 +11,10 @@ import Link from "next/link";
 
 export default function Home() {
   const { user } = useAuth();
+  const { data } = useMails();
+
+  const mails = data || new Array(15).fill(null);
+  console.log(mails)
 
   return (
     <>
@@ -25,33 +29,28 @@ export default function Home() {
         </h1>
 
         <div className="mt-3 overflow-hidden rounded-md border">
-          <div className="flex flex-row-reverse min-h-[3.5rem] gap-2 w-full items-center border-b px-5">
-              <Link href="/mail/new">
-                <Button variant="outline">
-                  <Plus />
-                </Button>
-              </Link>
+          <div className="flex min-h-[3.5rem] w-full flex-row-reverse items-center gap-2 border-b px-5">
+            <Link href="/mail/new">
+              <Button variant="outline">
+                <Plus />
+              </Button>
+            </Link>
 
-              <Input placeholder="Search..." className="max-w-[15rem]"/>
+            <Input
+              placeholder="Search..."
+              className="w-full md:max-w-[15rem]"
+            />
           </div>
 
-          {new Array(5).fill(0).map((_, i) => (
+          {mails.map((mail, i) => (
             <MailEntry
               key={i}
               className={cn(i % 2 && "bg-gray-50", i !== 4 && "border-b")}
-              // data={null}
-              data={{
-                author: "Author",
-                title: "somethiasdfasdfasdfasdf awdadsfasdf asdf ng",
-                description: "hello",
-                created_at: "2023-09-13T10:51:35.408Z",
-              }}
+              data={mail}
             />
           ))}
         </div>
       </div>
-
-      <span>x</span>
     </>
   );
 }

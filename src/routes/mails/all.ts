@@ -8,5 +8,12 @@ export const route = "/mails";
 export const handler = async (c: AppContext) => {
 	const db = drizzle(c.env.DB, { schema });
 
-	return c.json(await db.query.mails.findMany());
+	return c.json(
+		await db.query.mails.findMany({
+			orderBy: (mails, { desc }) => [desc(mails.receivedAt)],
+			with: {
+				from: true,
+			},
+		})
+	);
 };

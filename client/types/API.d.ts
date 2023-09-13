@@ -10,3 +10,10 @@ export type LoginQuery = {
 export type APIError = {
   message: string;
 };
+
+
+export type Contact = {
+  id: number;
+  name: string;
+  address: string;
+}
