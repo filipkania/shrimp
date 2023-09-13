@@ -1,5 +1,9 @@
 import { Skeleton } from "@/components/ui/skeleton";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { useMemo } from "react";
@@ -20,7 +24,7 @@ export const MailEntry = ({ className, data }: Props) => {
     if (!data) return null;
     const parsed = new Date(data.created_at);
 
-    // check if the mails is from today
+    // check if the mail is from today
     if (parsed.toDateString() === new Date().toDateString()) {
       return parsed.toLocaleTimeString([], {
         timeStyle: "short",
@@ -34,7 +38,7 @@ export const MailEntry = ({ className, data }: Props) => {
     <Link
       href="/"
       className={cn(
-        "flex cursor-pointer items-center justify-center gap-4 px-5 py-3 hover:bg-blend-darken",
+        "flex cursor-pointer items-center justify-center gap-4 px-5 py-3",
         className
       )}
     >
@@ -48,10 +52,10 @@ export const MailEntry = ({ className, data }: Props) => {
         )}
 
         {!!data && (
-          <div className="text-sm flex gap-1">
+          <div className="flex gap-1 text-sm overflow-hidden">
             <span>{data?.title}</span>
             <span className="hidden text-gray-500 md:block">
-             {data && ` - ${data.description}`}
+              {!!data.description && ` - ${data.description}`}
             </span>
           </div>
         )}
