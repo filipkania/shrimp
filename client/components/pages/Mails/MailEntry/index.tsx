@@ -68,7 +68,7 @@ export const MailEntry = ({ className, data }: Props) => {
         {!!data && (
           <div className="flex gap-1 overflow-hidden text-sm">
             <span>{data?.subject.slice(0, 120)}</span>
-            <span className="hidden text-gray-500 md:block">
+            <span className="hidden text-gray-500 dark:text-gray-400 md:block">
               {!!data.text && ` - ${data.text.slice(0, 100)}`}
             </span>
           </div>
@@ -77,7 +77,7 @@ export const MailEntry = ({ className, data }: Props) => {
 
       <Tooltip>
         <TooltipTrigger>
-          <span className="whitespace-nowrap text-sm text-gray-600">
+          <span className="whitespace-nowrap text-sm text-gray-600 dark:text-gray-300">
             {date || <Skeleton className="h-[15px] w-[3rem] rounded" />}
           </span>
         </TooltipTrigger>

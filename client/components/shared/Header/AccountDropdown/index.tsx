@@ -10,6 +10,7 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { useAuth } from "@/lib/auth/AuthContext";
 import { LogOut, User2 } from "lucide-react";
+import { ThemeDropdown } from "./ThemeDropdown";
 
 export const AccountDropdown = () => {
   const auth = useAuth();
@@ -32,11 +33,17 @@ export const AccountDropdown = () => {
           </div>
 
           <div className="flex flex-col justify-center">
-            <span>{auth.user?.username || (<Skeleton className="h-[15px] w-[70px] rounded"/>)}</span>
-            <span className="text-xs text-gray-700">User</span>
+            <span>
+              {auth.user?.username || (
+                <Skeleton className="h-[15px] w-[70px] rounded" />
+              )}
+            </span>
+            <span className="text-xs text-gray-700 dark:text-gray-300">User</span>
           </div>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
+
+        <ThemeDropdown />
 
         <DropdownMenuItem
           onClick={auth.logout}

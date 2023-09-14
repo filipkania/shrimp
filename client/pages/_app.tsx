@@ -10,6 +10,7 @@ import { DefaultSeo } from "next-seo";
 import type { AppProps } from "next/app";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Header } from "@/components/shared/Header";
+import { ThemeProvider } from "@/components/shared/ThemeProvider";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -30,15 +31,17 @@ export default function App({ Component, pageProps }: AppProps) {
       />
 
       <QueryClientProvider client={queryClient}>
-        <AuthProvider>
-          <TooltipProvider>
-            <Header />
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <AuthProvider>
+            <TooltipProvider>
+              <Header />
 
-            <Component {...pageProps} />
+              <Component {...pageProps} />
 
-            <Toaster />
-          </TooltipProvider>
-        </AuthProvider>
+              <Toaster />
+            </TooltipProvider>
+          </AuthProvider>
+        </ThemeProvider>
 
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>

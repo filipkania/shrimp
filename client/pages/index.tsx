@@ -40,7 +40,7 @@ export default function Home() {
           >
             <RotateCw
               className={cn(
-                "h-5 w-5 text-gray-800",
+                "h-5 w-5 text-gray-800 dark:text-gray-200",
                 reloading && "delay-75 animate-spin"
               )}
             />
@@ -52,9 +52,9 @@ export default function Home() {
               className="w-full md:max-w-[15rem]"
             />
 
-            <Link href="/mail/new">
+            <Link href="/mail/create">
               <Button variant="outline">
-                <Plus className="h-5 w-5 text-gray-800" />
+                <Plus className="h-5 w-5 text-gray-800 dark:text-gray-200" />
               </Button>
             </Link>
           </div>
@@ -63,7 +63,7 @@ export default function Home() {
         {mails.map((mail, i) => (
           <MailEntry
             key={i}
-            className={cn(i % 2 && "bg-gray-50", i !== 4 && "border-b")}
+            className={cn(i % 2 && "bg-gray-50 dark:bg-slate-900", i !== 4 && "border-b")}
             data={mail}
           />
         ))}
