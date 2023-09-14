@@ -41,7 +41,7 @@ export default function Home() {
             <RotateCw
               className={cn(
                 "h-5 w-5 text-gray-800",
-                reloading && "animate-spin"
+                reloading && "delay-75 animate-spin"
               )}
             />
           </Button>
