@@ -45,7 +45,7 @@ export const Header = () => {
   return (
     <div
       className={cn(
-        "sticky left-0 top-0 z-50 h-14 w-full overflow-x-hidden border-b backdrop-blur-lg",
+        "sticky left-0 top-0 z-50 h-14 w-full overflow-x-hidden bg-white/[0.6] dark:bg-black/[.5] border-b backdrop-blur-md",
         router.pathname === "/auth/login" && "hidden"
       )}
     >
