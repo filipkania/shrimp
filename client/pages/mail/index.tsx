@@ -37,7 +37,7 @@ const MailPage = () => {
           </span>
         </h3>
 
-        <div className={"mailview my-5 px-8 overflow-scroll rounded-xl border p-4"}>
+        <div className={"mailview my-5 px-4 md:px-8 overflow-scroll rounded-xl border p-4"}>
           {emailHtml && (
             <div
               className="h-full w-full"
