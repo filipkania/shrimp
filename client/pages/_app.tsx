@@ -1,4 +1,4 @@
-import "@/styles/globals.css";
+import "@/styles/globals.scss";
 
 import AuthProvider from "@/lib/auth/AuthProvider";
 import { Toaster } from "@/components/ui/toaster"

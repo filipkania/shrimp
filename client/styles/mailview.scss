@@ -1,0 +1,16 @@
+.mailview {
+  a {
+    @apply text-blue-600 underline visited:text-purple-600 hover:text-blue-800;
+  }
+ 
+  li,
+  ol li,
+  ul li {
+    list-style-type: initial;
+  }
+
+  img, picture, video, canvas, svg {
+    display: block;
+    max-width: 100%;
+  }
+}

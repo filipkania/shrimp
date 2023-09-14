@@ -28,14 +28,16 @@ const MailPage = () => {
     <>
       <NextSeo title={data.subject || "No Subject"} />
 
-      <div className="container my-12 flex flex-col">
+      <div className="container my-11 flex flex-col">
         <h1 className="text-3xl font-bold">{data?.subject || "No Subject"}</h1>
         <h3 className="text-xl">
           {data?.fromName}{" "}
-          <span className="text-gray-500 dark:text-gray-400">({data?.from.address})</span>
+          <span className="text-gray-500 dark:text-gray-400">
+            ({data?.from.address})
+          </span>
         </h3>
 
-        <div className="my-5 overflow-scroll rounded-xl border p-4">
+        <div className={"mailview my-5 px-8 overflow-scroll rounded-xl border p-4"}>
           {emailHtml && (
             <div
               className="h-full w-full"

@@ -1,5 +1,4 @@
 import { MailEntry } from "@/components/pages/Mails/MailEntry";
-import { Header } from "@/components/shared/Header";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";

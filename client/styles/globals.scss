@@ -1,6 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@import "./mailview.scss";
  
 @layer base {
   :root {
