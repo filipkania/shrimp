@@ -37,10 +37,10 @@ const MailPage = () => {
           </span>
         </h3>
 
-        <div className={"mailview my-5 px-4 md:px-8 overflow-scroll rounded-xl border p-4"}>
+        <div className={"mailview my-5 p-4 overflow-scroll rounded-xl border"}>
           {emailHtml && (
             <div
-              className="h-full w-full"
+              className="h-full w-full rounded-md overflow-scroll"
               dangerouslySetInnerHTML={{
                 __html: `<base target="_blank"/>${emailHtml}`,
               }}
