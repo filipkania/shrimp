@@ -13,7 +13,11 @@ const MailPage = () => {
 
   const emailHtml = useMemo(() => {
     if (!data?.html) return null;
-    return sanitize(data.html);
+    console.log(data);
+    return sanitize(data.html, {
+      FORCE_BODY: true,
+      USE_PROFILES: { html: true },
+    });
   }, [data?.html]);
 
   if ((router.isReady && !id) || error) {
@@ -37,10 +41,10 @@ const MailPage = () => {
           </span>
         </h3>
 
-        <div className={"mailview my-5 p-4 overflow-scroll rounded-xl border"}>
+        <div className={"mailview my-5 overflow-scroll rounded-xl border p-4"}>
           {emailHtml && (
             <div
-              className="h-full w-full rounded-md overflow-scroll"
+              className="h-full w-full overflow-scroll rounded-md"
               dangerouslySetInnerHTML={{
                 __html: `<base target="_blank"/>${emailHtml}`,
               }}
