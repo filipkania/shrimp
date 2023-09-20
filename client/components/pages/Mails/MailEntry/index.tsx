@@ -47,7 +47,7 @@ export const MailEntry = ({ className, data }: Props) => {
       <Tooltip>
         <TooltipTrigger>
           <b className="whitespace-nowrap">
-            {data?.fromName.slice(0, 64) || (
+            { !!data ? (data?.fromName.slice(0, 64) || "Unknown Author") : (
               <Skeleton className="h-[20px] w-[5rem] rounded" />
             )}
           </b>
