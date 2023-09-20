@@ -13,7 +13,6 @@ const MailPage = () => {
 
   const emailHtml = useMemo(() => {
     if (!data?.html) return null;
-    console.log(data);
     return sanitize(data.html, {
       FORCE_BODY: true,
       USE_PROFILES: { html: true },

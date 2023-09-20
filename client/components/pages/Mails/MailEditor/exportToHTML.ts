@@ -4,7 +4,7 @@ import type { BlockNoteEditor } from "@blocknote/core";
  * This function exports BlockNotes blocks to Mail-compatible
  * HTML, during this process, we are:
  * - stripping all classes,
- * - convert data-background-color and data-text-color to style param,
+ * - converting data-background-color and data-text-color to style param,
  * - replacing all empty paragraphs with <br/>
  *
  * @param editor
@@ -26,7 +26,7 @@ export const exportToHTML = async (editor: BlockNoteEditor) => {
       // stripping classes
       elem.removeAttribute("class");
 
-      // convert data-background-color and data-text-color
+      // converting data-background-color and data-text-color
       const bgColor = elem.getAttribute("data-background-color");
       if (!!bgColor && colors.hasOwnProperty(bgColor)) {
         (elem as HTMLElement).style.backgroundColor =
@@ -54,13 +54,12 @@ export const exportToHTML = async (editor: BlockNoteEditor) => {
   <html>
     <head>
       <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet"> 
-      
     </head>
     <body>
       <style type="text/css">
         div#email-body {
           font-family: "Inter", "SF Pro Display", -apple-system, BlinkMacSystemFont, "Open Sans", "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
-          margin: 24px 32px;
+          padding: 24px 32px;
           color: #3F3F3F;
           background-color: #FFFFFF;
           width: 100%;
@@ -68,11 +67,11 @@ export const exportToHTML = async (editor: BlockNoteEditor) => {
         }
       </style>
       <div id="email-body">
-      ${doc.body.innerHTML}
+        ${doc.body.innerHTML}
       </div>
     </body>
   </html>
-  `.trim().replaceAll('"', "'");
+  `.trim();
 };
 
 const colors = {
