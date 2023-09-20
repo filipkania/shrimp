@@ -4,18 +4,29 @@ import { BlockNoteView, useBlockNote } from "@blocknote/react";
 import "@blocknote/core/style.css";
 import { exportToHTML } from "./exportToHTML";
 import { useTheme } from "next-themes";
+import { useImperativeHandle } from "react";
 
-export default function Editor() {
-  const editor: BlockNoteEditor = useBlockNote({
-    async onEditorContentChange(editor) {
-      const html = await exportToHTML(editor);
-      console.log(html);
-    },
-  });
+export type Ref = {
+  getHTML: () => ReturnType<typeof exportToHTML>;
+  getMarkdown: () => Promise<string>;
+};
 
+type Props = {
+  editorRef: React.Ref<Ref>;
+};
+
+const Editor = ({ editorRef }: Props) => {
+  const editor: BlockNoteEditor = useBlockNote();
   const { resolvedTheme } = useTheme();
+
+  useImperativeHandle(editorRef, () => ({
+    getHTML: async () => exportToHTML(editor),
+    getMarkdown: async () => editor.blocksToMarkdown(editor.topLevelBlocks),
+  }));
 
   return (
     <BlockNoteView editor={editor} theme={resolvedTheme as "light" | "dark"} />
   );
-}
+};
+
+export default Editor;
