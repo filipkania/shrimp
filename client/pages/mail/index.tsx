@@ -15,6 +15,7 @@ const MailPage = () => {
     if (!data?.html) return null;
     return sanitize(data.html, {
       FORCE_BODY: true,
+      FORBID_TAGS: ["style"],
       USE_PROFILES: { html: true },
     });
   }, [data?.html]);

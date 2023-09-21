@@ -4,6 +4,7 @@ import type { BlockNoteEditor } from "@blocknote/core";
  * This function exports BlockNotes blocks to Mail-compatible
  * HTML, during this process, we are:
  * - stripping all classes,
+ * - adding custom styling to some HTML tags,
  * - converting data-background-color and data-text-color to style param,
  * - replacing all empty paragraphs with <br/>
  *
@@ -25,6 +26,14 @@ export const exportToHTML = async (editor: BlockNoteEditor) => {
 
       // stripping classes
       elem.removeAttribute("class");
+
+      // adding custom styling
+      if (elementStyling.hasOwnProperty(elem.tagName)) {
+        Object.entries(elementStyling[elem.tagName]).forEach((style) => {
+          const [key, value] = style as [any, string];
+          (elem as HTMLElement).style[key] = value;
+        });
+      }
 
       // converting data-background-color and data-text-color
       const bgColor = elem.getAttribute("data-background-color");
@@ -53,25 +62,37 @@ export const exportToHTML = async (editor: BlockNoteEditor) => {
   <!DOCTYPE HTML>
   <html>
     <head>
-      <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet"> 
+      <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel=stylesheet>
     </head>
     <body>
-      <style type="text/css">
-        div#email-body {
-          font-family: "Inter", "SF Pro Display", -apple-system, BlinkMacSystemFont, "Open Sans", "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
-          padding: 24px 32px;
-          color: #3F3F3F;
-          background-color: #FFFFFF;
-          width: 100%;
-          height: 100%;
-        }
-      </style>
-      <div id="email-body">
+      <div style="font-size:16px;padding:16px;color:#3f3f3f;background-color:#fff;width:100%;height:100%;font-family:Inter,'SF Pro Display',-apple-system,BlinkMacSystemFont,'Open Sans','Segoe UI',Roboto,Oxygen,Ubuntu,Cantarell,'Fira Sans','Droid Sans','Helvetica Neue',sans-serif">
         ${doc.body.innerHTML}
       </div>
     </body>
   </html>
   `.trim();
+};
+
+const elementStyling: Record<string, Partial<CSSStyleDeclaration>> = {
+  H1: {
+    fontWeight: "700",
+    fontSize: "2rem",
+    margin: "0",
+  },
+  H2: {
+    fontWeight: "700",
+    fontSize: "1.65rem",
+    margin: "0",
+  },
+  H3: {
+    fontWeight: "700",
+    fontSize: "1.35rem",
+    margin: "0",
+  },
+
+  S: {
+    textDecoration: "line-through 3px",
+  },
 };
 
 const colors = {
