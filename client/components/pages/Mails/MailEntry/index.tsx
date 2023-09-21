@@ -37,17 +37,19 @@ export const MailEntry = ({ className, data }: Props) => {
         pathname: "/mail",
         query: {
           id: data?.id,
-        }
+        },
       }}
       className={cn(
         "flex cursor-pointer items-center justify-center gap-4 px-5 py-3",
-        className,
+        className
       )}
     >
       <Tooltip>
         <TooltipTrigger>
           <b className="whitespace-nowrap">
-            { !!data ? (data?.fromName.slice(0, 64) || "Unknown Author") : (
+            {!!data ? (
+              data?.fromName.slice(0, 64) || "Unknown Author"
+            ) : (
               <Skeleton className="h-[20px] w-[5rem] rounded" />
             )}
           </b>
@@ -66,9 +68,9 @@ export const MailEntry = ({ className, data }: Props) => {
         )}
 
         {!!data && (
-          <div className="flex gap-1 overflow-hidden text-sm">
+          <div className="overflow-hidden text-sm">
             <span>{data?.subject.slice(0, 120)}</span>
-            <span className="hidden text-gray-500 dark:text-gray-400 md:block">
+            <span className="ml-1 hidden text-gray-500 dark:text-gray-400 md:inline-block">
               {!!data.text && ` - ${data.text.slice(0, 100)}`}
             </span>
           </div>
