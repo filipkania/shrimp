@@ -35,6 +35,8 @@ const CreateMailPage = () => {
     console.log(html, markdown);
 
     try {
+      if (process.env.NODE_ENV === "development" && !confirm("Are you sure you want to send an email?")) return;
+
       await API.post(
         "/mails/send",
         {
