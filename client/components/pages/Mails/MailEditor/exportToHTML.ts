@@ -58,6 +58,11 @@ export const exportToHTML = async (editor: BlockNoteEditor) => {
 
   walk(doc.body);
 
+  // remove last line break
+  if (doc.body.lastChild?.nodeName === "BR") {
+    doc.body.lastChild.remove();
+  }
+
   return `
   <!DOCTYPE HTML>
   <html>
