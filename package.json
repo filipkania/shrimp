@@ -3,13 +3,17 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "deploy": "wrangler deploy",
+    "deploy": "bun run ./deploy",
     "start": "wrangler dev",
     "migrations:generate": "drizzle-kit generate:sqlite"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20230419.0",
+    "@types/prompts": "^2.4.5",
+    "bun-types": "^1.0.3",
     "drizzle-kit": "^0.19.12",
+    "picocolors": "^1.0.0",
+    "prompts": "^2.4.2",
     "typescript": "^5.0.4",
     "wrangler": "^3.0.0"
   },
