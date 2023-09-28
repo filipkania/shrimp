@@ -7,6 +7,7 @@ export type Mail = {
 
   from_id: number;
   from_name: string;
+  from_address: string;
 
   message_id?: string;
   references?: string;
@@ -33,11 +34,7 @@ export const useMails = () => {
         },
       });
 
-      return res.data as Array<
-        Mail & {
-          from_address: string;
-        }
-      >;
+      return res.data as Array<Mail>;
     },
   });
 };

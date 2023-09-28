@@ -12,7 +12,7 @@ import { useMemo } from "react";
 type Props = {
   className?: string;
 
-  data: Mail & { from_address: string; } | null;
+  data: Mail | null;
 };
 
 export const MailEntry = ({ className, data }: Props) => {

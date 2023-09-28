@@ -37,7 +37,7 @@ const MailPage = () => {
         <h3 className="text-xl">
           {data?.from_name}{" "}
           <span className="text-gray-500 dark:text-gray-400">
-            (---)
+            ({data?.from_address})
           </span>
         </h3>
 
