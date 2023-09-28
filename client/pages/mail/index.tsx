@@ -35,9 +35,9 @@ const MailPage = () => {
       <div className="container my-11 flex flex-col">
         <h1 className="text-3xl font-bold">{data?.subject || "No Subject"}</h1>
         <h3 className="text-xl">
-          {data?.fromName}{" "}
+          {data?.from_name}{" "}
           <span className="text-gray-500 dark:text-gray-400">
-            ({data?.from.address})
+            (---)
           </span>
         </h3>
 
