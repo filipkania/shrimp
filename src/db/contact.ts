@@ -1,8 +1,8 @@
-import { InferModel, sql } from "drizzle-orm";
-import type { DrizzleD1Database } from "drizzle-orm/d1";
-import { contacts } from "../schema";
-
-type Contact = InferModel<typeof contacts, "insert">;
+export type Contact = {
+	id: number;
+	name: string;
+	address: string;
+};
 
 export default {
 	/**
@@ -11,18 +11,15 @@ export default {
 	 * @param data Contact to insert
 	 * @return id ID of inserted Contact
 	 */
-	insert: async (db: DrizzleD1Database<any>, data: Contact) => {
-		const result = await db
-			.insert(contacts)
-			.values(data)
-			.onConflictDoUpdate({
-				set: { name: sql`excluded.name` },
-				target: contacts.address,
-			})
-			.returning({ id: contacts.id })
-			.get();
+	insert: async (db: D1Database, data: Omit<Contact, "id">) => {
+		const { name, address } = data;
 
-		return result.id;
+		const stmt = await db
+			.prepare("INSERT INTO contacts(name, address) VALUES (?, ?) ON CONFLICT(address) DO UPDATE SET name = excluded.name RETURNING *;")
+			.bind(name, address)
+			.run();
+
+		return (stmt.results as Contact[])[0].id;
 	},
 
 	/**
@@ -31,17 +28,13 @@ export default {
 	 * @param data Array of Contacts
 	 * @return IDs of inserted Contacts
 	 */
-	insertMany: async (db: DrizzleD1Database<any>, data: Contact[]) => {
-		const result = await db
-			.insert(contacts)
-			.values(data)
-			.onConflictDoUpdate({
-				set: { name: sql`excluded.name` },
-				target: contacts.address,
-			})
-			.returning({ id: contacts.id })
-			.all();
+	insertMany: async (db: D1Database, data: Omit<Contact, "id">[]) => {
+		const stmt = db.prepare(
+			"INSERT INTO contacts(name, address) VALUES (?, ?) ON CONFLICT(address) DO UPDATE SET name = excluded.name RETURNING *;"
+		);
 
-		return result.map(({ id }) => id);
+		const batch = await db.batch(data.map(({ name, address }) => stmt.bind(name, address)));
+
+		return batch.map((query) => (query.results as Contact[])[0].id);
 	},
 };

@@ -1,4 +1,3 @@
-import { drizzle } from "drizzle-orm/d1";
 import { Env } from "..";
 import { streamToArrayBuffer } from "../utils/streamToArrayBuffer";
 
@@ -9,30 +8,30 @@ import mail from "../db/mail";
 import contact from "../db/contact";
 
 export const emailHandler = async (message: ForwardableEmailMessage, env: Env) => {
+	console.log("got email");
 	const rawEmail = await streamToArrayBuffer(message.raw, message.rawSize);
 	const parser = new PostalMime();
-	const email = await parser.parse(rawEmail);
+	const email = await parser.parse(Buffer.from(rawEmail));
+	console.log(email.headers)
 
-	const db = drizzle(env.DB);
-
-	const senderContact = await contact.insert(db, {
+	const senderContact = await contact.insert(env.DB, {
 		name: email.from.name,
 		address: email.from.address,
 	});
 
-	const mailId = await mail.insert(db, {
+	const mailId = await mail.insert(env.DB, {
 		...postalMimeToEmail(email),
-		fromId: senderContact,
-		receivedAt: new Date(),
+		from_id: senderContact,
+		received_at: new Date().toISOString(),
 	});
 
-	await mail.addRecipients(db, mailId, email.to);
+	await mail.addRecipients(env.DB, mailId, email.to);
 	if (email.cc) {
-		await mail.addCCs(db, mailId, email.cc);
+		await mail.addCCs(env.DB, mailId, email.cc);
 	}
 
 	if (email.replyTo) {
-		await mail.addReplyTos(db, mailId, email.replyTo);
+		await mail.addReplyTos(env.DB, mailId, email.replyTo);
 	}
 
 	// TODO: add proper attachments handling
