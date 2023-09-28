@@ -13,7 +13,7 @@ const questionsList = [
 		validate: (val) => !val.includes(" ") && val.includes("."),
 	},
 	{
-		name: "test",
+		name: "frontend",
 		type: "confirm",
 		message: "Do you want to deploy frontend?",
 		initial: true,

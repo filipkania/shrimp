@@ -16,7 +16,7 @@ export const provisionDB = () => {
 
 	if (dbs.some((db) => db.name === "shrimp-db")) {
 		console.info(yellow("Seems like there's already an existing `shrimp-db` database. Skipping DB creation..."));
-		return;
+		return dbs.filter((db) => db.name === "shrimp-db")[0].uuid;
 	}
 
 	runCmdSync(["wrangler", "d1", "create", "shrimp-db"], {
@@ -24,5 +24,9 @@ export const provisionDB = () => {
 		stderr: "inherit",
 	});
 
-	// TODO: save DB UUID to wrangler.toml
+	// save DB UUID to wrangler.toml
+	const { stdout: dbsStdout } = runCmdSync(["wrangler", "d1", "list", "--json"]);
+	const newDbs: WranglerDB[] = JSON.parse(dbsStdout.toString());
+
+	return newDbs.filter((db) => db.name === "shrimp-db")[0].uuid;
 };
