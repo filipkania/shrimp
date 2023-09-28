@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { API } from "@/lib/api";
 import { useToast } from "@/components/ui/use-toast";
 import { useAuth } from "@/lib/auth/AuthContext";
+import { Button } from "@/components/ui/button";
 
 const Editor = dynamic(
   () => import("../../components/pages/Mails/MailEditor"),
@@ -25,7 +26,7 @@ const CreateMailPage = () => {
     e.preventDefault();
 
     const form = new FormData(e.currentTarget);
-    const { email, subject } = Object.fromEntries(form.entries());
+    const { recipients, ccs, subject } = Object.fromEntries(form.entries());
 
     const [html, markdown] = await Promise.all([
       editorRef.current?.getHTML(),
@@ -35,12 +36,27 @@ const CreateMailPage = () => {
     console.log(html, markdown);
 
     try {
-      if (process.env.NODE_ENV === "development" && !confirm("Are you sure you want to send an email?")) return;
+      if (
+        process.env.NODE_ENV === "development" &&
+        !confirm("Are you sure you want to send an email?")
+      )
+        return;
 
       await API.post(
         "/mails/send",
         {
-          to: [{ email }],
+          to: recipients
+            .toString()
+            .split(",")
+            .map((e) => ({
+              email: e.trim(),
+            })),
+          ccs: ccs
+            .toString()
+            .split(",")
+            .map((e) => ({
+              email: e.trim(),
+            })),
           from: {
             name: "Shrimp",
             email: "shrimp@fkrq.me",
@@ -73,15 +89,41 @@ const CreateMailPage = () => {
     <form onSubmit={sendEmailHandler} className="container my-11 flex flex-col">
       <h1 className="text-3xl font-bold">Send an email</h1>
 
-      <div className="my-5 flex flex-col items-center justify-center">
-        <Input name="email" required placeholder="email" />
-        <Input name="subject" required placeholder="subject" />
+      <div className="my-5 flex flex-col items-center justify-center rounded-xl border">
+        <div className="flex w-full items-center justify-center border-b px-4 py-2">
+          <span>To:</span>
+          <Input
+            name="recipients"
+            placeholder="Recipients..."
+            className="w-full border-none"
+          />
+        </div>
 
-        <div className="my-5 overflow-scroll w-full rounded-xl border p-4">
+        <div className="flex w-full items-center justify-center border-b px-4 py-2">
+          <span>CC:</span>
+          <Input
+            name="ccs"
+            placeholder="Recipients..."
+            className="w-full border-none"
+          />
+        </div>
+
+        <div className="flex w-full items-center justify-center border-b px-4 py-2">
+          <span>Subject:</span>
+          <Input
+            name="subject"
+            placeholder="Pizza is great!"
+            className="w-full border-none"
+          />
+        </div>
+
+        <div className="min-h-[12rem] w-full overflow-scroll border-b py-4">
           <ForwardRefEditor ref={editorRef} />
         </div>
 
-        <button>send</button>
+        <div className="flex w-full justify-end p-3">
+          <Button>Send message</Button>
+        </div>
       </div>
     </form>
   );

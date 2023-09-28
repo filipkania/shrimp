@@ -25,7 +25,7 @@ const Editor = ({ editorRef }: Props) => {
   }));
 
   return (
-    <BlockNoteView editor={editor} theme={resolvedTheme as "light" | "dark"} />
+    <BlockNoteView className="[&>*]:!bg-transparent" editor={editor} theme={resolvedTheme as "light" | "dark"} />
   );
 };
 

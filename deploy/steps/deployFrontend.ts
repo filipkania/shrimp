@@ -13,7 +13,7 @@ export const deployFrontend = async () => {
     stderr: "inherit",
   });
 
-  spawnSync(["wrangler", "pages", "deploy", "out"], {
+  spawnSync(["wrangler", "pages", "deploy", "out", "--branch", "main"], {
     cwd: "./client",
     stdout: "inherit",
     stderr: "inherit",
