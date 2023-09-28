@@ -1,21 +1,20 @@
 import { AppContext } from "@/src";
-import * as schema from "@/src/schema";
-import { eq } from "drizzle-orm";
-import { drizzle } from "drizzle-orm/d1";
 
 export const method = "GET";
 export const route = "/mails/:id";
 
 export const handler = async (c: AppContext) => {
-	const db = drizzle(c.env.DB, { schema });
-  const mailId = c.req.param("id");
+	const mailId = c.req.param("id");
+	const stmt = c.env.DB.prepare(`
+		SELECT
+			mails.id AS id,
+			address AS from_address,
+			*
+		FROM mails
+		INNER JOIN contacts
+		ON contacts.id = mails.from_id
+		WHERE mails.id = ?
+	`);
 
-	return c.json(
-		await db.query.mails.findFirst({
-      where: (mails) => eq(mails.id, parseInt(mailId)),
-			with: {
-				from: true,
-			},
-		})
-	);
+	return c.json(await stmt.bind(mailId).first());
 };
