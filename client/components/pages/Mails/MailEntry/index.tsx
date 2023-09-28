@@ -1,4 +1,3 @@
-import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   Tooltip,
@@ -13,13 +12,13 @@ import { useMemo } from "react";
 type Props = {
   className?: string;
 
-  data: Mail | null;
+  data: Mail & { from_address: string; } | null;
 };
 
 export const MailEntry = ({ className, data }: Props) => {
   const date = useMemo(() => {
     if (!data) return null;
-    const parsed = new Date(data.receivedAt);
+    const parsed = new Date(data.received_at);
 
     // check if the mail is from today
     if (parsed.toDateString() === new Date().toDateString()) {
@@ -48,7 +47,7 @@ export const MailEntry = ({ className, data }: Props) => {
         <TooltipTrigger>
           <b className="whitespace-nowrap">
             {!!data ? (
-              data?.fromName.slice(0, 64) || "Unknown Author"
+              data?.from_name.slice(0, 64) || "Unknown Author"
             ) : (
               <Skeleton className="h-[20px] w-[5rem] rounded" />
             )}
@@ -57,7 +56,7 @@ export const MailEntry = ({ className, data }: Props) => {
 
         {data && (
           <TooltipContent>
-            <span>{data.from.address}</span>
+            <span>{data.from_address}</span>
           </TooltipContent>
         )}
       </Tooltip>
@@ -69,7 +68,7 @@ export const MailEntry = ({ className, data }: Props) => {
 
         {!!data && (
           <div className="overflow-hidden text-sm">
-            <span>{data?.subject.slice(0, 120)}</span>
+            <span>{data?.subject?.slice(0, 120)}</span>
             <span className="ml-1 hidden text-gray-500 dark:text-gray-400 md:inline-block">
               {!!data.text && ` - ${data.text.slice(0, 100)}`}
             </span>
@@ -86,7 +85,7 @@ export const MailEntry = ({ className, data }: Props) => {
 
         {data && (
           <TooltipContent>
-            <span>{new Date(data.receivedAt).toLocaleString()}</span>
+            <span>{new Date(data.received_at).toLocaleString()}</span>
           </TooltipContent>
         )}
       </Tooltip>

@@ -4,7 +4,7 @@ import type { Context } from "hono";
 
 import { emailHandler } from "./handlers/mail";
 
-// import routes from "./routes";
+import routes from "./routes";
 import { authMiddleware } from "./middlewares/auth";
 import { handler as LoginHandler } from "./routes/login";
 
@@ -30,10 +30,10 @@ app.post("/login", LoginHandler);
 app.use("*", authMiddleware);
 
 // register all routes from routes/ directory
-// routes.forEach((route) => {
-// 	const { method, route: path, handler } = route;
-// 	app.on(method, path, handler as any);
-// });
+routes.forEach((route) => {
+	const { method, route: path, handler } = route;
+	app.on(method, path, handler as any);
+});
 
 app.onError((err, _) => {
 	console.error(`${err}`);

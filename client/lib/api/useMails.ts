@@ -1,26 +1,23 @@
 import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "../auth/AuthContext";
 import { API } from "../api";
-import { Contact } from "@/types/API";
 
 export type Mail = {
   id: number;
 
-  fromId: number;
-  fromName: string;
-  from: Contact;
+  from_id: number;
+  from_name: string;
 
-  headers: {
-    [key: string]: string;
-  };
-  messageId: string;
-  references: Array<string> | null;
+  message_id?: string;
+  references?: string;
 
-  receivedAt: string;
+  headers: string;
+  subject?: string;
 
-  subject: string;
-  text: string;
-  html: string | null;
+  text?: string;
+  html?: string;
+
+  received_at: string;
 };
 
 export const useMails = () => {
@@ -36,7 +33,11 @@ export const useMails = () => {
         },
       });
 
-      return res.data as Array<Mail>;
+      return res.data as Array<
+        Mail & {
+          from_address: string;
+        }
+      >;
     },
   });
 };
