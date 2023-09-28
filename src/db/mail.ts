@@ -1,10 +1,22 @@
-import { InferModel } from "drizzle-orm";
-import type { DrizzleD1Database } from "drizzle-orm/d1";
-import { contacts, mailRecipients, mails, mailCCs, mailReplyTos } from "../schema";
-import contact from "./contact";
+import contact, { Contact } from "./contact";
 
-type Mail = InferModel<typeof mails, "insert">;
-type Contact = InferModel<typeof contacts, "insert">;
+export type Mail = {
+	id: number;
+
+	from_id: number;
+	from_name: string;
+
+	message_id?: string;
+	references?: string;
+
+	headers: string;
+	subject?: string;
+
+	text?: string;
+	html?: string;
+
+	received_at: string;
+};
 
 export default {
 	/**
@@ -13,10 +25,16 @@ export default {
 	 * @param data Mail to insert
 	 * @return id ID of inserted mail
 	 */
-	insert: async (db: DrizzleD1Database<any>, mail: Mail) => {
-		const result = await db.insert(mails).values(mail).returning({ id: mails.id }).get();
+	insert: async (db: D1Database, mail: Omit<Mail, "id">) => {
+		const { from_id, from_name, message_id, references, headers, subject, text, html, received_at } = mail;
+		const stmt = await db
+			.prepare(
+				"INSERT INTO mails(`from_id`, `from_name`, `message_id`, `references`, `headers`, `subject`, `text`, `html`, `received_at`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING *;"
+			)
+			.bind(from_id, from_name, message_id ?? null, references ?? null, headers, subject ?? null, text ?? null, html ?? null, received_at)
+			.run();
 
-		return result.id;
+		return (stmt.results as Mail[])[0].id;
 	},
 
 	/**
@@ -24,18 +42,11 @@ export default {
 	 *
 	 * @param recipients
 	 */
-	addRecipients: async (db: DrizzleD1Database<any>, mailId: number, recipients: Contact[]) => {
+	addRecipients: async (db: D1Database, mailId: number, recipients: Omit<Contact, "id">[]) => {
 		const ids = await contact.insertMany(db, recipients);
 
-		await db
-			.insert(mailRecipients)
-			.values(
-				ids.map((rId) => ({
-					contactId: rId,
-					mailId,
-				}))
-			)
-			.run();
+		const stmt = db.prepare("INSERT INTO mails_recipients(mail_id, contact_id) VALUES (?, ?) RETURNING *;");
+		await db.batch(ids.map((id) => stmt.bind(mailId, id)));
 	},
 
 	/**
@@ -43,18 +54,11 @@ export default {
 	 *
 	 * @param ccs
 	 */
-	addCCs: async (db: DrizzleD1Database<any>, mailId: number, ccs: Contact[]) => {
+	addCCs: async (db: D1Database, mailId: number, ccs: Omit<Contact, "id">[]) => {
 		const ids = await contact.insertMany(db, ccs);
 
-		await db
-			.insert(mailCCs)
-			.values(
-				ids.map((rId) => ({
-					contactId: rId,
-					mailId,
-				}))
-			)
-			.run();
+		const stmt = db.prepare("INSERT INTO mails_ccs(mail_id, contact_id) VALUES (?, ?) RETURNING *;");
+		await db.batch(ids.map((id) => stmt.bind(mailId, id)));
 	},
 
 	/**
@@ -62,17 +66,10 @@ export default {
 	 *
 	 * @param replyTos
 	 */
-	addReplyTos: async (db: DrizzleD1Database<any>, mailId: number, replyTos: Contact[]) => {
+	addReplyTos: async (db: D1Database, mailId: number, replyTos: Omit<Contact, "id">[]) => {
 		const ids = await contact.insertMany(db, replyTos);
 
-		await db
-			.insert(mailReplyTos)
-			.values(
-				ids.map((rId) => ({
-					contactId: rId,
-					mailId,
-				}))
-			)
-			.run();
+		const stmt = db.prepare("INSERT INTO mails_reply_tos(mail_id, contact_id) VALUES (?, ?) RETURNING *;");
+		await db.batch(ids.map((id) => stmt.bind(mailId, id)));
 	},
 };

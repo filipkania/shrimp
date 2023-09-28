@@ -1,15 +1,14 @@
-import { drizzle } from "drizzle-orm/d1";
+// import { drizzle } from "drizzle-orm/d1";
 import { AppContext } from "..";
-import { eq } from "drizzle-orm";
 import { SignJWT } from "jose";
 
-import * as schema from "../schema";
 import { arrayBufferToHex } from "../utils/arrayBufferToHex";
 
 export const method = "POST";
 export const route = "/login";
 
 export const handler = async (c: AppContext) => {
+	return;
 	const db = drizzle(c.env.DB, { schema });
 	const { username, password } = await c.req.json();
 
