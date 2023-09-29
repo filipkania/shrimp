@@ -8,11 +8,9 @@ import mail from "../db/mail";
 import contact from "../db/contact";
 
 export const emailHandler = async (message: ForwardableEmailMessage, env: Env) => {
-	console.log("got email");
 	const rawEmail = await streamToArrayBuffer(message.raw, message.rawSize);
 	const parser = new PostalMime();
 	const email = await parser.parse(Buffer.from(rawEmail));
-	console.log(email.headers)
 
 	const senderContact = await contact.insert(env.DB, {
 		name: email.from.name,
