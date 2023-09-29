@@ -4,7 +4,7 @@ export const method = "GET";
 export const route = "/mails";
 
 export const handler = async (c: AppContext) => {
-	const { limit, offset } = c.req.query();
+	const { limit, offset, query } = c.req.query();
 	const stmt = c.env.DB.prepare(`
 		SELECT
 			mails.id AS id,
@@ -16,9 +16,10 @@ export const handler = async (c: AppContext) => {
 		FROM mails
 		INNER JOIN contacts
 		ON contacts.id = mails.from_id
+		WHERE LOWER(subject) LIKE ?1 OR LOWER(from_address) LIKE ?1 OR LOWER(from_name) LIKE ?1
 		ORDER BY received_at DESC
-		LIMIT ? OFFSET ?
+		LIMIT ?2 OFFSET ?3
 	`);
 
-	return c.json((await stmt.bind(limit ?? 15, offset ?? 0).all()).results);
+	return c.json((await stmt.bind(`%${(query ?? "").toLowerCase()}%`, limit ?? 15, offset ?? 0).all()).results);
 };

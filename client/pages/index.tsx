@@ -5,17 +5,30 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useMails } from "@/lib/api/useMails";
 import { useAuth } from "@/lib/auth/AuthContext";
 import { cn } from "@/lib/utils";
+import { useDebouncedState } from "@mantine/hooks";
 import { Plus, RotateCw } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useInView } from "react-intersection-observer";
 
 export default function Home() {
-  const { user } = useAuth();
-  const { data, refetch } = useMails();
-
   const [reloading, setReloading] = useState(false);
+  const [searchQuery, setSearchQuery] = useDebouncedState("", 200);
 
-  const mails = data || new Array(15).fill(null);
+  const { user } = useAuth();
+  const { data, isFetching, hasNextPage, fetchNextPage, refetch } =
+    useMails(searchQuery);
+
+  const { ref, inView } = useInView({
+    threshold: 0,
+  });
+
+  useEffect(() => {
+    if (!inView || isFetching || !hasNextPage) return;
+    fetchNextPage();
+  }, [fetchNextPage, inView, isFetching, hasNextPage]);
+
+  const mails = data?.pages.flatMap((x) => x) || new Array(15).fill(null);
 
   return (
     <div className="container my-6 flex flex-col">
@@ -49,6 +62,7 @@ export default function Home() {
             <Input
               placeholder="Search..."
               className="w-full md:max-w-[15rem]"
+              onChange={(e) => setSearchQuery(e.currentTarget.value)}
             />
 
             <Link href="/mail/create">
@@ -59,16 +73,17 @@ export default function Home() {
           </div>
         </div>
 
-        {mails.map((mail, i) => (
-          <MailEntry
-            key={i}
-            className={cn(
-              i % 2 && "bg-gray-50 dark:bg-slate-900",
-              i !== 4 && "border-b"
-            )}
-            data={mail}
-          />
-        ))}
+          {mails.map((mail, i) => (
+            <MailEntry
+              key={i}
+              ref={data && i === mails.length - 2 ? ref : null}
+              className={cn(
+                i % 2 && "bg-gray-50 dark:bg-slate-900",
+                i !== mails.length - 1 && "border-b", 
+              )}
+              data={mail}
+            />
+          ))}
       </div>
     </div>
   );
