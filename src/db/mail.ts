@@ -37,7 +37,7 @@ export default {
 			.prepare(
 				"INSERT INTO mails(`from_id`, `from_name`, `message_id`, `references`, `headers`, `subject`, `text`, `html`, `received_at`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING *;"
 			)
-			.bind(from_id, from_name, message_id, references, headers, subject, text, html, received_at)
+			.bind(from_id, from_name, message_id ?? null, references ?? null, headers, subject ?? null, text ?? null, html ?? null, received_at)
 			.run();
 
 		return (stmt.results as Mail[])[0].id;

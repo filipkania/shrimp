@@ -55,7 +55,7 @@ const CreateMailPage = () => {
             .map((e) => ({
               email: e.trim(),
             })),
-          ccs: ccs
+          cc: ccs
             .toString()
             .split(",")
             .map((e) => ({
