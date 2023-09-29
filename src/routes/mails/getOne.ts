@@ -1,20 +1,14 @@
 import { AppContext } from "@/src";
+import mail from "@/src/db/mail";
 
 export const method = "GET";
 export const route = "/mails/:id";
 
 export const handler = async (c: AppContext) => {
-	const mailId = c.req.param("id");
-	const stmt = c.env.DB.prepare(`
-		SELECT
-			mails.id AS id,
-			address AS from_address,
-			*
-		FROM mails
-		INNER JOIN contacts
-		ON contacts.id = mails.from_id
-		WHERE mails.id = ?
-	`);
+	const mailId = parseInt(c.req.param("id"));
+	if (isNaN(mailId)) {
+		return c.json({ message: "mailId must be a number." }, 400);
+	}
 
-	return c.json(await stmt.bind(mailId).first());
+	return c.json(await mail.findById(c.env.DB, mailId));
 };
