@@ -7,7 +7,7 @@ import {
 import { Mail } from "@/lib/api/useMails";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import { Ref, forwardRef, useMemo } from "react";
+import { forwardRef, useMemo } from "react";
 
 type Props = {
   className?: string;
@@ -42,6 +42,7 @@ export const MailEntry = forwardRef<HTMLAnchorElement, Props>(
         }}
         className={cn(
           "flex cursor-pointer items-center justify-center gap-4 px-5 py-3",
+          !data && "!pointer-events-none",
           className
         )}
       >
