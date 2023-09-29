@@ -18,6 +18,12 @@ export type Mail = {
 	received_at: string;
 };
 
+export type MailWithRelations = Mail & {
+	tos: Contact[];
+	ccs: Contact[];
+	reply_tos: Contact[];
+};
+
 export default {
 	/**
 	 * Inserts a mail.
@@ -35,6 +41,50 @@ export default {
 			.run();
 
 		return (stmt.results as Mail[])[0].id;
+	},
+
+	/**
+	 * Finds mail by ID.
+	 * 
+	 * @returns mail
+	 */
+	findById: async (db: D1Database, mailId: number) => {
+		const stmt = db.prepare(`
+			SELECT
+				mails.id AS id,
+				address AS from_address,
+				*
+			FROM mails
+			INNER JOIN contacts ON contacts.id = mails.from_id
+			WHERE mails.id = ?
+		`);
+
+		const [mail, [recipients, ccs, reply_tos]] = await Promise.all([
+			stmt.bind(mailId).first(),
+
+			db.batch([
+				db
+					.prepare("SELECT id, name, address FROM contacts INNER JOIN mails_recipients AS mr ON mr.contact_id = id WHERE mr.mail_id = ?")
+					.bind(mailId),
+				db
+					.prepare("SELECT id, name, address FROM contacts INNER JOIN mails_ccs AS mc ON mc.contact_id = id WHERE mc.mail_id = ?")
+					.bind(mailId),
+				db
+					.prepare("SELECT id, name, address FROM contacts INNER JOIN mails_reply_tos AS mrt ON mrt.contact_id = id WHERE mrt.mail_id = ?")
+					.bind(mailId),
+			]),
+		]);
+
+		if (!mail) {
+			throw new Error("Mail with given ID doesn't exists.");
+		}
+
+		return {
+			...mail,
+			tos: recipients.results,
+			ccs: ccs.results,
+			reply_tos: reply_tos.results,
+		} as MailWithRelations;
 	},
 
 	/**
