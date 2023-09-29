@@ -1,11 +1,12 @@
 import dynamic from "next/dynamic";
-import { FormEvent, forwardRef, useRef } from "react";
+import { FormEvent, forwardRef, useRef, useState } from "react";
 import type { Ref as EditorRefType } from "../../components/pages/Mails/MailEditor";
 import { Input } from "@/components/ui/input";
 import { API } from "@/lib/api";
 import { useToast } from "@/components/ui/use-toast";
 import { useAuth } from "@/lib/auth/AuthContext";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/router";
 
 const Editor = dynamic(
   () => import("../../components/pages/Mails/MailEditor"),
@@ -18,7 +19,10 @@ const ForwardRefEditor = forwardRef<EditorRefType>((props, ref) => (
 ForwardRefEditor.displayName = "ForwardRefEditor";
 
 const CreateMailPage = () => {
+  const [sending, setSending] = useState(false); 
+
   const editorRef = useRef<EditorRefType>(null);
+  const router = useRouter();
   const { toast } = useToast();
   const { token } = useAuth();
 
@@ -33,14 +37,14 @@ const CreateMailPage = () => {
       editorRef.current?.getMarkdown(),
     ]);
 
-    console.log(html, markdown);
-
     try {
       if (
         process.env.NODE_ENV === "development" &&
         !confirm("Are you sure you want to send an email?")
       )
         return;
+      
+      setSending(true);
 
       await API.post(
         "/mails/send",
@@ -74,6 +78,8 @@ const CreateMailPage = () => {
         }
       );
 
+      router.push("/");
+
       toast({
         title: "Email sent.",
       });
@@ -82,6 +88,8 @@ const CreateMailPage = () => {
         title: "Something went wrong.",
         variant: "destructive",
       });
+    } finally {
+      setSending(false);
     }
   };
 
@@ -122,7 +130,7 @@ const CreateMailPage = () => {
         </div>
 
         <div className="flex w-full justify-end p-3">
-          <Button>Send message</Button>
+          <Button disabled={sending}>Send message</Button>
         </div>
       </div>
     </form>
