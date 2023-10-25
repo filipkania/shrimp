@@ -9,8 +9,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useAuth } from "@/lib/auth/AuthContext";
-import { LogOut, User2 } from "lucide-react";
+import { LogOut, Settings2, User2 } from "lucide-react";
 import { ThemeDropdown } from "./ThemeDropdown";
+import Link from "next/link";
 
 export const AccountDropdown = () => {
   const auth = useAuth();
@@ -38,10 +39,19 @@ export const AccountDropdown = () => {
                 <Skeleton className="h-[15px] w-[70px] rounded" />
               )}
             </span>
-            <span className="text-xs text-gray-700 dark:text-gray-300">User</span>
+            <span className="text-xs text-gray-700 dark:text-gray-300">
+              User
+            </span>
           </div>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
+
+        <DropdownMenuItem className="cursor-pointer" asChild>
+          <Link href="/user/settings">
+            <Settings2 className="mr-2 h-4 w-4" />
+            <span>User Settings</span>
+          </Link>
+        </DropdownMenuItem>
 
         <ThemeDropdown />
 
