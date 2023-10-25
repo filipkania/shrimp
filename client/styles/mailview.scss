@@ -11,6 +11,10 @@
     list-style-type: disc;
   }
 
+  ol, ul {
+    padding-left: 1.25rem;
+  }
+
   img, picture, video, canvas, svg {
     display: block;
     max-width: 100%;
