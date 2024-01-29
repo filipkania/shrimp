@@ -5,12 +5,14 @@
   "scripts": {
     "deploy": "bun run ./deploy",
     "start": "wrangler dev",
-    "migrations:generate": "drizzle-kit generate:sqlite"
+    "migrations:generate": "drizzle-kit generate:sqlite",
+    "prepare": "husky"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20230419.0",
     "@types/prompts": "^2.4.5",
     "bun-types": "^1.0.3",
+    "husky": "^9.0.7",
     "picocolors": "^1.0.0",
     "prompts": "^2.4.2",
     "toml": "^3.0.0",
