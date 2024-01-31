@@ -1,23 +1,14 @@
 import { InboxNav } from "@/components/inbox-nav";
-import { Button } from "@/components/ui/button";
+import { MailView } from "@/components/inbox/mailview";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   ResizableHandle,
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  AlertCircleIcon,
-  ArchiveIcon,
-  ClockIcon,
-  ForwardIcon,
-  MoreVerticalIcon,
-  ReplyAllIcon,
-  ReplyIcon,
-  Trash2Icon,
-} from "lucide-react";
+
 
 const Inbox = () => {
   return (
@@ -25,7 +16,7 @@ const Inbox = () => {
       <InboxNav />
 
       <ResizablePanelGroup className="h-full w-full" direction={"horizontal"}>
-        <ResizablePanel minSize={20}>
+        <ResizablePanel className="min-w-[24rem]" minSize={20}>
           <div className="px-6 h-[64px] w-full border-b flex justify-between items-center">
             <span className="text-lg font-medium">
               Inbox&nbsp;
@@ -40,10 +31,37 @@ const Inbox = () => {
             </Tabs>
           </div>
 
-          <ScrollArea className="h-[calc(100%-64px)] flex flex-col px-6 py-4 gap-3">
-            {new Array(66).fill(0).map((i) => (
-              <div className="w-full border rounded-md" key={i}>
-                {i}
+          <ScrollArea className="h-[calc(100%-64px)] flex flex-col gap-3 items-center">
+            {new Array(66).fill(0).map((_, i) => (
+              <div
+                className="w-full border-b flex gap-3 px-6 py-4 items-start hover:bg-muted cursor-pointer"
+                key={i}
+              >
+                <Checkbox className="mt-2" />
+
+                <div className="w-full">
+                  <div className="inline-flex w-full justify-between">
+                    <div className="flex flex-col">
+                      <span className="text-md font-semibold">Filip Kania</span>
+
+                      <span className="text-sm">
+                        Meeting details
+                      </span>
+                    </div>
+
+                    <span className="text-sm text-muted-foreground">
+                      12/01/2024
+                    </span>
+                  </div>
+
+                  <span className="text-sm text-muted-foreground line-clamp-2 mt-1">
+                    Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                    Dolore voluptatum molestiae adipisci sequi blanditiis
+                    distinctio eos, quam voluptatibus asperiores culpa veniam
+                    assumenda mollitia nobis minus neque, totam quaerat autem
+                    deleniti!
+                  </span>
+                </div>
               </div>
             ))}
           </ScrollArea>
@@ -52,47 +70,7 @@ const Inbox = () => {
         <ResizableHandle withHandle />
 
         <ResizablePanel minSize={40}>
-          <div className="px-6 py-5 h-[64px] w-full inline-flex justify-between items-center border-b">
-            <div className="inline-flex h-6 items-center gap-1">
-              <Button size="icon" variant="ghost">
-                <ArchiveIcon className="w-4 h-4" />
-              </Button>
-
-              <Button size="icon" variant="ghost">
-                <Trash2Icon className="w-4 h-4" />
-              </Button>
-
-              <Button size="icon" variant="ghost">
-                <AlertCircleIcon className="w-4 h-4" />
-              </Button>
-
-              <Separator orientation="vertical" />
-
-              <Button size="icon" variant="ghost">
-                <ClockIcon className="w-4 h-4" />
-              </Button>
-            </div>
-
-            <div className="inline-flex h-6 items-center gap-1">
-              <Button size="icon" variant="ghost">
-                <ReplyIcon className="w-4 h-4" />
-              </Button>
-
-              <Button size="icon" variant="ghost">
-                <ReplyAllIcon className="w-4 h-4" />
-              </Button>
-
-              <Button size="icon" variant="ghost">
-                <ForwardIcon className="w-4 h-4" />
-              </Button>
-
-              <Separator orientation="vertical" />
-
-              <Button size="icon" variant="ghost">
-                <MoreVerticalIcon className="w-4 h-4" />
-              </Button>
-            </div>
-          </div>
+          <MailView />
         </ResizablePanel>
       </ResizablePanelGroup>
     </main>

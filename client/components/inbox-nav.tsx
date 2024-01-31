@@ -122,7 +122,7 @@ export const InboxNav = () => {
 
         <div className="flex flex-col justify-center">
           <span className="text-sm font-medium leading-4">Filip Kania</span>
-          <span className="text-muted-foreground text-xs">me@fkrq.xyz</span>
+          <span className="text-muted-foreground text-xs">fkrq.xyz</span>
         </div>
       </div>
     </nav>
