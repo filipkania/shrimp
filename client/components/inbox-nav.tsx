@@ -1,4 +1,3 @@
-import { cn } from "@/lib/utils";
 import {
   AlertCircleIcon,
   InboxIcon,
@@ -7,7 +6,7 @@ import {
   SendIcon,
   SettingsIcon,
   SquarePenIcon,
-  TrashIcon,
+  Trash2Icon,
 } from "lucide-react";
 import { Button } from "./ui/button";
 import { Separator } from "./ui/separator";
@@ -17,7 +16,7 @@ export const InboxNav = () => {
   return (
     <nav className="flex flex-col justify-between w-[16rem] h-full border-r">
       <div className="flex flex-col">
-        <div className="px-6 py-4 inline-flex gap-2 items-center border-b">
+        <div className="px-6 h-[64px] inline-flex gap-2 items-center border-b">
           <MailIcon className="w-7 h-7" />
 
           <span className="text-lg font-medium">Shrimp</span>
@@ -75,7 +74,7 @@ export const InboxNav = () => {
           variant="ghost"
           className="justify-start px-4 mx-2 gap-2 text-muted-foreground"
         >
-          <TrashIcon className="w-4 h-4" />
+          <Trash2Icon className="w-4 h-4" />
           Trash
         </Button>
 
@@ -115,14 +114,14 @@ export const InboxNav = () => {
         </Button>
       </div>
 
-      <div className="w-full border-t z-1 px-6 py-4 flex gap-3">
+      <div className="w-full border-t z-1 px-6 py-4 flex gap-3 hover:bg-muted cursor-pointer transition-colors">
         <Avatar className="w-10 h-10">
           <AvatarImage src="https://github.com/filipkania.png" />
           <AvatarFallback delayMs={500}>FK</AvatarFallback>
         </Avatar>
 
         <div className="flex flex-col justify-center">
-          <span className="text-md font-medium leading-5">Filip Kania</span>
+          <span className="text-sm font-medium leading-4">Filip Kania</span>
           <span className="text-muted-foreground text-xs">me@fkrq.xyz</span>
         </div>
       </div>
