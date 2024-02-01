@@ -8,15 +8,15 @@ import {
   SquarePenIcon,
   Trash2Icon,
 } from "lucide-react";
-import { Button } from "./ui/button";
-import { Separator } from "./ui/separator";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { Button } from "../ui/button";
+import { Separator } from "../ui/separator";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 export const InboxNav = () => {
   return (
     <nav className="flex flex-col justify-between w-[16rem] h-full border-r">
       <div className="flex flex-col">
-        <div className="px-6 h-[64px] inline-flex gap-2 items-center border-b">
+        <div className="px-6 h-[58px] inline-flex gap-2 items-center border-b">
           <MailIcon className="w-7 h-7" />
 
           <span className="text-lg font-medium">Shrimp</span>

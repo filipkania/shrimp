@@ -12,12 +12,11 @@ import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { ScrollArea } from "../ui/scroll-area";
-import { Textarea } from "../ui/textarea";
 
 export const MailView = () => {
   return (
     <div className="flex flex-col h-full">
-      <div className="px-6 py-5 h-[64px] w-full inline-flex justify-between items-center border-b">
+      <div className="px-6 py-5 h-[58px] w-full inline-flex justify-between items-center border-b">
         <div className="inline-flex h-6 items-center gap-1">
           <Button size="icon" variant="ghost">
             <ArchiveIcon className="w-4 h-4" />
@@ -185,14 +184,6 @@ export const MailView = () => {
           Pzdr, Filip.
         </blockquote>
       </ScrollArea>
-
-      <div className="w-full border-t px-6 py-4 flex flex-col gap-2 justify-end">
-        <Textarea className="[form-sizing:normal]" /> 
-
-        <div className="flex justify-end">
-          <Button variant="outline">Send</Button>
-        </div>
-      </div>
     </div>
   );
 };
