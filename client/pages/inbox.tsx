@@ -6,25 +6,21 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
-import { useState } from "react";
-
 
 const Inbox = () => {
-  const [selectedMail, setSelectedMail] = useState<number | null>(null);
-
   return (
     <main className="h-screen w-full flex">
       <InboxNav />
 
       <ResizablePanelGroup className="h-full w-full" direction={"horizontal"}>
         <ResizablePanel className="min-w-[24rem]" minSize={20}>
-          <MailList selectedMail={selectedMail} setSelectedMail={setSelectedMail} />
+          <MailList />
         </ResizablePanel>
 
         <ResizableHandle withHandle />
 
         <ResizablePanel minSize={40}>
-          <MailView selectedMail={selectedMail} />
+          <MailView />
         </ResizablePanel>
       </ResizablePanelGroup>
     </main>

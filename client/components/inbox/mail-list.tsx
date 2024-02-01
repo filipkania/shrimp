@@ -7,16 +7,14 @@ import { useMails } from "@/lib/api/useMails";
 import { useIntersectionObserver } from "@uidotdev/usehooks";
 import { useEffect } from "react";
 import { cn } from "@/lib/utils";
+import { useHash } from "@/lib/useHash";
 
-type Props = {
-  selectedMail: number | null;
-  setSelectedMail: (_: number | null) => void;
-};
-
-export const MailList = ({ selectedMail, setSelectedMail }: Props) => {
+export const MailList = () => {
   const { data, isFetching, hasNextPage, fetchNextPage } = useMails();
   const mails = data?.pages.flatMap((x) => x) || [];
 
+  const [selectedMail, setSelectedMail] = useHash();
+  
   const [ref, entry] = useIntersectionObserver({
     threshold: 0,
     root: null,
@@ -56,11 +54,8 @@ export const MailList = ({ selectedMail, setSelectedMail }: Props) => {
         {mails.map((mail, i) => (
           // biome-ignore lint/a11y/useKeyWithClickEvents: TODO: add full a11y
           <div
-            className={cn(
-              "w-full border-b flex gap-3 px-6 py-4 items-start hover:bg-muted cursor-pointer",
-              selectedMail === mail.id && "bg-muted",
-            )}
-            onClick={() => setSelectedMail(mail.id)}
+            className={cn("w-full border-b flex gap-3 px-6 py-4 items-start hover:bg-muted cursor-pointer", Number(selectedMail) === mail.id && "bg-muted")}
+            onClick={() => setSelectedMail(mail.id.toString())}
             ref={i === mails.length - 2 ? ref : null}
             key={mail.id}
           >

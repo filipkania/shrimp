@@ -16,12 +16,11 @@ import { ScrollArea } from "../ui/scroll-area";
 import { useMail } from "@/lib/api/useMail";
 import { useMemo } from "react";
 import { sanitize } from "dompurify";
+import { useHash } from "@/lib/useHash";
 
-type Props = {
-  selectedMail: number | null;
-};
 
-export const MailView = ({ selectedMail }: Props) => {
+export const MailView = () => {
+  const [selectedMail, _] = useHash();
   const { data: mail } = useMail(selectedMail);
 
   const emailHtml = useMemo(() => {

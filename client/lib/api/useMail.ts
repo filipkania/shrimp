@@ -3,7 +3,7 @@ import { useAuth } from "../auth/AuthContext";
 import { API } from "../api";
 import { Mail } from "./useMails";
 
-export const useMail = (id: number | null) => {
+export const useMail = (id: number | string) => {
   const { token } = useAuth();
 
   return useQuery({
@@ -14,7 +14,6 @@ export const useMail = (id: number | null) => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(data);
 
       if (data.length === 0) {
         throw new Error("Mail not found.");
