@@ -13,7 +13,11 @@ import { Separator } from "../ui/separator";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { ScrollArea } from "../ui/scroll-area";
 
-export const MailView = () => {
+type Props = {
+  selectedMail: number | null;
+}
+
+export const MailView = ({ selectedMail }: Props) => {
   return (
     <div className="flex flex-col h-full">
       <div className="px-6 py-5 h-[58px] w-full inline-flex justify-between items-center border-b">
