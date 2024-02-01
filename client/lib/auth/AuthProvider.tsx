@@ -1,73 +1,62 @@
-import { type MeQuery } from "@/types/API";
-import { AuthContext, AuthValues } from "./AuthContext";
-import { useSetState } from "@mantine/hooks";
+import { APIError, type MeQuery } from "@/types/API";
+import { AuthContext } from "./AuthContext";
 import { useLocalStorage } from "@uidotdev/usehooks";
 import { useRouter } from "next/router";
 import { useEffect, type PropsWithChildren } from "react";
-import { type AxiosError } from "axios";
 import { API } from "../api";
+import { useQuery } from "@tanstack/react-query";
+import { type AxiosError } from "axios";
 import { toast } from "sonner";
 
 const AuthProvider = ({ children }: PropsWithChildren) => {
   const router = useRouter();
   const [token, setToken] = useLocalStorage<string | null>("token", null);
 
-  const [contextValues, setContextValues] = useSetState<AuthValues>({
-    token,
-    user: null,
-    logout: () => {
-      setContextValues({
-        user: null,
-        token: null,
+  const { error, status, data } = useQuery({
+    queryKey: ["me", token],
+    queryFn: () => {
+      return API.get<MeQuery>("/me", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
-      router.push("/auth/login");
     },
+    retry: 1,
+    refetchInterval: 1000 * 60 * 5, // every 5 minutes
+    enabled: !!token,
   });
-
-  useEffect(() => {
-    setToken(contextValues.token);
-  }, [contextValues.token, setToken]);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies:
   useEffect(() => {
-    if (!contextValues.token) {
+    if (!token || status === "error") {
+      const err = error as AxiosError<APIError>;
+
       if (router.pathname !== "/auth/signin") {
-        router.push("/auth/signin");
-      }
-      return;
-    }
-
-    (async () => {
-      try {
-        const res = await API.get("/me", {
-          headers: {
-            Authorization: `Bearer ${contextValues.token}`,
-          },
-        });
-
-        setContextValues({
-          user: res.data as MeQuery,
-        });
-
-        if (router.pathname === "/auth/login") {
-          router.push("/");
-        }
-      } catch (err) {
-        if ((err as AxiosError).response?.status === 401) {
-          contextValues.logout();
-        } else {
-          console.error(err);
+        if (err?.response?.status === 401) {
           toast.error("Error", {
-            description: "/api/me not working",
+            description: "Session has expired. Please log in once again.",
             duration: 5000,
           });
         }
+
+        setToken(null);
+        router.push("/auth/signin");
       }
-    })();
-  }, [contextValues.token]);
+    }
+  }, [token, status]);
 
   return (
-    <AuthContext.Provider value={{ ...contextValues, set: setContextValues }}>
+    <AuthContext.Provider
+      value={{
+        token,
+        user: data?.data || null,
+        logout: () => {
+          setToken(null);
+          router.push("/auth/login");
+        },
+        setToken,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

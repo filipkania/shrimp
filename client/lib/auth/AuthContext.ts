@@ -10,16 +10,14 @@ export type AuthValues = {
 };
 
 type ContextType = {
-  set: (
-    _: Partial<AuthValues> | ((_: AuthValues) => Partial<AuthValues>),
-  ) => void;
+  setToken: (_: string) => void;
 } & AuthValues;
 
 export const AuthContext = createContext<ContextType>({
   token: null,
   user: null,
   logout: () => null,
-  set: () => null,
+  setToken: () => null,
 });
 
 export const useAuth = () => useContext(AuthContext);

@@ -2,15 +2,15 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-import { SymbolIcon } from "@radix-ui/react-icons";
 import { API } from "@/lib/api";
+import { SymbolIcon } from "@radix-ui/react-icons";
 import { toast } from "sonner";
 
 import { useAuth } from "@/lib/auth/AuthContext";
-import { useRouter } from "next/router";
-import { useMutation } from "@tanstack/react-query";
 import type { APIError, SignInQuery } from "@/types/API";
+import { useMutation } from "@tanstack/react-query";
 import type { AxiosError } from "axios";
+import { useRouter } from "next/router";
 
 const SignInPage = () => {
   const auth = useAuth();
@@ -22,10 +22,7 @@ const SignInPage = () => {
     },
 
     onSuccess: ({ data }) => {
-      auth.set({
-        token: data.token,
-      });
-
+      auth.setToken(data.token);
       router.push("/");
     },
 
