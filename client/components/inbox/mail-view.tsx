@@ -111,7 +111,7 @@ export const MailView = ({ selectedMail }: Props) => {
         </div>
       </div>
 
-      <ScrollArea className="h-full">
+      <ScrollArea className="h-full mailview">
         <div
           className="h-full w-full p-4"
           // biome-ignore lint/security/noDangerouslySetInnerHtml: it's needed for email rendering
