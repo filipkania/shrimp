@@ -6,12 +6,14 @@ import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
 import { useMails } from "@/lib/api/useMails";
 import { useIntersectionObserver } from "@uidotdev/usehooks";
 import { useEffect } from "react";
+import { cn } from "@/lib/utils";
 
 type Props = {
+  selectedMail: number | null;
   setSelectedMail: (_: number | null) => void;
-}
+};
 
-export const MailList = ({ setSelectedMail }: Props) => {
+export const MailList = ({ selectedMail, setSelectedMail }: Props) => {
   const { data, isFetching, hasNextPage, fetchNextPage } = useMails();
   const mails = data?.pages.flatMap((x) => x) || [];
 
@@ -54,7 +56,10 @@ export const MailList = ({ setSelectedMail }: Props) => {
         {mails.map((mail, i) => (
           // biome-ignore lint/a11y/useKeyWithClickEvents: TODO: add full a11y
           <div
-            className="w-full border-b flex gap-3 px-6 py-4 items-start hover:bg-muted cursor-pointer"
+            className={cn(
+              "w-full border-b flex gap-3 px-6 py-4 items-start hover:bg-muted cursor-pointer",
+              selectedMail === mail.id && "bg-muted",
+            )}
             onClick={() => setSelectedMail(mail.id)}
             ref={i === mails.length - 2 ? ref : null}
             key={mail.id}

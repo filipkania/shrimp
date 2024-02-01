@@ -18,7 +18,7 @@ const Inbox = () => {
 
       <ResizablePanelGroup className="h-full w-full" direction={"horizontal"}>
         <ResizablePanel className="min-w-[24rem]" minSize={20}>
-          <MailList setSelectedMail={setSelectedMail} />
+          <MailList selectedMail={selectedMail} setSelectedMail={setSelectedMail} />
         </ResizablePanel>
 
         <ResizableHandle withHandle />

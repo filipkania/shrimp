@@ -3,6 +3,7 @@ import {
   ArchiveIcon,
   ClockIcon,
   ForwardIcon,
+  MailboxIcon,
   MoreVerticalIcon,
   ReplyAllIcon,
   ReplyIcon,
@@ -12,12 +13,35 @@ import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { ScrollArea } from "../ui/scroll-area";
+import { useMail } from "@/lib/api/useMail";
+import { useMemo } from "react";
+import { sanitize } from "dompurify";
 
 type Props = {
   selectedMail: number | null;
-}
+};
 
 export const MailView = ({ selectedMail }: Props) => {
+  const { data: mail } = useMail(selectedMail);
+
+  const emailHtml = useMemo(() => {
+    if (!mail?.html) return null;
+
+    return sanitize(mail.html, {
+      FORCE_BODY: true,
+      FORBID_TAGS: ["style"],
+      USE_PROFILES: { html: true },
+    });
+  }, [mail?.html]);
+
+  if (!selectedMail || !mail)
+    return (
+      <div className="w-full h-full flex flex-col justify-center items-center gap-2 text-muted-foreground">
+        <MailboxIcon className="w-24 h-24" />
+        <span className="font-medium text-xl">No email selected.</span>
+      </div>
+    );
+
   return (
     <div className="flex flex-col h-full">
       <div className="px-6 py-5 h-[58px] w-full inline-flex justify-between items-center border-b">
@@ -62,131 +86,39 @@ export const MailView = ({ selectedMail }: Props) => {
         </div>
       </div>
 
-        <div className="w-full border-b px-6 py-4 flex gap-4">
-          <Avatar className="w-12 h-12">
-            <AvatarImage src="https://github.com/filipkania.png" />
-            <AvatarFallback />
-          </Avatar>
+      <div className="w-full border-b px-6 py-4 flex gap-4">
+        <Avatar className="w-12 h-12">
+          <AvatarImage />
+          <AvatarFallback className="text-muted-foreground">
+            {(mail.from_name || mail.from_address).substring(0, 2).toUpperCase()}
+          </AvatarFallback>
+        </Avatar>
 
-          <div className="flex items-start w-full">
-            <div className="flex flex-col">
-              <span className="font-medium">Filip Kania</span>
+        <div className="flex items-start w-full">
+          <div className="flex flex-col">
+            <span className="font-medium">
+              {mail.from_name || mail.from_address}
+            </span>
 
-              <span className="text-sm">Meeting details</span>
-              <span className="text-sm text-muted-foreground">
-                Reply-To: <code>me@fkrq.xyz</code>
-              </span>
-            </div>
-            <span className="ml-auto text-sm text-muted-foreground">
-              12/01/2024
+            <span className="text-sm">{mail.subject || "No subject"}</span>
+            <span className="text-sm text-muted-foreground">
+              Reply-To: <code>{mail.from_address}</code>
             </span>
           </div>
+          <span className="ml-auto text-sm text-muted-foreground">
+            {new Date(mail.received_at).toLocaleDateString()}
+          </span>
         </div>
+      </div>
 
       <ScrollArea className="h-full">
-        <blockquote className="p-6">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam
-          eveniet nam ullam <b>voluptatem deleniti perspiciatis repudiandae</b>{" "}
-          incidunt sunt nobis nihil, architecto, recusandae corrupti libero{" "}
-          <i>sit facilis</i> commodi velit omnis enim.
-          <br />
-          <br />
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Illum
-          officiis error totam <u>molestiae facere</u> ratione fugiat blanditiis
-          autem aliquid sequi velit debitis <s>itaque deleniti</s>, laborum,
-          placeat voluptate quidem nam sunt!Lorem ipsum dolor sit amet
-          consectetur, adipisicing elit. Illum officiis error totam{" "}
-          <u>molestiae facere</u> ratione fugiat blanditiis autem aliquid sequi
-          velit debitis <s>itaque deleniti</s>, laborum, placeat voluptate
-          quidem nam sunt!Lorem ipsum dolor sit amet consectetur, adipisicing
-          elit. Illum officiis error totam <u>molestiae facere</u> ratione
-          fugiat blanditiis autem aliquid sequi velit debitis{" "}
-          <s>itaque deleniti</s>, laborum, placeat voluptate quidem nam
-          sunt!Lorem ipsum dolor sit amet consectetur, adipisicing elit. Illum
-          officiis error totam <u>molestiae facere</u> ratione fugiat blanditiis
-          autem aliquid sequi velit debitis <s>itaque deleniti</s>, laborum,
-          placeat voluptate quidem nam sunt!Lorem ipsum dolor sit amet
-          consectetur, adipisicing elit. Illum officiis error totam{" "}
-          <u>molestiae facere</u> ratione fugiat blanditiis autem aliquid sequi
-          velit debitis <s>itaque deleniti</s>, laborum, placeat voluptate
-          quidem nam sunt!Lorem ipsum dolor sit amet consectetur, adipisicing
-          elit. Illum officiis error totam <u>molestiae facere</u> ratione
-          fugiat blanditiis autem aliquid sequi velit debitis{" "}
-          <s>itaque deleniti</s>, laborum, placeat voluptate quidem nam
-          sunt!Lorem ipsum dolor sit amet consectetur, adipisicing elit. Illum
-          officiis error totam <u>molestiae facere</u> ratione fugiat blanditiis
-          autem aliquid sequi velit debitis <s>itaque deleniti</s>, laborum,
-          placeat voluptate quidem nam sunt!Lorem ipsum dolor sit amet
-          consectetur, adipisicing elit. Illum officiis error totam{" "}
-          <u>molestiae facere</u> ratione fugiat blanditiis autem aliquid sequi
-          velit debitis <s>itaque deleniti</s>, laborum, placeat voluptate
-          quidem nam sunt!Lorem ipsum dolor sit amet consectetur, adipisicing
-          elit. Illum officiis error totam <u>molestiae facere</u> ratione
-          fugiat blanditiis autem aliquid sequi velit debitis{" "}
-          <s>itaque deleniti</s>, laborum, placeat voluptate quidem nam
-          sunt!Lorem ipsum dolor sit amet consectetur, adipisicing elit. Illum
-          officiis error totam <u>molestiae facere</u> ratione fugiat blanditiis
-          autem aliquid sequi velit debitis <s>itaque deleniti</s>, laborum,
-          placeat voluptate quidem nam sunt!Lorem ipsum dolor sit amet
-          consectetur, adipisicing elit. Illum officiis error totam{" "}
-          <u>molestiae facere</u> ratione fugiat blanditiis autem aliquid sequi
-          velit debitis <s>itaque deleniti</s>, laborum, placeat voluptate
-          quidem nam sunt!Lorem ipsum dolor sit amet consectetur, adipisicing
-          elit. Illum officiis error totam <u>molestiae facere</u> ratione
-          fugiat blanditiis autem aliquid sequi velit debitis{" "}
-          <s>itaque deleniti</s>, laborum, placeat voluptate quidem nam
-          sunt!Lorem ipsum dolor sit amet consectetur, adipisicing elit. Illum
-          officiis error totam <u>molestiae facere</u> ratione fugiat blanditiis
-          autem aliquid sequi velit debitis <s>itaque deleniti</s>, laborum,
-          placeat voluptate quidem nam sunt!Lorem ipsum dolor sit amet
-          consectetur, adipisicing elit. Illum officiis error totam{" "}
-          <u>molestiae facere</u> ratione fugiat blanditiis autem aliquid sequi
-          velit debitis <s>itaque deleniti</s>, laborum, placeat voluptate
-          quidem nam sunt!Lorem ipsum dolor sit amet consectetur, adipisicing
-          elit. Illum officiis error totam <u>molestiae facere</u> ratione
-          fugiat blanditiis autem aliquid sequi velit debitis{" "}
-          <s>itaque deleniti</s>, laborum, placeat voluptate quidem nam
-          sunt!Lorem ipsum dolor sit amet consectetur, adipisicing elit. Illum
-          officiis error totam <u>molestiae facere</u> ratione fugiat blanditiis
-          autem aliquid sequi velit debitis <s>itaque deleniti</s>, laborum,
-          placeat voluptate quidem nam sunt!Lorem ipsum dolor sit amet
-          consectetur, adipisicing elit. Illum officiis error totam{" "}
-          <u>molestiae facere</u> ratione fugiat blanditiis autem aliquid sequi
-          velit debitis <s>itaque deleniti</s>, laborum, placeat voluptate
-          quidem nam sunt!Lorem ipsum dolor sit amet consectetur, adipisicing
-          elit. Illum officiis error totam <u>molestiae facere</u> ratione
-          fugiat blanditiis autem aliquid sequi velit debitis{" "}
-          <s>itaque deleniti</s>, laborum, placeat voluptate quidem nam
-          sunt!Lorem ipsum dolor sit amet consectetur, adipisicing elit. Illum
-          officiis error totam <u>molestiae facere</u> ratione fugiat blanditiis
-          autem aliquid sequi velit debitis <s>itaque deleniti</s>, laborum,
-          placeat voluptate quidem nam sunt!Lorem ipsum dolor sit amet
-          consectetur, adipisicing elit. Illum officiis error totam{" "}
-          <u>molestiae facere</u> ratione fugiat blanditiis autem aliquid sequi
-          velit debitis <s>itaque deleniti</s>, laborum, placeat voluptate
-          quidem nam sunt!Lorem ipsum dolor sit amet consectetur, adipisicing
-          elit. Illum officiis error totam <u>molestiae facere</u> ratione
-          fugiat blanditiis autem aliquid sequi velit debitis{" "}
-          <s>itaque deleniti</s>, laborum, placeat voluptate quidem nam
-          sunt!Lorem ipsum dolor sit amet consectetur, adipisicing elit. Illum
-          officiis error totam <u>molestiae facere</u> ratione fugiat blanditiis
-          autem aliquid sequi velit debitis <s>itaque deleniti</s>, laborum,
-          placeat voluptate quidem nam sunt!Lorem ipsum dolor sit amet
-          consectetur, adipisicing elit. Illum officiis error totam{" "}
-          <u>molestiae facere</u> ratione fugiat blanditiis autem aliquid sequi
-          velit debitis <s>itaque deleniti</s>, laborum, placeat voluptate
-          quidem nam sunt!Lorem ipsum dolor sit amet consectetur, adipisicing
-          elit. Illum officiis error totam <u>molestiae facere</u> ratione
-          fugiat blanditiis autem aliquid sequi velit debitis{" "}
-          <s>itaque deleniti</s>, laborum, placeat voluptate quidem nam
-          sunt!Lorem ipsum dolor sit amet consectetur, adipisicing elit. Illum
-          officiis error totam <u>molestiae facere</u> ratione fugiat blanditiis
-          autem aliquid sequi velit debitis <s>itaque deleniti</s>, laborum,
-          placeat voluptate quidem nam sunt!
-          <br />
-          <br />
-          Pzdr, Filip.
-        </blockquote>
+        <div
+          className="h-full w-full p-4"
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: it's needed for email rendering
+          dangerouslySetInnerHTML={{
+            __html: `<base target="_blank"/>${emailHtml}`,
+          }}
+        />
       </ScrollArea>
     </div>
   );
