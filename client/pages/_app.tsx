@@ -1,7 +1,8 @@
 import { Toaster } from "@/components/ui/sonner";
+import "@/styles/globals.scss";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import "@/styles/globals.scss";
+import { DefaultSeo } from "next-seo";
 import type { AppProps } from "next/app";
 import dynamic from "next/dynamic";
 import Head from "next/head";
@@ -23,6 +24,13 @@ export default function App({ Component, pageProps }: AppProps) {
       </Head>
       <QueryClientProvider client={queryClient}>
         <CSRAuthProvider>
+          <DefaultSeo 
+            titleTemplate="%s | Shrimp"
+            defaultTitle="Shrimp"
+            dangerouslySetAllPagesToNoIndex={true}
+            dangerouslySetAllPagesToNoFollow={true}
+          />
+
           <Component {...pageProps} />
           <Toaster richColors />
 

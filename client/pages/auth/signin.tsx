@@ -11,6 +11,7 @@ import type { APIError, SignInQuery } from "@/types/API";
 import { useMutation } from "@tanstack/react-query";
 import type { AxiosError } from "axios";
 import { useRouter } from "next/router";
+import { NextSeo } from "next-seo";
 
 const SignInPage = () => {
   const auth = useAuth();
@@ -41,6 +42,8 @@ const SignInPage = () => {
 
   return (
     <div className="flex h-screen">
+      <NextSeo title="Log In" />
+
       <div className="absolute w-full overflow-hidden py-8 lg:relative lg:block lg:bg-zinc-900">
         <span className="mx-10 text-2xl font-semibold text-foreground lg:text-white">
           Shrimp

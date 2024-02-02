@@ -19,6 +19,7 @@ import { sanitize } from "dompurify";
 import { useHash } from "@/lib/useHash";
 import { useMediaQuery } from "@uidotdev/usehooks";
 import { cn } from "@/lib/utils";
+import { NextSeo } from "next-seo";
 
 export const MailView = () => {
   const [selectedMail, _] = useHash();
@@ -48,6 +49,8 @@ export const MailView = () => {
   if (!selectedMail || !mail)
     return (
       <div className="w-full h-full flex flex-col justify-center items-center gap-2 text-muted-foreground">
+        <NextSeo title="Inbox" />
+
         <MailboxIcon className="w-24 h-24" />
         <span className="font-medium text-xl">No email selected.</span>
       </div>
@@ -55,6 +58,8 @@ export const MailView = () => {
 
   return (
     <div className="flex flex-col h-full">
+      <NextSeo title={mail.subject || "No Subject"}/>
+
       <div className="px-6 py-5 h-[58px] w-full inline-flex justify-between items-center border-b">
         <div className="inline-flex h-6 items-center gap-1">
           <Button size="icon" variant="ghost">
