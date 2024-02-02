@@ -9,13 +9,16 @@ import {
 } from "@/components/ui/resizable";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { useHash } from "@/lib/useHash";
-import { useMediaQuery, useToggle } from "@uidotdev/usehooks";
+import { useLocalStorage, useMediaQuery, useToggle } from "@uidotdev/usehooks";
 
 const Inbox = () => {
   const [selectedMail, setSelectedMail] = useHash();
   const [menuOpened, toggleMenu] = useToggle();
 
+  const [_layout, setLayout] = useLocalStorage("inbox_layout", "[35,65]");
   const isMobile = useMediaQuery("(max-width: 1024px)");
+
+  const layout = JSON.parse(_layout) as Array<number>;
 
   if (isMobile)
     return (
@@ -48,14 +51,18 @@ const Inbox = () => {
       <ResizablePanelGroup
         className="!hidden lg:!flex h-full w-full"
         direction={"horizontal"}
+        
+        onLayout={(layout) => {
+          setLayout(JSON.stringify(layout));
+        }}
       >
-        <ResizablePanel className="min-w-[24rem]" minSize={20}>
+        <ResizablePanel className="min-w-[24rem]" defaultSize={layout[0]} minSize={20}>
           <MailList />
         </ResizablePanel>
 
         <ResizableHandle withHandle />
 
-        <ResizablePanel minSize={40}>
+        <ResizablePanel defaultSize={layout[1]} minSize={40}>
           <MailView />
         </ResizablePanel>
       </ResizablePanelGroup>
