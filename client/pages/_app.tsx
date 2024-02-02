@@ -6,6 +6,9 @@ import { DefaultSeo } from "next-seo";
 import type { AppProps } from "next/app";
 import dynamic from "next/dynamic";
 import Head from "next/head";
+import { Inter } from "next/font/google";
+
+const inter = Inter({ subsets: ["latin"] });
 
 const queryClient = new QueryClient();
 
@@ -15,7 +18,7 @@ const CSRAuthProvider = dynamic(() => import("@/lib/auth/AuthProvider"), {
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <>
+    <div className={inter.className}>
       <Head>
         <meta
           name="viewport"
@@ -37,6 +40,6 @@ export default function App({ Component, pageProps }: AppProps) {
           <ReactQueryDevtools initialIsOpen={false} />
         </CSRAuthProvider>
       </QueryClientProvider>
-    </>
+    </div>
   );
 }

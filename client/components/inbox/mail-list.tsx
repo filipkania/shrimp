@@ -34,7 +34,7 @@ export const MailList = ({ toggleMenu }: Props) => {
 
   return (
     <>
-      <div className="flex w-full px-3 lg:px-6 h-[58px] border-b justify-between items-center bg-background">
+      <div className="flex w-[100dvw] px-3 lg:px-6 h-[58px] border-b justify-between items-center bg-background">
         <div className="inline-flex gap-1 items-center">
           {toggleMenu && (
             <Button
