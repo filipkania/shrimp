@@ -31,7 +31,7 @@ export const MailView = () => {
 
     const sanitizedHTML = sanitize(mail.html, {
       FORCE_BODY: true,
-      FORBID_TAGS: ["style", "form", "input"],
+      FORBID_TAGS: ["style", "form", "input", "base"],
       USE_PROFILES: { html: true },
     });
 
@@ -141,7 +141,7 @@ export const MailView = () => {
         </div>
 
         {isMobile ? (
-          <div className="mt-8 [text-size-adjust:80%]">{emailHtml}</div>
+          <div className="[text-size-adjust:80%]">{emailHtml}</div>
         ) : (
           <ScrollArea orientation="both">
             {emailHtml}
