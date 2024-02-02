@@ -22,11 +22,7 @@ import {
 } from "../ui/dropdown-menu";
 import { useAuth } from "@/lib/auth/AuthContext";
 
-type Props = {
-  toggleMenu?: (_: boolean) => void;
-};
-
-export const InboxNav = ({ toggleMenu }: Props) => {
+export const InboxNav = () => {
   const { logout } = useAuth();
 
   return (
@@ -131,7 +127,7 @@ export const InboxNav = ({ toggleMenu }: Props) => {
       </div>
 
       <DropdownMenu>
-        <DropdownMenuTrigger className="w-full border-t z-1 px-6 py-4 flex gap-3 hover:bg-muted cursor-pointer transition-colors">
+        <DropdownMenuTrigger className="w-full border-t z-1 px-6 py-4 flex gap-3 hover:bg-muted cursor-pointer items-center transition-colors">
           <Avatar className="w-10 h-10">
             <AvatarImage src="https://github.com/filipkania.png" />
             <AvatarFallback delayMs={500}>FK</AvatarFallback>

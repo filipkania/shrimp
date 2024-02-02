@@ -19,7 +19,6 @@ import { sanitize } from "dompurify";
 import { useHash } from "@/lib/useHash";
 import { useMediaQuery } from "@uidotdev/usehooks";
 import { cn } from "@/lib/utils";
-import { TransformComponent, TransformWrapper } from "react-zoom-pan-pinch";
 
 export const MailView = () => {
   const [selectedMail, _] = useHash();
@@ -40,7 +39,7 @@ export const MailView = () => {
         className="h-full w-full p-4 mailview"
         // biome-ignore lint/security/noDangerouslySetInnerHtml: it's needed for email rendering
         dangerouslySetInnerHTML={{
-          __html: `<base target="_blank"/><meta name="viewport" content="width=device-width, initial-scale=1.0">${sanitizedHTML}`,
+          __html: `<base target="_blank" />${sanitizedHTML}`,
         }}
       />
     );
@@ -98,10 +97,12 @@ export const MailView = () => {
         </div>
       </div>
 
-      <div className={cn("h-full", isMobile && "overflow-y-auto")}>
+      <div
+        className={cn(isMobile && "overflow-y-auto w-full", "flex flex-col h-[calc(100dvh-58px)]")}
+      >
         <div
           className={cn(
-            "w-full border-b px-6 py-4 flex gap-4",
+            "border-b px-6 py-4 flex gap-4",
             isMobile && "sticky left-0 bg-background",
           )}
         >
@@ -114,19 +115,22 @@ export const MailView = () => {
             </AvatarFallback>
           </Avatar>
 
-          <div className="flex items-start w-full">
-            <div className="flex flex-col">
-              <span className="font-medium">
+          <div className="flex flex-col w-full">
+            <div className="flex justify-between items-center w-full">
+              <span className="font-medium p-0 break-all">
                 {mail.from_name || mail.from_address}
               </span>
 
-              <span className="text-sm">{mail.subject || "No subject"}</span>
-              <span className="text-sm text-muted-foreground break-all">
-                Reply-To: <code>{mail.from_address}</code>
+              <span className="ml-auto text-sm text-muted-foreground">
+                {new Date(mail.received_at).toLocaleDateString()}
               </span>
             </div>
-            <span className="ml-auto text-sm text-muted-foreground">
-              {new Date(mail.received_at).toLocaleDateString()}
+
+            <span className="text-sm break-all">
+              {mail.subject || "No subject"}
+            </span>
+            <span className="text-sm text-muted-foreground break-all">
+              Reply-To: <code>{mail.from_address}</code>
             </span>
           </div>
         </div>
@@ -134,7 +138,9 @@ export const MailView = () => {
         {isMobile ? (
           <div className="mt-8 [text-size-adjust:80%]">{emailHtml}</div>
         ) : (
-          <ScrollArea className="h-full" orientation="both">{emailHtml}</ScrollArea>
+          <ScrollArea orientation="both">
+            {emailHtml}
+          </ScrollArea>
         )}
       </div>
     </div>

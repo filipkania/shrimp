@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils";
 import { useHash } from "@/lib/useHash";
 
 type Props = {
-  toggleMenu: (_: boolean) => void;
+  toggleMenu?: (_: boolean) => void;
 };
 
 export const MailList = ({ toggleMenu }: Props) => {
@@ -34,16 +34,17 @@ export const MailList = ({ toggleMenu }: Props) => {
 
   return (
     <>
-      <div className="px-6 h-[58px] border-b flex justify-between items-center">
+      <div className="flex w-full px-3 lg:px-6 h-[58px] border-b justify-between items-center bg-background">
         <div className="inline-flex gap-1 items-center">
-          <Button
-            className="flex lg:hidden"
-            variant="ghost"
-            size="icon"
-            onClick={() => toggleMenu(true)}
-          >
-            <MenuIcon className="w-4 h-4" />
-          </Button>
+          {toggleMenu && (
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => toggleMenu(true)}
+            >
+              <MenuIcon className="w-4 h-4" />
+            </Button>
+          )}
 
           <span className="text-lg font-medium">
             Inbox
@@ -67,7 +68,7 @@ export const MailList = ({ toggleMenu }: Props) => {
         </div>
       </div>
 
-      <ScrollArea className="h-[calc(100%-58px)] pb-[54px] lg:pb-0 flex flex-col items-center">
+      <ScrollArea className="h-[calc(100dvh-58px)] overflow-y-hidden flex flex-col items-center">
         {mails.map((mail, i) => (
           // biome-ignore lint/a11y/useKeyWithClickEvents: TODO: add full a11y
           <div
@@ -82,7 +83,7 @@ export const MailList = ({ toggleMenu }: Props) => {
             <Checkbox className="mt-1" />
 
             <div className="w-full">
-              <div className="inline-flex w-full justify-between">
+              <div className="inline-flex w-full justify-between items-center">
                 <span className="text-md font-semibold">
                   {mail.from_name || mail.from_address}
                 </span>

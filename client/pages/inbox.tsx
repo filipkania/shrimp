@@ -17,46 +17,48 @@ const Inbox = () => {
 
   const isMobile = useMediaQuery("(max-width: 1024px)");
 
-  const renderedMailList = <MailList toggleMenu={toggleMenu} />;
-  const renderedMailView = <MailView />;
-
-  return (
-    <main className="h-screen w-full flex">
-      {isMobile ? (
+  if (isMobile)
+    return (
+      <main className="h-[100dvh] w-full flex overflow-y-hidden">
         <Sheet open={menuOpened} onOpenChange={(x) => toggleMenu(x)}>
           <SheetContent side="left" className="!min-w-[90%] p-0 pt-1">
-            <InboxNav toggleMenu={toggleMenu} />
+            <InboxNav />
           </SheetContent>
         </Sheet>
-      ) : (
-        <InboxNav />
-      )}
+
+        <div className="flex flex-col">
+          <MailList toggleMenu={toggleMenu} />
+        </div>
+
+        <Drawer
+          open={!!selectedMail}
+          onOpenChange={(o) => !o && setSelectedMail("")}
+        >
+          <DrawerContent>
+            <MailView />
+          </DrawerContent>
+        </Drawer>
+      </main>
+    );
+
+  return (
+    <main className="h-[100dvh] w-full flex">
+      <InboxNav />
 
       <ResizablePanelGroup
         className="!hidden lg:!flex h-full w-full"
         direction={"horizontal"}
       >
         <ResizablePanel className="min-w-[24rem]" minSize={20}>
-          {renderedMailList}
+          <MailList />
         </ResizablePanel>
 
         <ResizableHandle withHandle />
 
         <ResizablePanel minSize={40}>
-          {isMobile ? (
-            <Drawer
-              open={!!selectedMail}
-              onOpenChange={(o) => !o && setSelectedMail("")}
-            >
-              <DrawerContent>{renderedMailView}</DrawerContent>
-            </Drawer>
-          ) : (
-            renderedMailView
-          )}
+          <MailView />
         </ResizablePanel>
       </ResizablePanelGroup>
-
-      <div className="block lg:hidden">{renderedMailList}</div>
     </main>
   );
 };
