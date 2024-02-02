@@ -22,11 +22,15 @@ import {
 } from "../ui/dropdown-menu";
 import { useAuth } from "@/lib/auth/AuthContext";
 
-export const InboxNav = () => {
+type Props = {
+  toggleMenu?: (_: boolean) => void;
+};
+
+export const InboxNav = ({ toggleMenu }: Props) => {
   const { logout } = useAuth();
 
   return (
-    <nav className="flex flex-col justify-between w-[16rem] h-full border-r">
+    <nav className="flex flex-col justify-between w-full lg:w-[16rem] h-full lg:border-r">
       <div className="flex flex-col">
         <div className="px-6 h-[58px] inline-flex gap-2 items-center border-b">
           <MailIcon className="w-7 h-7" />

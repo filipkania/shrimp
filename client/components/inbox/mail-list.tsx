@@ -1,4 +1,4 @@
-import { SearchIcon } from "lucide-react";
+import { MenuIcon, SearchIcon } from "lucide-react";
 import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
 import { ScrollArea } from "../ui/scroll-area";
@@ -9,12 +9,16 @@ import { useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { useHash } from "@/lib/useHash";
 
-export const MailList = () => {
+type Props = {
+  toggleMenu: (_: boolean) => void;
+};
+
+export const MailList = ({ toggleMenu }: Props) => {
   const { data, isFetching, hasNextPage, fetchNextPage } = useMails();
   const mails = data?.pages.flatMap((x) => x) || [];
 
   const [selectedMail, setSelectedMail] = useHash();
-  
+
   const [ref, entry] = useIntersectionObserver({
     threshold: 0,
     root: null,
@@ -31,10 +35,23 @@ export const MailList = () => {
   return (
     <>
       <div className="px-6 h-[58px] border-b flex justify-between items-center">
-        <span className="text-lg font-medium">
-          Inbox
-          <span className="text-red-600/70 font-normal">&nbsp;&bull; 128</span>
-        </span>
+        <div className="inline-flex gap-1 items-center">
+          <Button
+            className="flex lg:hidden"
+            variant="ghost"
+            size="icon"
+            onClick={() => toggleMenu(true)}
+          >
+            <MenuIcon className="w-4 h-4" />
+          </Button>
+
+          <span className="text-lg font-medium">
+            Inbox
+            <span className="text-red-600/70 font-normal">
+              &nbsp;&bull; 128
+            </span>
+          </span>
+        </div>
 
         <div className="inline-flex gap-1">
           <Button variant="ghost" size="icon">
@@ -50,11 +67,14 @@ export const MailList = () => {
         </div>
       </div>
 
-      <ScrollArea className="h-[calc(100%-58px)] flex flex-col items-center">
+      <ScrollArea className="h-[calc(100%-58px)] pb-[54px] lg:pb-0 flex flex-col items-center">
         {mails.map((mail, i) => (
           // biome-ignore lint/a11y/useKeyWithClickEvents: TODO: add full a11y
           <div
-            className={cn("w-full border-b flex gap-3 px-6 py-4 items-start hover:bg-muted cursor-pointer", Number(selectedMail) === mail.id && "bg-muted")}
+            className={cn(
+              "w-full border-b flex gap-3 px-6 py-4 items-start hover:bg-muted cursor-pointer",
+              Number(selectedMail) === mail.id && "bg-muted",
+            )}
             onClick={() => setSelectedMail(mail.id.toString())}
             ref={i === mails.length - 2 ? ref : null}
             key={mail.id}
