@@ -34,7 +34,7 @@ const Inbox = () => {
           open={!!selectedMail}
           onOpenChange={(o) => !o && setSelectedMail("")}
         >
-          <DrawerContent>
+          <DrawerContent className="outline-none">
             <MailView />
           </DrawerContent>
         </Drawer>
