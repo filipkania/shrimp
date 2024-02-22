@@ -1,3 +1,4 @@
+import { ComposeProvider } from "@/components/inbox/compose-provider";
 import { InboxNav } from "@/components/inbox/inbox-nav";
 import { MailList } from "@/components/inbox/mail-list";
 import { MailView } from "@/components/inbox/mail-view";
@@ -22,7 +23,7 @@ const Inbox = () => {
 
   if (isMobile)
     return (
-      <main className="h-[100dvh] w-full flex overflow-y-hidden">
+      <main className="flex h-[100dvh] w-full overflow-y-hidden">
         <Sheet open={menuOpened} onOpenChange={(x) => toggleMenu(x)}>
           <SheetContent side="left" className="!min-w-[90%] p-0 pt-1">
             <InboxNav />
@@ -45,27 +46,32 @@ const Inbox = () => {
     );
 
   return (
-    <main className="h-[100dvh] w-full flex">
-      <InboxNav />
+    <main className="flex h-[100dvh] w-full">
+      <ComposeProvider>
+        <InboxNav />
 
-      <ResizablePanelGroup
-        className="!hidden lg:!flex h-full w-full"
-        direction={"horizontal"}
-        
-        onLayout={(layout) => {
-          setLayout(JSON.stringify(layout));
-        }}
-      >
-        <ResizablePanel className="min-w-[24rem]" defaultSize={layout[0]} minSize={20}>
-          <MailList />
-        </ResizablePanel>
+        <ResizablePanelGroup
+          className="!hidden h-full w-full lg:!flex"
+          direction={"horizontal"}
+          onLayout={(layout) => {
+            setLayout(JSON.stringify(layout));
+          }}
+        >
+          <ResizablePanel
+            className="min-w-[24rem]"
+            defaultSize={layout[0]}
+            minSize={20}
+          >
+            <MailList />
+          </ResizablePanel>
 
-        <ResizableHandle withHandle />
+          <ResizableHandle withHandle />
 
-        <ResizablePanel defaultSize={layout[1]} minSize={40}>
-          <MailView />
-        </ResizablePanel>
-      </ResizablePanelGroup>
+          <ResizablePanel defaultSize={layout[1]} minSize={40}>
+            <MailView />
+          </ResizablePanel>
+        </ResizablePanelGroup>
+      </ComposeProvider>
     </main>
   );
 };

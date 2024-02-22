@@ -18,7 +18,7 @@ const ScrollArea = React.forwardRef<
       className={cn(
         "h-full w-full rounded-[inherit]",
         orientation === "both" && "!overflow-auto",
-        orientation === "horizontal" && "!min-h-max !h-auto"
+        orientation === "horizontal" && "!h-auto !min-h-max"
       )}
     >
       {children}
@@ -44,7 +44,7 @@ const ScrollBar = React.forwardRef<
         "h-full w-2.5 border-l border-l-transparent p-[1px]",
       orientation === "horizontal" &&
         "h-2.5 flex-col border-t border-t-transparent p-[1px]",
-      className,
+      className
     )}
     {...props}
   >

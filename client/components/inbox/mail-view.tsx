@@ -37,7 +37,7 @@ export const MailView = () => {
 
     return (
       <div
-        className="h-full w-full p-4 mailview"
+        className="mailview h-full w-full p-4"
         // biome-ignore lint/security/noDangerouslySetInnerHtml: it's needed for email rendering
         dangerouslySetInnerHTML={{
           __html: `<base target="_blank" />${sanitizedHTML}`,
@@ -48,70 +48,73 @@ export const MailView = () => {
 
   if (!selectedMail || !mail)
     return (
-      <div className="w-full h-full flex flex-col justify-center items-center gap-2 text-muted-foreground">
+      <div className="flex h-full w-full flex-col items-center justify-center gap-2 text-muted-foreground">
         <NextSeo title="Inbox" />
 
-        <MailboxIcon className="w-24 h-24" />
-        <span className="font-medium text-xl">No email selected.</span>
+        <MailboxIcon className="h-24 w-24" />
+        <span className="text-xl font-medium">No email selected.</span>
       </div>
     );
 
   return (
-    <div className="flex flex-col h-full">
-      <NextSeo title={mail.subject || "No Subject"}/>
+    <div className="flex h-full flex-col">
+      <NextSeo title={mail.subject || "No Subject"} />
 
-      <div className="px-6 py-5 h-[58px] w-full inline-flex justify-between items-center border-b">
+      <div className="inline-flex h-[58px] w-full items-center justify-between border-b px-6 py-5">
         <div className="inline-flex h-6 items-center gap-1">
           <Button size="icon" variant="ghost">
-            <ArchiveIcon className="w-4 h-4" />
+            <ArchiveIcon className="h-4 w-4" />
           </Button>
 
           <Button size="icon" variant="ghost">
-            <Trash2Icon className="w-4 h-4" />
+            <Trash2Icon className="h-4 w-4" />
           </Button>
 
           <Button size="icon" variant="ghost">
-            <AlertCircleIcon className="w-4 h-4" />
+            <AlertCircleIcon className="h-4 w-4" />
           </Button>
 
           <Separator orientation="vertical" />
 
           <Button size="icon" variant="ghost">
-            <ClockIcon className="w-4 h-4" />
+            <ClockIcon className="h-4 w-4" />
           </Button>
         </div>
 
         <div className="inline-flex h-6 items-center gap-1">
           <Button size="icon" variant="ghost">
-            <ReplyIcon className="w-4 h-4" />
+            <ReplyIcon className="h-4 w-4" />
           </Button>
 
           <Button size="icon" variant="ghost">
-            <ReplyAllIcon className="w-4 h-4" />
+            <ReplyAllIcon className="h-4 w-4" />
           </Button>
 
           <Button size="icon" variant="ghost">
-            <ForwardIcon className="w-4 h-4" />
+            <ForwardIcon className="h-4 w-4" />
           </Button>
 
           <Separator orientation="vertical" />
 
           <Button size="icon" variant="ghost">
-            <MoreVerticalIcon className="w-4 h-4" />
+            <MoreVerticalIcon className="h-4 w-4" />
           </Button>
         </div>
       </div>
 
       <div
-        className={cn(isMobile && "overflow-y-auto w-full", "flex flex-col h-[calc(100dvh-58px)]")}
+        className={cn(
+          isMobile && "w-full overflow-y-auto",
+          "flex h-[calc(100dvh-58px)] flex-col"
+        )}
       >
         <div
           className={cn(
-            "border-b px-6 py-4 flex gap-4",
-            isMobile && "sticky left-0 bg-background",
+            "flex gap-4 border-b px-6 py-4",
+            isMobile && "sticky left-0 bg-background"
           )}
         >
-          <Avatar className="w-12 h-12">
+          <Avatar className="h-12 w-12">
             <AvatarImage />
             <AvatarFallback className="text-muted-foreground">
               {(mail.from_name || mail.from_address)
@@ -120,13 +123,13 @@ export const MailView = () => {
             </AvatarFallback>
           </Avatar>
 
-          <div className="flex flex-col w-full break-all">
-            <div className="flex justify-between items-center w-full">
-              <span className="font-medium p-0">
+          <div className="flex w-full flex-col break-all">
+            <div className="flex w-full items-center justify-between">
+              <span className="p-0 font-medium">
                 {mail.from_name || mail.from_address}
               </span>
 
-              <span className="ml-auto text-sm text-muted-foreground min-w-fit">
+              <span className="ml-auto min-w-fit text-sm text-muted-foreground">
                 {new Date(mail.received_at).toLocaleDateString()}
               </span>
             </div>
@@ -135,18 +138,14 @@ export const MailView = () => {
               From: <code>{mail.from_address}</code>
             </span>
 
-            <span className="text-sm">
-              {mail.subject || "No subject"}
-            </span>
+            <span className="text-sm">{mail.subject || "No subject"}</span>
           </div>
         </div>
 
         {isMobile ? (
           emailHtml
         ) : (
-          <ScrollArea orientation="both">
-            {emailHtml}
-          </ScrollArea>
+          <ScrollArea orientation="both">{emailHtml}</ScrollArea>
         )}
       </div>
     </div>

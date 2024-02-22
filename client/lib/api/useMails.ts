@@ -31,13 +31,13 @@ export const useMails = (searchQuery?: string) => {
     queryFn: async ({ pageParam = 0 }) => {
       const res = await API.get(
         `/mails?offset=${pageParam}&limit=${LIMIT}&query=${encodeURIComponent(
-          searchQuery || "",
+          searchQuery || ""
         )}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        },
+        }
       );
 
       return res.data as Array<Mail>;

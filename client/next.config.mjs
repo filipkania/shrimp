@@ -1,19 +1,19 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-	reactStrictMode: true,
+  reactStrictMode: true,
 
-	output: "export",
-	trailingSlash: true,
+  output: "export",
+  trailingSlash: true,
 
-	async redirects() {
-		return [
-			{
-				source: "/",
-				destination: "/inbox",
-				permanent: true,
-			},
-		];
-	},
+  async redirects() {
+    return [
+      {
+        source: "/",
+        destination: "/inbox",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

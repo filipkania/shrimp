@@ -35,23 +35,29 @@ export const MailList = ({ toggleMenu }: Props) => {
 
   return (
     <>
-      <div className="flex w-[100dvw] px-3 lg:w-full lg:px-6 h-[58px] border-b justify-between items-center bg-background">
-        <div className="inline-flex gap-1 items-center">
+      <div className="flex h-[58px] w-[100dvw] items-center justify-between border-b bg-background px-3 lg:w-full lg:px-6">
+        <div className="inline-flex items-center gap-1">
           {toggleMenu && (
-            <Button variant="ghost" size="icon" onClick={() => toggleMenu(true)}>
-              <MenuIcon className="w-4 h-4" />
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => toggleMenu(true)}
+            >
+              <MenuIcon className="h-4 w-4" />
             </Button>
           )}
 
           <span className="text-md font-medium">
             Inbox
-            <span className="text-red-600/70 font-normal text-md">&nbsp;&bull; 128</span>
+            <span className="text-md font-normal text-red-600/70">
+              &nbsp;&bull; 128
+            </span>
           </span>
         </div>
 
         <div className="inline-flex gap-1">
           <Button variant="ghost" size="icon">
-            <SearchIcon className="w-4 h-4" />
+            <SearchIcon className="h-4 w-4" />
           </Button>
 
           <Tabs defaultValue="all">
@@ -63,13 +69,13 @@ export const MailList = ({ toggleMenu }: Props) => {
         </div>
       </div>
 
-      <ScrollArea className="h-[calc(100dvh-58px)] overflow-y-hidden flex flex-col items-center">
+      <ScrollArea className="flex h-[calc(100dvh-58px)] flex-col items-center overflow-y-hidden">
         {mails.map((mail, i) => (
           // biome-ignore lint/a11y/useKeyWithClickEvents: TODO: add full a11y
           <div
             className={cn(
-              "w-full border-b flex gap-3 px-6 py-4 items-start hover:bg-muted cursor-pointer",
-              Number(selectedMail) === mail.id && "bg-muted",
+              "flex w-full cursor-pointer items-start gap-3 border-b px-6 py-4 hover:bg-muted",
+              Number(selectedMail) === mail.id && "bg-muted"
             )}
             onClick={() => setSelectedMail(mail.id.toString())}
             ref={i === mails.length - 2 ? ref : null}
@@ -78,11 +84,11 @@ export const MailList = ({ toggleMenu }: Props) => {
             {/* <Checkbox className="mt-1" /> */}
 
             <div className="w-full break-all">
-              <div className="inline-flex w-full justify-between items-center">
+              <div className="inline-flex w-full items-center justify-between">
                 <Tooltip>
                   <TooltipTrigger>
-                    <span className="font-semibold flex items-center gap-2 pr-3">
-                      <div className="min-w-1.5 min-h-1.5 rounded-full bg-blue-500 motion-safe:animate-pulse" />
+                    <span className="flex items-center gap-2 pr-3 font-semibold">
+                      <div className="min-h-1.5 min-w-1.5 rounded-full bg-blue-500 motion-safe:animate-pulse" />
 
                       {mail.from_name || mail.from_address}
                     </span>
@@ -94,7 +100,9 @@ export const MailList = ({ toggleMenu }: Props) => {
 
                 <Tooltip>
                   <TooltipTrigger>
-                    <span className="text-sm text-muted-foreground min-w-fit">{new Date(mail.received_at).toLocaleDateString()}</span>
+                    <span className="min-w-fit text-sm text-muted-foreground">
+                      {new Date(mail.received_at).toLocaleDateString()}
+                    </span>
                   </TooltipTrigger>
                   <TooltipContent>
                     <span>{new Date(mail.received_at).toLocaleString()}</span>
@@ -102,9 +110,13 @@ export const MailList = ({ toggleMenu }: Props) => {
                 </Tooltip>
               </div>
 
-              <span className="text-sm line-clamp-2">{mail.subject || "No subject"}</span>
+              <span className="line-clamp-2 text-sm">
+                {mail.subject || "No subject"}
+              </span>
 
-              <span className="text-sm text-muted-foreground line-clamp-2 mt-1">{mail.text?.substring(0, 300)}</span>
+              <span className="mt-1 line-clamp-2 text-sm text-muted-foreground">
+                {mail.text?.substring(0, 300)}
+              </span>
             </div>
           </div>
         ))}
