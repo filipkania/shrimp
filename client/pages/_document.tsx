@@ -4,7 +4,7 @@ export default function Document() {
   return (
     <Html lang="en">
       <Head />
-      <body>
+      <body className="[text-size-adjust:90%] lg:[text-size-adjust:100%]">
         <Main />
         <NextScript />
       </body>

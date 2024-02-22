@@ -141,7 +141,7 @@ export const MailView = () => {
         </div>
 
         {isMobile ? (
-          <div className="[text-size-adjust:80%]">{emailHtml}</div>
+          <div>{emailHtml}</div>
         ) : (
           <ScrollArea orientation="both">
             {emailHtml}

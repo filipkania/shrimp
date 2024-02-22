@@ -8,6 +8,7 @@ import { useIntersectionObserver } from "@uidotdev/usehooks";
 import { useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { useHash } from "@/lib/useHash";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
 type Props = {
   toggleMenu?: (_: boolean) => void;
@@ -37,20 +38,14 @@ export const MailList = ({ toggleMenu }: Props) => {
       <div className="flex w-[100dvw] px-3 lg:w-full lg:px-6 h-[58px] border-b justify-between items-center bg-background">
         <div className="inline-flex gap-1 items-center">
           {toggleMenu && (
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => toggleMenu(true)}
-            >
+            <Button variant="ghost" size="icon" onClick={() => toggleMenu(true)}>
               <MenuIcon className="w-4 h-4" />
             </Button>
           )}
 
-          <span className="text-lg font-medium">
+          <span className="text-md font-medium">
             Inbox
-            <span className="text-red-600/70 font-normal">
-              &nbsp;&bull; 128
-            </span>
+            <span className="text-red-600/70 font-normal text-md">&nbsp;&bull; 128</span>
           </span>
         </div>
 
@@ -82,24 +77,34 @@ export const MailList = ({ toggleMenu }: Props) => {
           >
             {/* <Checkbox className="mt-1" /> */}
 
-            <div className="w-full">
+            <div className="w-full break-all">
               <div className="inline-flex w-full justify-between items-center">
-                <span className="text-md font-semibold">
-                  {mail.from_name || mail.from_address}
-                </span>
+                <Tooltip>
+                  <TooltipTrigger>
+                    <span className="font-semibold flex items-center gap-2 pr-3">
+                      <div className="min-w-1.5 min-h-1.5 rounded-full bg-blue-500 motion-safe:animate-pulse" />
 
-                <span className="text-sm text-muted-foreground">
-                  {new Date(mail.received_at).toLocaleDateString()}
-                </span>
+                      {mail.from_name || mail.from_address}
+                    </span>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <span>{mail.from_address}</span>
+                  </TooltipContent>
+                </Tooltip>
+
+                <Tooltip>
+                  <TooltipTrigger>
+                    <span className="text-sm text-muted-foreground min-w-fit">{new Date(mail.received_at).toLocaleDateString()}</span>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <span>{new Date(mail.received_at).toLocaleString()}</span>
+                  </TooltipContent>
+                </Tooltip>
               </div>
 
-              <span className="text-sm line-clamp-2">
-                {mail.subject || "No subject"}
-              </span>
+              <span className="text-sm line-clamp-2">{mail.subject || "No subject"}</span>
 
-              <span className="text-sm text-muted-foreground line-clamp-2 break-all mt-1">
-                {mail.text?.substring(0, 300)}
-              </span>
+              <span className="text-sm text-muted-foreground line-clamp-2 mt-1">{mail.text?.substring(0, 300)}</span>
             </div>
           </div>
         ))}
