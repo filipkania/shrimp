@@ -120,28 +120,29 @@ export const MailView = () => {
             </AvatarFallback>
           </Avatar>
 
-          <div className="flex flex-col w-full">
+          <div className="flex flex-col w-full break-all">
             <div className="flex justify-between items-center w-full">
-              <span className="font-medium p-0 break-all">
+              <span className="font-medium p-0">
                 {mail.from_name || mail.from_address}
               </span>
 
-              <span className="ml-auto text-sm text-muted-foreground">
+              <span className="ml-auto text-sm text-muted-foreground min-w-fit">
                 {new Date(mail.received_at).toLocaleDateString()}
               </span>
             </div>
 
-            <span className="text-sm break-all">
-              {mail.subject || "No subject"}
+            <span className="text-sm text-muted-foreground">
+              From: <code>{mail.from_address}</code>
             </span>
-            <span className="text-sm text-muted-foreground break-all">
-              Reply-To: <code>{mail.from_address}</code>
+
+            <span className="text-sm">
+              {mail.subject || "No subject"}
             </span>
           </div>
         </div>
 
         {isMobile ? (
-          <div>{emailHtml}</div>
+          emailHtml
         ) : (
           <ScrollArea orientation="both">
             {emailHtml}
