@@ -4,18 +4,23 @@ import { Checkbox } from "../ui/checkbox";
 import { ScrollArea } from "../ui/scroll-area";
 import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
 import { useMails } from "@/lib/api/useMails";
-import { useIntersectionObserver } from "@uidotdev/usehooks";
-import { useEffect } from "react";
+import { useDebounce, useIntersectionObserver, useToggle } from "@uidotdev/usehooks";
+import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { useHash } from "@/lib/useHash";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
+import { Input } from "../ui/input";
 
 type Props = {
   toggleMenu?: (_: boolean) => void;
 };
 
 export const MailList = ({ toggleMenu }: Props) => {
-  const { data, isFetching, hasNextPage, fetchNextPage } = useMails();
+  const [searchShown, toggleSearch] = useToggle(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const debouncedSearchQuery = useDebounce(searchQuery, 250);
+
+  const { data, isFetching, hasNextPage, fetchNextPage } = useMails(debouncedSearchQuery);
   const mails = data?.pages.flatMap((x) => x) || [];
 
   const [selectedMail, setSelectedMail] = useHash();
@@ -56,7 +61,7 @@ export const MailList = ({ toggleMenu }: Props) => {
         </div>
 
         <div className="inline-flex gap-1">
-          <Button variant="ghost" size="icon">
+          <Button variant="ghost" size="icon" onClick={() => toggleSearch()}>
             <SearchIcon className="h-4 w-4" />
           </Button>
 
@@ -70,6 +75,18 @@ export const MailList = ({ toggleMenu }: Props) => {
       </div>
 
       <ScrollArea className="flex h-[calc(100dvh-58px)] flex-col items-center overflow-y-hidden">
+        {searchShown && (
+          <label className="flex items-center gap-1 border-b px-6 py-2">
+            <SearchIcon className="h-4 w-4 text-muted-foreground" />
+            <Input
+              placeholder="Search something here..."
+              className="border-none shadow-none px-2"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.currentTarget.value)}
+            />
+          </label>
+        )}
+
         {mails.map((mail, i) => (
           // biome-ignore lint/a11y/useKeyWithClickEvents: TODO: add full a11y
           <div
