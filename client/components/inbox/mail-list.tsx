@@ -34,7 +34,7 @@ export const MailList = ({ toggleMenu }: Props) => {
 
   return (
     <>
-      <div className="flex w-[100dvw] px-3 lg:px-6 h-[58px] border-b justify-between items-center bg-background">
+      <div className="flex w-[100dvw] px-3 lg:w-full lg:px-6 h-[58px] border-b justify-between items-center bg-background">
         <div className="inline-flex gap-1 items-center">
           {toggleMenu && (
             <Button
@@ -80,7 +80,7 @@ export const MailList = ({ toggleMenu }: Props) => {
             ref={i === mails.length - 2 ? ref : null}
             key={mail.id}
           >
-            <Checkbox className="mt-1" />
+            {/* <Checkbox className="mt-1" /> */}
 
             <div className="w-full">
               <div className="inline-flex w-full justify-between items-center">
