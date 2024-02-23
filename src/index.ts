@@ -4,9 +4,11 @@ import type { Context } from "hono";
 
 import { emailHandler } from "./handlers/mail";
 
-import routes from "./routes";
 import { authMiddleware } from "./middlewares/auth";
-import { handler as LoginHandler } from "./routes/login";
+
+import routes from "./routes";
+import * as LoginRoute from "./routes/login";
+import * as ProxyRoute from "./routes/mails/proxy";
 
 export type Env = {
 	DB: D1Database;
@@ -26,7 +28,11 @@ export type AppContext = Context<{ Bindings: Env; Variables: Variables }, any, {
 const app = new Hono<{ Bindings: Env; Variables: Variables }>().basePath("/api");
 
 app.use("*", cors());
-app.post("/login", LoginHandler);
+
+// routes without authentication
+app.on(LoginRoute.method, LoginRoute.route, LoginRoute.handler);
+app.on(ProxyRoute.method, ProxyRoute.route, ProxyRoute.handler);
+
 app.use("*", authMiddleware);
 
 // register all routes from routes/ directory
