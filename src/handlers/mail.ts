@@ -6,6 +6,7 @@ import { postalMimeToEmail } from "../utils/postalMimeToEmail";
 
 import mail from "../db/mail";
 import contact from "../db/contact";
+import { ProxyRewriter } from "../utils/proxy/srcRewriter";
 
 export const emailHandler = async (
   message: ForwardableEmailMessage,
@@ -15,13 +16,21 @@ export const emailHandler = async (
   const parser = new PostalMime();
   const email = await parser.parse(Buffer.from(rawEmail));
 
+  const rewriter = new HTMLRewriter().on(
+    "img",
+    new ProxyRewriter("src", env.JWT_SECRET)
+  );
+
   const senderContact = await contact.insert(env.DB, {
     name: email.from.name,
     address: email.from.address,
   });
 
+  const parsedMail = postalMimeToEmail(email);
+
   const mailId = await mail.insert(env.DB, {
-    ...postalMimeToEmail(email),
+    ...parsedMail,
+    html: await rewriter.transform(new Response(parsedMail.html)).text(),
     from_id: senderContact,
     received_at: new Date().toISOString(),
   });

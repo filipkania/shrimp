@@ -7,14 +7,9 @@ export const route = "/mails/proxy/:hmac/:filename{.+$}";
 export const handler = async (c: AppContext) => {
   const { filename, hmac } = c.req.param();
 
-  const url = new URL(filename);
   if (
     !hmac ||
-    !(await verifyHMAC(
-      hmac,
-      Buffer.from(filename),
-      Buffer.from(c.env.JWT_SECRET)
-    ))
+    !(await verifyHMAC(hmac, Buffer.from(filename), c.env.JWT_SECRET))
   ) {
     return c.json(
       {
@@ -24,10 +19,16 @@ export const handler = async (c: AppContext) => {
     );
   }
 
-  if (!["https:", "http:"].includes(url.protocol)) {
+  try {
+    const url = new URL(filename);
+
+    if (!["https:", "http:"].includes(url.protocol)) {
+      throw new Error("Invalid protocol.");
+    }
+  } catch (_) {
     return c.json(
       {
-        message: "Invalid URL protocol.",
+        message: "Invalid URL.",
       },
       400
     );
@@ -48,6 +49,7 @@ export const handler = async (c: AppContext) => {
 
     return c.body(res.body, 200, {
       "Content-Type": remoteContentType,
+      "Cache-Control": "max-age=604800", // around 7 days
     });
   } catch (e) {
     // something bad happened while proxying that request.

@@ -1,7 +1,7 @@
-export const signHMAC = async (data: Buffer, secret: Buffer) => {
+export const signHMAC = async (data: Buffer, secret: string) => {
   const key = await crypto.subtle.importKey(
     "raw",
-    secret,
+    Buffer.from(secret),
     { name: "HMAC", hash: "SHA-256" },
     false,
     ["sign", "verify"]
@@ -15,11 +15,11 @@ export const signHMAC = async (data: Buffer, secret: Buffer) => {
 export const verifyHMAC = async (
   signature: string,
   data: Buffer,
-  secret: Buffer
+  secret: string
 ) => {
   const key = await crypto.subtle.importKey(
     "raw",
-    secret,
+    Buffer.from(secret),
     { name: "HMAC", hash: "SHA-256" },
     false,
     ["sign", "verify"]
