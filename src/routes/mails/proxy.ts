@@ -8,7 +8,14 @@ export const handler = async (c: AppContext) => {
   const { filename, hmac } = c.req.param();
 
   const url = new URL(filename);
-  if (!hmac || !(await verifyHMAC(hmac, Buffer.from(filename), Buffer.from(c.env.JWT_SECRET)))) {
+  if (
+    !hmac ||
+    !(await verifyHMAC(
+      hmac,
+      Buffer.from(filename),
+      Buffer.from(c.env.JWT_SECRET)
+    ))
+  ) {
     return c.json(
       {
         message: "Invalid HMAC.",
@@ -28,7 +35,7 @@ export const handler = async (c: AppContext) => {
 
   try {
     const res = await fetch(filename);
-  
+
     const remoteContentType = res.headers.get("Content-Type") || "plain/text";
     if (!remoteContentType.startsWith("image/")) {
       return c.json(
@@ -38,7 +45,7 @@ export const handler = async (c: AppContext) => {
         400
       );
     }
-  
+
     return c.body(res.body, 200, {
       "Content-Type": remoteContentType,
     });

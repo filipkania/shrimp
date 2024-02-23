@@ -4,8 +4,8 @@ export const method = "GET";
 export const route = "/mails";
 
 export const handler = async (c: AppContext) => {
-	const { limit, offset, query } = c.req.query();
-	const stmt = c.env.DB.prepare(`
+  const { limit, offset, query } = c.req.query();
+  const stmt = c.env.DB.prepare(`
 		SELECT
 			mails.id AS id,
 			from_name,
@@ -21,5 +21,11 @@ export const handler = async (c: AppContext) => {
 		LIMIT ?2 OFFSET ?3
 	`);
 
-	return c.json((await stmt.bind(`%${(query ?? "").toLowerCase()}%`, limit ?? 15, offset ?? 0).all()).results);
+  return c.json(
+    (
+      await stmt
+        .bind(`%${(query ?? "").toLowerCase()}%`, limit ?? 15, offset ?? 0)
+        .all()
+    ).results
+  );
 };
