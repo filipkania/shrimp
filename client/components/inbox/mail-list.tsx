@@ -76,7 +76,7 @@ export const MailList = ({ toggleMenu }: Props) => {
 
       <ScrollArea className="flex h-[calc(100dvh-58px)] flex-col items-center overflow-y-hidden">
         {searchShown && (
-          <label className="flex items-center gap-1 border-b px-6 py-2">
+          <label className="sticky top-0 z-10 bg-background flex items-center gap-1 border-b px-6 py-2">
             <SearchIcon className="h-4 w-4 text-muted-foreground" />
             <Input
               placeholder="Search something here..."

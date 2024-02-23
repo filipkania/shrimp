@@ -21,9 +21,11 @@ import {
   DropdownMenuItem,
 } from "../ui/dropdown-menu";
 import { useAuth } from "@/lib/auth/AuthContext";
+import { useCompose } from "./compose-provider";
 
 export const InboxNav = () => {
   const { logout } = useAuth();
+  const { open: openCompose, isOpen: composeOpened } = useCompose();
 
   return (
     <nav className="flex h-full w-full flex-col justify-between lg:w-[16rem] lg:border-r">
@@ -36,10 +38,20 @@ export const InboxNav = () => {
 
         <Button
           variant="ghost"
-          className="mx-2 mt-3 justify-start gap-2 px-4 text-muted-foreground"
+          className="mx-2 mt-3 justify-between gap-2 px-4 text-muted-foreground"
+          onClick={() => openCompose(true)}
         >
-          <SquarePenIcon className="h-4 w-4" />
-          Compose
+          <div className="flex items-center gap-2">
+            <SquarePenIcon className="h-4 w-4" />
+            Compose
+          </div>
+
+          {composeOpened && (
+            <div className="relative flex">
+              <div className="h-1.5 w-1.5 rounded-full bg-orange-300" />
+              <div className="absolute h-1.5 w-1.5 animate-ping rounded-full bg-orange-300" />
+            </div>
+          )}
         </Button>
 
         <Button
