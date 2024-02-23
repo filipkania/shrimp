@@ -4,43 +4,55 @@ import type { Context } from "hono";
 
 import { emailHandler } from "./handlers/mail";
 
-import routes from "./routes";
 import { authMiddleware } from "./middlewares/auth";
-import { handler as LoginHandler } from "./routes/login";
+
+import routes from "./routes";
+import * as LoginRoute from "./routes/login";
+import * as ProxyRoute from "./routes/mails/proxy";
 
 export type Env = {
-	DB: D1Database;
+  DB: D1Database;
 
-	/* random bytes, base64-encoded */
-	JWT_SECRET: string;
+  /* random bytes, base64-encoded */
+  JWT_SECRET: string;
 };
 
 export type Variables = {
-	user?: {
-		id: number;
-		username: string;
-	};
+  user?: {
+    id: number;
+    username: string;
+  };
 };
-export type AppContext = Context<{ Bindings: Env; Variables: Variables }, any, {}>;
+export type AppContext = Context<
+  { Bindings: Env; Variables: Variables },
+  any,
+  {}
+>;
 
-const app = new Hono<{ Bindings: Env; Variables: Variables }>().basePath("/api");
+const app = new Hono<{ Bindings: Env; Variables: Variables }>().basePath(
+  "/api"
+);
 
 app.use("*", cors());
-app.post("/login", LoginHandler);
+
+// routes without authentication
+app.on(LoginRoute.method, LoginRoute.route, LoginRoute.handler);
+app.on(ProxyRoute.method, ProxyRoute.route, ProxyRoute.handler);
+
 app.use("*", authMiddleware);
 
 // register all routes from routes/ directory
 routes.forEach((route) => {
-	const { method, route: path, handler } = route;
-	app.on(method, path, handler as any);
+  const { method, route: path, handler } = route;
+  app.on(method, path, handler as any);
 });
 
 app.onError((err, _) => {
-	console.error(`${err}`);
-	throw err;
+  console.error(`${err}`);
+  throw err;
 });
 
 export default {
-	...app,
-	email: emailHandler,
+  ...app,
+  email: emailHandler,
 };
