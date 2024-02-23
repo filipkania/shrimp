@@ -22,6 +22,7 @@ export const useMail = (id: number | string) => {
       return data as Mail;
     },
     retry: false,
+    staleTime: Infinity,
     enabled: !!token && !!id,
   });
 };

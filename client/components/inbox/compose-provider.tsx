@@ -22,7 +22,7 @@ export const ComposeProvider = ({ children }: PropsWithChildren) => {
 
     editorProps: {
       attributes: {
-        class: "p-4 outline-none mailview",
+        class: "p-4 min-h-full outline-none mailview",
       },
     },
   });
