@@ -13,7 +13,7 @@ type Props = {
 } & HTMLAttributes<HTMLButtonElement>;
 
 export const MailEntry = forwardRef<HTMLButtonElement, Props>(
-  ({ className, data, selected = false, ...props }: Props) => {
+  ({ className, data, selected = false, ...props }: Props, ref) => {
     const shortDate = useMemo(() => {
       if (!data) return null;
       const parsed = new Date(data.received_at);
@@ -30,6 +30,7 @@ export const MailEntry = forwardRef<HTMLButtonElement, Props>(
 
     return (
       <button
+        ref={ref}
         className={cn(
           "flex w-full cursor-pointer flex-col break-all border-b px-6 py-4 text-left hover:bg-muted",
           selected && "bg-muted",
