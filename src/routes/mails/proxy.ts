@@ -4,6 +4,8 @@ import { verifyHMAC } from "@/src/utils/proxy/urlHash";
 export const method = "GET";
 export const route = "/mails/proxy/:hmac/:filename{.+$}";
 
+const CACHE_DURATION = 60 * 60 * 24 * 7; // around 7 days
+
 export const handler = async (c: AppContext) => {
   const { filename, hmac } = c.req.param();
 
@@ -35,7 +37,16 @@ export const handler = async (c: AppContext) => {
   }
 
   try {
-    const res = await fetch(filename);
+    const res = await fetch(filename, {
+      cf: {
+        cacheEverything: true,
+        cacheTtlByStatus: {
+          "200-299": CACHE_DURATION, // around 7 days
+          404: 1,
+          "500-599": 0,
+        },
+      },
+    });
 
     const remoteContentType = res.headers.get("Content-Type") || "plain/text";
     if (!remoteContentType.startsWith("image/")) {
@@ -49,7 +60,7 @@ export const handler = async (c: AppContext) => {
 
     return c.body(res.body, 200, {
       "Content-Type": remoteContentType,
-      "Cache-Control": "max-age=604800", // around 7 days
+      "Cache-Control": `max-age=${CACHE_DURATION}`,
     });
   } catch (e) {
     // something bad happened while proxying that request.
