@@ -3,7 +3,7 @@ import { AuthContext } from "./AuthContext";
 import { useLocalStorage } from "@uidotdev/usehooks";
 import { useRouter } from "next/router";
 import { useEffect, type PropsWithChildren } from "react";
-import { API } from "../api";
+import { API } from "../api.mjs";
 import { useQuery } from "@tanstack/react-query";
 import { type AxiosError } from "axios";
 import { toast } from "sonner";

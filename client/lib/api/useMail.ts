@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "../auth/AuthContext";
-import { API } from "../api";
+import { API } from "../api.mjs";
 import { Mail } from "./useMails";
 
 export const useMail = (id: number | string) => {

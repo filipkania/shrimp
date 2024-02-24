@@ -1,6 +1,5 @@
 import { MenuIcon, SearchIcon } from "lucide-react";
 import { Button } from "../ui/button";
-import { Checkbox } from "../ui/checkbox";
 import { ScrollArea } from "../ui/scroll-area";
 import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
 import { useMails } from "@/lib/api/useMails";
@@ -95,7 +94,7 @@ export const MailList = ({ toggleMenu }: Props) => {
               Number(selectedMail) === mail.id && "bg-muted"
             )}
             onClick={() => setSelectedMail(mail.id.toString())}
-            ref={i === mails.length - 2 ? ref : null}
+            ref={i === mails.length - 8 ? ref : null}
             key={mail.id}
           >
             {/* <Checkbox className="mt-1" /> */}

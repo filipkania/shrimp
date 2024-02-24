@@ -1,6 +1,6 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useAuth } from "../auth/AuthContext";
-import { API } from "../api";
+import { API } from "../api.mjs";
 
 export type Mail = {
   id: number;
