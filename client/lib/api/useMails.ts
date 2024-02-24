@@ -27,7 +27,7 @@ export const useMails = (searchQuery?: string) => {
   const { token } = useAuth();
 
   return useInfiniteQuery({
-    queryKey: ["mails", token, searchQuery],
+    queryKey: ["mails", searchQuery],
     queryFn: async ({ pageParam = 0 }) => {
       const res = await API.get(
         `/mails?offset=${pageParam}&limit=${LIMIT}&query=${encodeURIComponent(

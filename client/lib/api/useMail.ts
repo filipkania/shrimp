@@ -7,7 +7,7 @@ export const useMail = (id: number | string) => {
   const { token } = useAuth();
 
   return useQuery({
-    queryKey: ["mail", token, id],
+    queryKey: ["mail", id],
     queryFn: async () => {
       const { data } = await API.get(`/mails/${id}`, {
         headers: {

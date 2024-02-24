@@ -23,8 +23,10 @@ const SignInPage = () => {
     },
 
     onSuccess: ({ data }) => {
+      toast.dismiss();
+
       auth.setToken(data.token);
-      router.push("/");
+      router.push("/inbox");
     },
 
     onError: (error: AxiosError<APIError>) => {

@@ -4,16 +4,17 @@ import { useLocalStorage } from "@uidotdev/usehooks";
 import { useRouter } from "next/router";
 import { useEffect, type PropsWithChildren } from "react";
 import { API } from "../api.mjs";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { type AxiosError } from "axios";
 import { toast } from "sonner";
 
 const AuthProvider = ({ children }: PropsWithChildren) => {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const [token, setToken] = useLocalStorage<string | null>("token", null);
 
   const { error, status, data } = useQuery({
-    queryKey: ["me", token],
+    queryKey: ["me"],
     queryFn: () => {
       return API.get<MeQuery>("/me", {
         headers: {
@@ -52,7 +53,9 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
         user: data?.data || null,
         logout: () => {
           setToken(null);
-          router.push("/auth/login");
+          queryClient.clear();
+
+          router.push("/auth/signin");
         },
         setToken,
       }}
