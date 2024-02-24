@@ -18,8 +18,8 @@
   }
 
   blockquote {
-    border-left: 2px rgba(0, 0, 0, 0.2) solid;
-    padding-left: 0.75rem;
+    @apply border-l-2 border-l-muted-foreground/30;
+    padding-left: 0.6rem;
   }
 
   img,
