@@ -1,12 +1,15 @@
 import {
   AlertCircleIcon,
+  CheckIcon,
   InboxIcon,
   LogOutIcon,
   MailIcon,
+  MoonStarIcon,
   NotebookPenIcon,
   SendIcon,
   SettingsIcon,
   SquarePenIcon,
+  SunIcon,
   Trash2Icon,
 } from "lucide-react";
 import { Button } from "../ui/button";
@@ -19,12 +22,17 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuItem,
+  DropdownMenuSub,
+  DropdownMenuSubTrigger,
+  DropdownMenuSubContent,
 } from "../ui/dropdown-menu";
 import { useAuth } from "@/lib/auth/AuthContext";
 import { useCompose } from "./compose-provider";
+import { useTheme } from "next-themes";
 
 export const InboxNav = () => {
   const { logout } = useAuth();
+  const { setTheme, resolvedTheme, theme } = useTheme();
   const { open: openCompose, isOpen: composeOpened } = useCompose();
 
   return (
@@ -155,9 +163,35 @@ export const InboxNav = () => {
           <DropdownMenuLabel>My account</DropdownMenuLabel>
           <DropdownMenuSeparator />
 
+          <DropdownMenuSub>
+            <DropdownMenuSubTrigger>
+              {resolvedTheme === "dark" ? (
+                <MoonStarIcon className="mr-2 h-4 w-4" />
+              ) : (
+                <SunIcon className="mr-2 h-4 w-4" />
+              )}
+              Theme
+            </DropdownMenuSubTrigger>
+
+            <DropdownMenuSubContent>
+              {["Light", "Dark", "System"].map((t) => (
+                <DropdownMenuItem
+                  key={t}
+                  onClick={() => setTheme(t.toLowerCase())}
+                  className="justify-between"
+                >
+                  {t}{" "}
+                  {theme === t.toLowerCase() && (
+                    <CheckIcon className="h-4 w-4" />
+                  )}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuSubContent>
+          </DropdownMenuSub>
+
           <DropdownMenuItem
             onClick={() => logout()}
-            className="min-w-[10rem] cursor-pointer bg-red-100/40 text-red-500 hover:!bg-red-100/80 hover:!text-red-600"
+            className="min-w-[10rem] cursor-pointer text-red-500"
           >
             <LogOutIcon className="mr-2 h-4 w-4" />
             <span>Log out</span>

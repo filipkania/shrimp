@@ -47,7 +47,12 @@ export const ComposeProvider = ({ children }: PropsWithChildren) => {
             !collapsed && "h-2/3 w-3/5"
           )}
         >
-          <div className="flex items-center justify-between gap-4 border-b px-4 py-2">
+          <div
+            className={cn(
+              "flex items-center justify-between gap-4 px-4 py-2",
+              !collapsed && "border-b"
+            )}
+          >
             <h2 className="text-md font-semibold">Compose new message</h2>
 
             <div className="flex gap-2">

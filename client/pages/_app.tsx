@@ -8,6 +8,7 @@ import dynamic from "next/dynamic";
 import Head from "next/head";
 import { Inter } from "next/font/google";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { ThemeProvider } from "next-themes";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -27,21 +28,23 @@ export default function App({ Component, pageProps }: AppProps) {
         />
       </Head>
       <QueryClientProvider client={queryClient}>
-        <CSRAuthProvider>
-          <TooltipProvider>
-            <DefaultSeo
-              titleTemplate="%s | Shrimp"
-              defaultTitle="Shrimp"
-              dangerouslySetAllPagesToNoIndex={true}
-              dangerouslySetAllPagesToNoFollow={true}
-            />
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+          <CSRAuthProvider>
+            <TooltipProvider>
+              <DefaultSeo
+                titleTemplate="%s | Shrimp"
+                defaultTitle="Shrimp"
+                dangerouslySetAllPagesToNoIndex={true}
+                dangerouslySetAllPagesToNoFollow={true}
+              />
 
-            <Component {...pageProps} />
-            <Toaster richColors />
+              <Component {...pageProps} />
+              <Toaster richColors />
 
-            <ReactQueryDevtools initialIsOpen={false} />
-          </TooltipProvider>
-        </CSRAuthProvider>
+              <ReactQueryDevtools initialIsOpen={false} />
+            </TooltipProvider>
+          </CSRAuthProvider>
+        </ThemeProvider>
       </QueryClientProvider>
     </div>
   );

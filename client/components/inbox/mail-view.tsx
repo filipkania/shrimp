@@ -37,7 +37,7 @@ export const MailView = () => {
 
     return (
       <div
-        className="mailview h-full w-full p-4"
+        className="mailview bg-white text-black w-full p-4"
         dangerouslySetInnerHTML={{
           __html: `<base target="_blank" />${sanitizedHTML}`,
         }}
@@ -129,7 +129,7 @@ export const MailView = () => {
               </span>
 
               <span className="ml-auto min-w-fit text-sm text-muted-foreground">
-                {new Date(mail.received_at).toLocaleDateString()}
+                {new Date(mail.received_at).toLocaleString()}
               </span>
             </div>
 
