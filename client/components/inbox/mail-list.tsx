@@ -30,11 +30,11 @@ export const MailList = ({ toggleMenu }: Props) => {
     rootMargin: "0px",
   });
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies:
   useEffect(() => {
     if (!entry?.isIntersecting || isFetching || !hasNextPage) return;
 
     fetchNextPage();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [entry?.isIntersecting]);
 
   return (
@@ -87,7 +87,7 @@ export const MailList = ({ toggleMenu }: Props) => {
         )}
 
         {mails.map((mail, i) => (
-          // biome-ignore lint/a11y/useKeyWithClickEvents: TODO: add full a11y
+          // TODO: add full a11y
           <div
             className={cn(
               "flex w-full cursor-pointer items-start gap-3 border-b px-6 py-4 hover:bg-muted",

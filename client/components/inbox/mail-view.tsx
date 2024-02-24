@@ -22,7 +22,7 @@ import { cn } from "@/lib/utils";
 import { NextSeo } from "next-seo";
 
 export const MailView = () => {
-  const [selectedMail, _] = useHash();
+  const [selectedMail] = useHash();
   const { data: mail } = useMail(selectedMail);
   const isMobile = useMediaQuery("(max-width: 1024px)");
 
@@ -38,7 +38,6 @@ export const MailView = () => {
     return (
       <div
         className="mailview h-full w-full p-4"
-        // biome-ignore lint/security/noDangerouslySetInnerHtml: it's needed for email rendering
         dangerouslySetInnerHTML={{
           __html: `<base target="_blank" />${sanitizedHTML}`,
         }}

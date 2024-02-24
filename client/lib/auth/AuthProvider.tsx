@@ -27,7 +27,6 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
     enabled: !!token,
   });
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies:
   useEffect(() => {
     if (!token || status === "error") {
       const err = error as AxiosError<APIError>;
@@ -44,6 +43,7 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
         router.push("/auth/signin");
       }
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token, status]);
 
   return (
