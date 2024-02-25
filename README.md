@@ -1,13 +1,12 @@
 <a href="https://github.com/filipkania/shrimp">
-  <img alt="Shrimp Banner" src="https://github.com/filipkania/shrimp/assets/36205125/82bd4277-7aa3-4386-ae22-f1b6a157ee2a">
+  <img alt="Shrimp Banner" src="https://github.com/filipkania/shrimp/assets/36205125/976d58ed-84c0-4936-97a9-54694c0bd335">
 </a>
 <br />
 <br />
 <p align="center">
   <a href="#introduction"><strong>Introduction</strong></a> ·
   <a href="#setting-up-locally"><strong>Setting Up Locally</strong></a> ·
-  <a href="#deploy-to-cloudflare"><strong>Deploy to Cloudflare</strong></a> ·
-  <a href="#license"><strong>License</strong></a>
+  <a href="#deploy-to-cloudflare"><strong>Deploy to Cloudflare</strong></a>
 </p>
 
 > **Warning**
