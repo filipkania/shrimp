@@ -51,6 +51,7 @@ export const useMails = (searchQuery?: string) => {
       return pages.length * LIMIT;
     },
 
+    refetchInterval: 1000 * 60, // 1 min
     enabled: !!token,
   });
 };

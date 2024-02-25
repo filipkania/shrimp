@@ -24,6 +24,8 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
     },
     retry: 1,
     refetchInterval: 1000 * 60 * 5, // every 5 minutes
+    staleTime: 1000 * 60 * 5,
+
     enabled: !!token,
   });
 

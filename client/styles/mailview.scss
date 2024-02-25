@@ -1,6 +1,6 @@
 .mailview {
   a {
-    @apply text-blue-600 underline visited:text-purple-600 hover:text-blue-800;
+    @apply text-blue-600 underline visited:text-purple-600 hover:text-blue-800 dark:text-blue-500 dark:visited:text-purple-500 dark:hover:text-blue-700;
     display: inline-block;
   }
 
@@ -58,4 +58,12 @@
   h6 {
     font-size: 1.1rem;
   }
+}
+
+.tiptap p.is-editor-empty:first-child::before {
+  @apply text-muted-foreground/50;
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
 }
