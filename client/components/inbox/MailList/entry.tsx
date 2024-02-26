@@ -32,7 +32,7 @@ export const MailEntry = forwardRef<HTMLButtonElement, Props>(
       <button
         ref={ref}
         className={cn(
-          "flex w-full cursor-pointer flex-col break-all border-b px-6 py-4 text-left hover:bg-muted",
+          "flex w-full cursor-pointer flex-col break-words border-b px-6 py-4 text-left hover:bg-muted",
           selected && "bg-muted",
           className
         )}
@@ -42,10 +42,11 @@ export const MailEntry = forwardRef<HTMLButtonElement, Props>(
           <Tooltip>
             <TooltipTrigger>
               <span className="flex items-center gap-2 pr-3 text-left font-semibold">
-                <div className="min-h-1.5 min-w-1.5 rounded-full bg-blue-500 motion-safe:animate-pulse" />
+                {[2, 3, 30].includes(data.id) && (
+                  <div className="min-h-1.5 min-w-1.5 rounded-full bg-blue-500 motion-safe:animate-pulse" />
+                )}
 
-                {data.from_name ||
-                  data.from_address + data.from_address + data.from_address}
+                {data.from_name || data.from_address}
               </span>
             </TooltipTrigger>
             <TooltipContent>{data.from_address}</TooltipContent>
@@ -53,9 +54,7 @@ export const MailEntry = forwardRef<HTMLButtonElement, Props>(
 
           <Tooltip>
             <TooltipTrigger className="min-w-fit">
-              <span className="text-sm text-muted-foreground">
-                {shortDate}
-              </span>
+              <span className="text-sm text-muted-foreground">{shortDate}</span>
             </TooltipTrigger>
             <TooltipContent>
               {new Date(data.received_at).toLocaleString()}

@@ -57,9 +57,6 @@ export const MailList = ({ toggleMenu }: Props) => {
 
           <span className="text-md font-medium">
             Inbox
-            <span className="font-normal text-red-400">
-              &nbsp;&bull; 128
-            </span>
           </span>
         </div>
 

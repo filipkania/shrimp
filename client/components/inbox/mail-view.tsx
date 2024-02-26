@@ -122,7 +122,7 @@ export const MailView = () => {
             </AvatarFallback>
           </Avatar>
 
-          <div className="flex w-full flex-col break-all">
+          <div className="flex w-full flex-col break-words">
             <div className="flex w-full items-center justify-between">
               <span className="p-0 font-medium">
                 {mail.from_name || mail.from_address}

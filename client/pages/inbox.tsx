@@ -1,5 +1,5 @@
 import { ComposeProvider } from "@/components/inbox/compose-provider";
-import { InboxNav } from "@/components/inbox/inbox-nav";
+import { InboxNav } from "@/components/inbox/MailNav";
 import { MailList } from "@/components/inbox/MailList";
 import { MailView } from "@/components/inbox/mail-view";
 import { Drawer, DrawerContent } from "@/components/ui/drawer";

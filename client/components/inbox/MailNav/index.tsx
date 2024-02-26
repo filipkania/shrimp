@@ -1,44 +1,25 @@
 import {
   AlertCircleIcon,
-  CheckIcon,
   InboxIcon,
-  LogOutIcon,
   MailIcon,
-  MoonStarIcon,
   NotebookPenIcon,
   SendIcon,
   SettingsIcon,
   SquarePenIcon,
-  SunIcon,
   Trash2Icon,
 } from "lucide-react";
-import { Button } from "../ui/button";
-import { Separator } from "../ui/separator";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuItem,
-  DropdownMenuSub,
-  DropdownMenuSubTrigger,
-  DropdownMenuSubContent,
-} from "../ui/dropdown-menu";
-import { useAuth } from "@/lib/auth/AuthContext";
-import { useCompose } from "./compose-provider";
-import { useTheme } from "next-themes";
+import { Button } from "../../ui/button";
+import { Separator } from "../../ui/separator";
+import { useCompose } from "../compose-provider";
+import { NavMenu } from "./menu";
 
 export const InboxNav = () => {
-  const { logout } = useAuth();
-  const { setTheme, resolvedTheme, theme } = useTheme();
   const { open: openCompose, isOpen: composeOpened } = useCompose();
 
   return (
     <nav className="flex h-full w-full flex-col justify-between lg:w-[16rem] lg:border-r">
       <div className="flex flex-col">
-        <div className="inline-flex h-[58px] items-center gap-2 border-b px-6">
+        <div className="flex h-[58px] items-center gap-2 border-b px-6">
           <MailIcon className="h-7 w-7" />
 
           <span className="text-lg font-medium">Shrimp</span>
@@ -57,7 +38,7 @@ export const InboxNav = () => {
           {composeOpened && (
             <div className="relative flex">
               <div className="h-1.5 w-1.5 rounded-full bg-orange-300" />
-              <div className="absolute h-1.5 w-1.5 animate-ping rounded-full bg-orange-300" />
+              <div className="absolute h-1.5 w-1.5 rounded-full bg-orange-300 motion-safe:animate-ping" />
             </div>
           )}
         </Button>
@@ -73,9 +54,18 @@ export const InboxNav = () => {
         <Separator className="my-3" />
         <code className="mb-2 px-6 text-xs text-muted-foreground">MAIL</code>
 
-        <Button variant="default" className="mx-2 justify-start gap-2 px-4">
-          <InboxIcon className="h-4 w-4" />
-          Inbox
+        <Button
+          variant="default"
+          className="mx-2 items-center justify-between gap-2 px-4"
+        >
+          <div className="flex items-center gap-2">
+            <InboxIcon className="h-4 w-4" />
+            Inbox
+          </div>
+
+          <span className="text-xs text-muted-foreground">
+            3 <span className="sr-only">unread mails</span>
+          </span>
         </Button>
 
         <Button
@@ -146,58 +136,7 @@ export const InboxNav = () => {
         </Button>
       </div>
 
-      <DropdownMenu>
-        <DropdownMenuTrigger className="z-1 flex w-full cursor-pointer items-center gap-3 border-t px-6 py-4 transition-colors hover:bg-muted">
-          <Avatar className="h-10 w-10">
-            <AvatarImage src="https://github.com/filipkania.png" />
-            <AvatarFallback delayMs={500}>FK</AvatarFallback>
-          </Avatar>
-
-          <div className="flex flex-col items-start justify-center">
-            <span className="text-sm font-medium leading-4">Filip Kania</span>
-            <span className="text-xs text-muted-foreground">fkrq.xyz</span>
-          </div>
-        </DropdownMenuTrigger>
-
-        <DropdownMenuContent>
-          <DropdownMenuLabel>My account</DropdownMenuLabel>
-          <DropdownMenuSeparator />
-
-          <DropdownMenuSub>
-            <DropdownMenuSubTrigger>
-              {resolvedTheme === "dark" ? (
-                <MoonStarIcon className="mr-2 h-4 w-4" />
-              ) : (
-                <SunIcon className="mr-2 h-4 w-4" />
-              )}
-              Theme
-            </DropdownMenuSubTrigger>
-
-            <DropdownMenuSubContent>
-              {["Light", "Dark", "System"].map((t) => (
-                <DropdownMenuItem
-                  key={t}
-                  onClick={() => setTheme(t.toLowerCase())}
-                  className="justify-between"
-                >
-                  {t}{" "}
-                  {theme === t.toLowerCase() && (
-                    <CheckIcon className="h-4 w-4" />
-                  )}
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuSubContent>
-          </DropdownMenuSub>
-
-          <DropdownMenuItem
-            onClick={() => logout()}
-            className="min-w-[10rem] cursor-pointer text-red-500"
-          >
-            <LogOutIcon className="mr-2 h-4 w-4" />
-            <span>Log out</span>
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
+      <NavMenu />
     </nav>
   );
 };

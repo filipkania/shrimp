@@ -76,3 +76,9 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  .break-words {
+    word-break: break-word;
+  }
+}
