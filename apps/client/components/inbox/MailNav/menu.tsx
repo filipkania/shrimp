@@ -20,7 +20,7 @@ export const NavMenu = () => {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="mx-2 my-4 flex gap-2 rounded-lg px-4 py-2 outline-none hover:bg-muted items-center">
+      <DropdownMenuTrigger className="mx-2 my-4 flex items-center gap-2 rounded-lg px-4 py-2 outline-none hover:bg-muted">
         <Avatar className="h-9 w-9">
           <AvatarImage src="https://github.com/filipkania.png" />
           <AvatarFallback delayMs={500}>FK</AvatarFallback>

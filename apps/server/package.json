@@ -1,0 +1,27 @@
+{
+  "name": "shrimp-server",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "CI=1 wrangler dev",
+    "build": "wrangler deploy --dry-run --outdir=out",
+    "format": "prettier --write \"**/*.{tsx,ts}\" --cache"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20230419.0",
+    "@types/prompts": "^2.4.5",
+    "bun-types": "^1.0.3",
+    "picocolors": "^1.0.0",
+    "prompts": "^2.4.2",
+    "toml": "^3.0.0",
+    "typescript": "^5.0.4",
+    "wrangler": "^3.0.0",
+    "prettier": "^3.2.5"
+  },
+  "dependencies": {
+    "hono": "^3.4.3",
+    "jose": "^4.14.4",
+    "postal-mime": "^1.0.16",
+    "zod": "^3.22.2"
+  }
+}

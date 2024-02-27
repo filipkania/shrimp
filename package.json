@@ -1,28 +1,18 @@
 {
   "name": "shrimp",
-  "version": "0.0.0",
-  "private": true,
+  "description": "All-in-one email service, fully hosted on Cloudflare Workers.",
+  "workspaces": ["packages/*", "apps/*"],
+  "packageManager": "bun@1.0.26",
   "scripts": {
-    "deploy": "bun run ./deploy",
-    "start": "wrangler dev",
-    "migrations:generate": "drizzle-kit generate:sqlite",
+    "dev": "turbo dev --filter=shrimp-client --filter=shrimp-server",
+    "lint": "turbo lint",
     "prepare": "husky"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20230419.0",
-    "@types/prompts": "^2.4.5",
-    "bun-types": "^1.0.3",
-    "husky": "^9.0.7",
-    "picocolors": "^1.0.0",
-    "prompts": "^2.4.2",
-    "toml": "^3.0.0",
-    "typescript": "^5.0.4",
-    "wrangler": "^3.0.0"
-  },
-  "dependencies": {
-    "hono": "^3.4.3",
-    "jose": "^4.14.4",
-    "postal-mime": "^1.0.16",
-    "zod": "^3.22.2"
+    "@commitlint/cli": "^19.0.0",
+    "@commitlint/config-conventional": "^19.0.0",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.2",
+    "turbo": "^1.12.4"
   }
 }

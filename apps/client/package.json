@@ -1,12 +1,13 @@
 {
-  "name": "client",
+  "name": "shrimp-client",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev --turbo",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "format": "prettier --write \"**/*.{tsx,ts}\" --cache"
   },
   "dependencies": {
     "@radix-ui/react-avatar": "^1.0.4",

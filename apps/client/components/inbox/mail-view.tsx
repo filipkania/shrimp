@@ -37,7 +37,7 @@ export const MailView = () => {
 
     return (
       <div
-        className="mailview bg-white text-black min-w-fit p-4 md:p-8"
+        className="mailview min-w-fit bg-white p-4 text-black md:p-8"
         dangerouslySetInnerHTML={{
           __html: `<base target="_blank" />${sanitizedHTML}`,
         }}
