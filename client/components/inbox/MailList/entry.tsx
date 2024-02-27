@@ -1,3 +1,4 @@
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   Tooltip,
   TooltipContent,
@@ -8,7 +9,7 @@ import { cn } from "@/lib/utils";
 import { forwardRef, useMemo, type HTMLAttributes } from "react";
 
 type Props = {
-  data: Mail;
+  data: Mail | null;
   selected?: boolean;
 } & HTMLAttributes<HTMLButtonElement>;
 
@@ -27,6 +28,24 @@ export const MailEntry = forwardRef<HTMLButtonElement, Props>(
 
       return parsed.toLocaleDateString();
     }, [data]);
+
+    if (!data) {
+      return (
+        <div className="flex w-full flex-col gap-2 border-b p-6">
+          <div className="flex items-center justify-between">
+            <Skeleton className="h-4 w-1/3" />
+            <Skeleton className="h-3 w-1/6" />
+          </div>
+
+          <Skeleton className="h-3 w-2/5" />
+
+          <div className="flex gap-1">
+            <Skeleton className="h-3 w-2/3" />
+            <Skeleton className="h-3 w-1/5" />
+          </div>
+        </div>
+      );
+    }
 
     return (
       <button

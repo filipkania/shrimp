@@ -30,6 +30,11 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
   });
 
   useEffect(() => {
+    if (!token) {
+      router.push("/auth/signin");
+      return;
+    }
+
     if (token && status === "error") {
       const err = error as AxiosError<APIError>;
 

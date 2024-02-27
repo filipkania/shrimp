@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import { useHash } from "@/lib/useHash";
 import { Input } from "../../ui/input";
 import { MailEntry } from "./entry";
+import { cn } from "@/lib/utils";
 
 type Props = {
   toggleMenu?: (_: boolean) => void;
@@ -24,7 +25,7 @@ export const MailList = ({ toggleMenu }: Props) => {
 
   const { data, isFetching, hasNextPage, fetchNextPage } =
     useMails(debouncedSearchQuery);
-  const mails = data?.pages.flatMap((x) => x) || [];
+  const mails = data?.pages.flatMap((x) => x) || new Array<null>(15).fill(null);
 
   const [selectedMail, setSelectedMail] = useHash();
 
@@ -55,9 +56,7 @@ export const MailList = ({ toggleMenu }: Props) => {
             </Button>
           )}
 
-          <span className="text-md font-medium">
-            Inbox
-          </span>
+          <span className="text-md font-medium">Inbox</span>
         </div>
 
         <div className="flex gap-1">
@@ -74,7 +73,12 @@ export const MailList = ({ toggleMenu }: Props) => {
         </div>
       </div>
 
-      <ScrollArea className="flex h-[calc(100dvh-58px)] flex-col items-center overflow-y-hidden">
+      <ScrollArea
+        className={cn(
+          "flex h-[calc(100dvh-58px)] flex-col items-center overflow-y-hidden",
+          !data && "pointer-events-none"
+        )}
+      >
         {searchShown && (
           <div className="sticky top-0 z-10 border-b bg-background/70 px-6 py-2 backdrop-blur dark:bg-background/80">
             <div className="relative">
@@ -94,10 +98,12 @@ export const MailList = ({ toggleMenu }: Props) => {
           <MailEntry
             data={mail}
             key={i}
-            selected={Number(selectedMail) === mail.id}
+            selected={Number(selectedMail) === mail?.id}
             ref={i === mails.length - 8 ? ref : null}
             onClick={(e) => {
               e.preventDefault();
+
+              if (!mail) return;
               setSelectedMail(mail.id.toString());
             }}
           />
