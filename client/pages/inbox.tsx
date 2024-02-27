@@ -11,6 +11,7 @@ import {
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { useHash } from "@/lib/useHash";
 import { useLocalStorage, useMediaQuery, useToggle } from "@uidotdev/usehooks";
+import { useEffect } from "react";
 
 const Inbox = () => {
   const [selectedMail, setSelectedMail] = useHash();
@@ -20,6 +21,13 @@ const Inbox = () => {
   const isMobile = useMediaQuery("(max-width: 1024px)");
 
   const layout = JSON.parse(_layout) as Array<number>;
+
+  useEffect(() => {
+    return () => {
+      // fixes pointer-events: none; left by <Sheet /> component
+      document.body.style.pointerEvents = "unset";
+    };
+  }, []);
 
   if (isMobile)
     return (
