@@ -12,7 +12,7 @@ export class ProxyRewriter {
   async element(element: Element) {
     const attribute = element.getAttribute(this.attribName);
 
-    if (attribute && attribute.startsWith("http")) {
+    if (attribute && attribute.toLowerCase().startsWith("http")) {
       const signedHMAC = await signHMAC(Buffer.from(attribute), this.secret);
 
       element.setAttribute(
