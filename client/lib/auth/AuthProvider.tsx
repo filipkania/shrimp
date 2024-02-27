@@ -30,7 +30,7 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
   });
 
   useEffect(() => {
-    if (!token || status === "error") {
+    if (token && status === "error") {
       const err = error as AxiosError<APIError>;
 
       if (router.pathname !== "/auth/signin") {
@@ -42,6 +42,8 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
         }
 
         setToken(null);
+        queryClient.clear();
+
         router.push("/auth/signin");
       }
     }
