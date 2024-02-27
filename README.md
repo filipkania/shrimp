@@ -1,15 +1,15 @@
 <a href="https://github.com/filipkania/shrimp">
-  <img alt="Shrimp Banner" src="https://github.com/filipkania/shrimp/assets/36205125/976d58ed-84c0-4936-97a9-54694c0bd335">
+  <img alt="Shrimp Banner" src="https://github.com/filipkania/shrimp/assets/36205125/499fb140-7043-4ae4-932a-df477cbe04a3">
 </a>
 <br />
 <br />
 <p align="center">
   <a href="#introduction"><strong>Introduction</strong></a> ·
-  <a href="#setting-up-locally"><strong>Setting Up Locally</strong></a> ·
+  <a href="#setting-up-locally"><strong>Setting up locally</strong></a> ·
   <a href="#deploy-to-cloudflare"><strong>Deploy to Cloudflare</strong></a>
 </p>
 
-> **Warning**
+> [!NOTE]
 > Shrimp is in very early development stage. Many features still aren't implemented, contributions of any kind are very welcome.
 
 ## Introduction
