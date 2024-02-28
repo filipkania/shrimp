@@ -19,22 +19,18 @@ Shrimp is an fully-featured email service, fully hosted on Cloudflare Workers. I
 ## Setting up locally
 
 **Backend**
-1. Copy `wrangler.toml.example` to `wrangler.toml`.
-2. Install dependencies: `bun install` or `npm install`.
-3. Create D1 database using `wrangler d1 create shrimp-db`, copy it's ID and replace it in `wrangler.toml`.
-4. Run migrations using `wrangler d1 migrations apply shrimp-db`.
-5. Start development server: `wrangler dev`.
 
-**Frontend**
-1. Go to the `client` folder.
-2. Install dependencies: `bun install` or `npm install`.
-3. Run development server: `bun dev` or `npm run dev`.
+1. Install dependencies: `bun install`.
+2. Create D1 database using `wrangler d1 create shrimp-db`, copy it's ID and replace it in `wrangler.toml`.
+3. Copy `wrangler.toml.example` to `wrangler.toml`.
+4. Run migrations using `wrangler d1 migrations apply shrimp-db`.
+5. Start development server: `bun dev`.
 
 ## Deploy to Cloudflare
 
-1. Deploy backend using: `wrangler deploy`.
+1. Build apps using `bun build`.
 2. Create `JWT_SECRET` environment variable using: `openssl rand -base64 48 | wrangler secret put JWT_SECRET`.
-3. Build frontend using `cd client && bun run build`.
+3. Deploy backend using: `wrangler deploy`.
 4. Deploy frontend using `wrangler pages deploy out`.
 
 ## License
