@@ -18,8 +18,6 @@ Shrimp is an fully-featured email service, fully hosted on Cloudflare Workers. I
 
 ## Setting up locally
 
-**Backend**
-
 1. Install dependencies: `bun install`.
 2. Create D1 database using `wrangler d1 create shrimp-db`, copy it's ID and replace it in `wrangler.toml`.
 3. Copy `wrangler.toml.example` to `wrangler.toml`.
