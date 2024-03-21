@@ -5,6 +5,7 @@
   "packageManager": "bun@1.0.26",
   "scripts": {
     "dev": "turbo dev --filter=shrimp-client --filter=shrimp-server",
+    "dev:landing": "turbo dev --filter=landing-page",
     "build": "turbo build",
     "lint": "turbo lint",
     "prepare": "husky"
