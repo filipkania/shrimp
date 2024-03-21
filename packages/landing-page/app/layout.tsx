@@ -5,7 +5,15 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Shrimp Mail",
+  title: "Shrimp Mail | Encrypted & Self-Hosted Email",
+  description:
+    "Shrimp is an encrypted, self-hostable and open-source email service that prioritizes your privacy.",
+
+  openGraph: {
+    images: ["/og-image.png"],
+  },
+
+  metadataBase: new URL("https://shrimp.email/"),
 };
 
 export default function RootLayout({

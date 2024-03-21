@@ -1,17 +1,6 @@
-import { type Metadata } from "next";
 import Image from "next/image";
 
 import LandingImage from "../public/landing-image.png";
-
-export const metadata: Metadata = {
-  title: "Shrimp Mail | Encrypted & Self-Hosted Email",
-  description:
-    "Shrimp is an encrypted, self-hostable and open-source email service that prioritizes your privacy.",
-
-  openGraph: {
-    images: ["/og-image.png"],
-  },
-};
 
 const LINK_STYLES = "opacity-30 transition-opacity hover:opacity-100";
 
