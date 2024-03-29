@@ -1,0 +1,27 @@
+{
+  "name": "@shrimp/server",
+  "version": "0.1.0",
+  "module": "index.ts",
+  "type": "module",
+  "scripts": {
+    "dev": "bun --watch run .",
+    "start": "bun run ./out/index.js",
+    "build": "NODE_ENV=production bun run ./utils/build.ts",
+    "generate:openapi": "bun run ./utils/generateOpenApi.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/express": "^4.17.21",
+    "pino-pretty": "^11.0.0"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@trpc/server": "^10.45.2",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "pino": "^8.19.0",
+    "zod": "^3.22.4"
+  }
+}
