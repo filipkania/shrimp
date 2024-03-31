@@ -1,5 +1,5 @@
 <a href="https://github.com/filipkania/shrimp">
-  <img alt="Shrimp Banner" src="https://github.com/filipkania/shrimp/assets/36205125/499fb140-7043-4ae4-932a-df477cbe04a3">
+  <img alt="Shrimp Banner" src="https://github.com/filipkania/shrimp/assets/36205125/2ee445c9-e399-48ce-be58-37cdb8df106f">
 </a>
 <br />
 <br />
