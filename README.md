@@ -6,7 +6,7 @@
 <p align="center">
   <a href="#introduction"><strong>Introduction</strong></a> ·
   <a href="#setting-up-locally"><strong>Setting up locally</strong></a> ·
-  <a href="#deploy-to-cloudflare"><strong>Deploy to Cloudflare</strong></a>
+  <a href="#running-your-own-shrimp-instance"><strong>Running your own Shrimp instance</strong></a>
 </p>
 
 > [!NOTE]
@@ -14,22 +14,18 @@
 
 ## Introduction
 
-Shrimp is an fully-featured email service, fully hosted on Cloudflare Workers. It supports adding multiple domains, sending emails from them, receiving and forwarding emails.
+Shrimp is an fully-featured email service, fully encrypted and self-hostable. It supports adding multiple domains, sending emails from them, receiving and forwarding emails.
 
 ## Setting up locally
 
-1. Install dependencies: `bun install`.
-2. Create D1 database using `wrangler d1 create shrimp-db`, copy it's ID and replace it in `wrangler.toml`.
-3. Copy `wrangler.toml.example` to `wrangler.toml`.
-4. Run migrations using `wrangler d1 migrations apply shrimp-db`.
-5. Start development server: `bun dev`.
+1. Install dependencies using `bun install`.
+2. Run development servers using `bun dev`.
 
-## Deploy to Cloudflare
+> You might need to change some environment variables during your development.
 
-1. Build apps using `bun build`.
-2. Create `JWT_SECRET` environment variable using: `openssl rand -base64 48 | wrangler secret put JWT_SECRET`.
-3. Deploy backend using: `wrangler deploy`.
-4. Deploy frontend using `wrangler pages deploy out`.
+## Running your own Shrimp instance
+
+`TODO`
 
 ## License
 

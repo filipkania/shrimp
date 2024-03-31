@@ -6,8 +6,7 @@
   "scripts": {
     "dev": "bun --watch run .",
     "start": "bun run ./out/index.js",
-    "build": "NODE_ENV=production bun run ./utils/build.ts",
-    "generate:openapi": "bun run ./utils/generateOpenApi.ts"
+    "build": "NODE_ENV=production bun run ./utils/build.ts"
   },
   "devDependencies": {
     "@types/bun": "latest",
