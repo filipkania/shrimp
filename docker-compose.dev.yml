@@ -1,35 +1,50 @@
+# this docker-compose file is intended to be used
+# during develpoment. feel free to tinker with it.
+
 services:
-  server:
-    build: ./server/
-    ports:
-      - 8080:8080
-    networks:
-      - ip6net
+  # server:
+  #   build: ./server/
+  #   ports:
+  #     - 8080:8080
+  #   networks:
+  #     - ip6net
+  #  environment:
+  #    DATABASE_URL: "postgresql://postgres:postgres@postgres:5432/shrimpmail"
 
-  maddy:
-    image: foxcpp/maddy:0.7
+  postgres:
+    image: postgres:16.2
     ports:
-      - 25:25
-    volumes:
-      - ./maddy.conf:/data/maddy.conf:ro
+      - 5432:5432
     networks:
       - ip6net
-    depends_on:
-      - ingester
-      - rspamd
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: shrimpmail
 
-  ingester:
-    build: ./ingester
-    networks:
-      - ip6net
-    expose:
-      - 8047:8047
-  rspamd:
-    build: ./rspamd
-    networks:
-      - ip6net
-    expose:
-      - 11333:11333
+  # maddy:
+  #   image: foxcpp/maddy:0.7
+  #   ports:
+  #     - 25:25
+  #   volumes:
+  #     - ./maddy.conf:/data/maddy.conf:ro
+  #   networks:
+  #     - ip6net
+  #   depends_on:
+  #     - ingester
+  #     - rspamd
+
+  # ingester:
+  #   build: ./ingester
+  #   networks:
+  #     - ip6net
+  #   expose:
+  #     - 8047:8047
+  # rspamd:
+  #   build: ./rspamd
+  #   networks:
+  #     - ip6net
+  #   expose:
+  #     - 11333:11333
 
 networks:
    ip6net:

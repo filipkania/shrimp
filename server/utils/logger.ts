@@ -1,11 +1,12 @@
 import pino from "pino";
+import type { Env } from "./env";
 
-export const createLogger = () => {
+export const createLogger = ({ env }: { env: Env }) => {
   const settings: pino.LoggerOptions = {
-    level: process.env.PINO_LOG_LEVEL || "info",
+    level: env.PINO_LOG_LEVEL || "info",
   };
 
-  if (process.env.NODE_ENV === "development") {
+  if (env.NODE_ENV === "development") {
     settings.transport = {
       target: "pino-pretty",
     };

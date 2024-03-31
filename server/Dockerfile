@@ -1,4 +1,4 @@
-FROM oven/bun:1.0-alpine as builder
+FROM oven/bun:1.0 as builder
 WORKDIR /app
 
 COPY package.json bun.lockb . 
@@ -10,20 +10,24 @@ RUN bun install --frozen-lockfile --production
 COPY . .
 
 ENV NODE_ENV=production
+RUN bunx prisma generate
 RUN bun run build
 
 # --
 
-FROM oven/bun:1.0-alpine as runner
+# TODO: try to use alpine-based image
+FROM oven/bun:1.0 as runner
 WORKDIR /app
+
+RUN apt update && \
+    apt install -y --no-install-recommends tini && \
+    apt clean && rm -rf /var/lib/apt/lists/*
 
 COPY --from=builder /app/out/ ./out/
 COPY --from=builder /app/node_modules ./node_modules
 COPY package.json .
 
-RUN apk add --no-cache tini
-
 USER nobody
 EXPOSE 8080/tcp
 
-ENTRYPOINT ["/sbin/tini", "--", "bun", "run", "./out/index.js"]
+ENTRYPOINT ["/usr/bin/tini", "--", "bun", "run", "./out/index.js"]
