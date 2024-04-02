@@ -34,13 +34,13 @@ services:
   #     - rspamd
 
   # ingester:
-  #   build: ./ingester
+  #   build: ./packages/ingester
   #   networks:
   #     - ip6net
   #   expose:
   #     - 8047:8047
   # rspamd:
-  #   build: ./rspamd
+  #   build: ./packages/rspamd
   #   networks:
   #     - ip6net
   #   expose:

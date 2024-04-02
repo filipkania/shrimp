@@ -4,7 +4,7 @@
 	"workspaces": [
 		"./client",
 		"./server",
-		"./landing-page"
+		"./packages/landing-page"
 	],
 	"packageManager": "bun@1.0.26",
 	"scripts": {
