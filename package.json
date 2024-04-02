@@ -1,6 +1,6 @@
 {
 	"name": "shrimp",
-	"description": "All-in-one email service, fully hosted on Cloudflare Workers.",
+	"description": "All-in-one email service, fully encrypted and self-hostable.",
 	"workspaces": [
 		"./client",
 		"./server",
