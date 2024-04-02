@@ -1,15 +1,22 @@
-# Elysia with Bun runtime
+# `@shrimp/server`
 
 ## Getting Started
-To get started with this template, simply paste this command into your terminal:
+To get started with this server, firstly you must adjust your environment variables.
+
+Then, build server with:
 ```bash
-bun create elysia ./elysia-example
+bun run build
+```
+
+Run production server with:
+```bash
+bun ./out/index.js
 ```
 
 ## Development
 To start the development server run:
 ```bash
-bun run dev
+bun dev
 ```
 
-Open http://localhost:3000/ with your browser to see the result.
+Open http://localhost:8080/ with your browser to see the result.
