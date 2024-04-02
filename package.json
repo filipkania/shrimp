@@ -6,7 +6,7 @@
 		"./server",
 		"./packages/landing-page"
 	],
-	"packageManager": "bun@1.0.26",
+	"packageManager": "bun@1.1.0",
 	"scripts": {
 		"dev": "turbo dev --filter=@shrimp/client --filter=@shrimp/server",
 		"dev:landing": "turbo dev --filter=landing-page",

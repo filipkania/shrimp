@@ -9,7 +9,7 @@ export const app = new Elysia()
     logger: createLogger(),
     prisma: new PrismaClient({
       log:
-        process.env.NODE_ENV === "development"
+        process.env.NODE_ENV !== "production"
           ? ["query", "info", "warn", "error"]
           : [],
     }),
