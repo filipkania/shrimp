@@ -4,7 +4,8 @@
 	"workspaces": [
 		"./client",
 		"./server",
-		"./packages/landing-page"
+		"./packages/landing-page",
+		"./packages/crypto"
 	],
 	"packageManager": "bun@1.1.0",
 	"scripts": {
