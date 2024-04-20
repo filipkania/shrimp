@@ -1,6 +1,7 @@
 {
   "name": "@shrimp/server",
   "version": "0.1.0",
+  "main": "./src/index.ts",
   "scripts": {
     "dev": "bun run --watch src/index.ts",
     "start": "NODE_ENV=production bun src/index.ts",
@@ -20,6 +21,7 @@
     "bun-types": "latest",
     "eslint": "latest",
     "pino-pretty": "^11.0.0",
-    "prisma": "^5.12.0"
+    "prisma": "^5.12.0",
+    "prisma-typebox-generator": "^2.1.0"
   }
 }
