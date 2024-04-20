@@ -1,8 +1,9 @@
-import { type ElysiaApp } from "..";
-import { srpGenerateSalt } from "@shrimp/crypto";
+import Elysia from "elysia";
+import { IDMiddleware } from "../utils/requestID";
 
-export default (app: ElysiaApp) =>
-  app.get("/", async ({ logger, requestID }) => {
-    logger.info("hello world!", requestID);
-    return "hi there!" + (await srpGenerateSalt());
+export default new Elysia()
+  .use(IDMiddleware)
+  .get("/", ({ logger, requestID }) => {
+    logger?.info("hello world!");
+    return "hello, world!" + requestID;
   });

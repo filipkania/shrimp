@@ -13,3 +13,5 @@ export const createLogger = () => {
 
   return pino(options);
 };
+
+export const logger = createLogger();
