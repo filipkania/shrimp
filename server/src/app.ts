@@ -1,6 +1,6 @@
 import Elysia from "elysia";
 
 import indexRoutes from "./routes/index";
-import loginRoutes from "./routes/login";
+import authRoutes from "./routes/auth";
 
-export const app = new Elysia().use(indexRoutes).use(loginRoutes);
+export const app = new Elysia().use(indexRoutes).use(authRoutes);

@@ -7,6 +7,7 @@
     "start": "NODE_ENV=production bun src/index.ts",
     "build": "bun scripts/build.ts",
     "lint": "eslint .",
+    "test": "bun test",
     "generate:schema": "prisma generate"
   },
   "dependencies": {
@@ -16,6 +17,7 @@
     "@shrimp/crypto": "workspace:*"
   },
   "devDependencies": {
+    "@elysiajs/eden": "^1.0.11",
     "@typescript-eslint/eslint-plugin": "latest",
     "@typescript-eslint/parser": "latest",
     "bun-types": "latest",

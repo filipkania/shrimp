@@ -1,6 +1,6 @@
 import { Elysia, t } from "elysia";
 import { IDMiddleware } from "../utils/requestID";
-import { UserInput } from "../../prisma/typebox";
+import { User } from "../../prisma/typebox";
 import { prisma } from "../utils/prisma";
 
 export default new Elysia({ prefix: "/auth" })
@@ -27,7 +27,7 @@ export default new Elysia({ prefix: "/auth" })
       });
     },
     {
-      body: t.Omit(UserInput, ["id", "createdAt", "updatedAt"]),
+      body: t.Omit(User, ["id", "createdAt", "updatedAt"]),
     }
   )
   .get("/something", () => "test");
