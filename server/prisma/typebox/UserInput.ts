@@ -7,6 +7,8 @@ export const UserInput = Type.Object({
   keyPairSalt: Type.String(),
   srpVerifier: Type.String(),
   srpSalt: Type.String(),
+  srpServerPrivateKey: Type.Optional(Type.String()),
+  srpClientPublicKey: Type.Optional(Type.String()),
   createdAt: Type.Optional(Type.String()),
   updatedAt: Type.String(),
 });

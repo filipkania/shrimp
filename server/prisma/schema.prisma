@@ -24,8 +24,11 @@ model User {
   pubkey      String // this is a master pubkey derived from user's password
   keyPairSalt String
 
-  srpVerifier String @db.Char(1024)
-  srpSalt     String @db.Char(64)
+  srpVerifier         String  @db.Char(1024)
+  srpSalt             String  @db.Char(64)
+
+  srpServerPrivateKey String? @db.Char(1024)
+  srpClientPublicKey  String? @db.Char(1024)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

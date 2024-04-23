@@ -13,8 +13,8 @@
   "dependencies": {
     "@prisma/client": "5.12.0",
     "elysia": "latest",
-    "pino": "^8.19.0",
-    "@shrimp/crypto": "workspace:*"
+    "jsrp": "^0.2.4",
+    "pino": "^8.19.0"
   },
   "devDependencies": {
     "@elysiajs/eden": "^1.0.11",
@@ -23,6 +23,7 @@
     "bun-types": "latest",
     "eslint": "latest",
     "pino-pretty": "^11.0.0",
+    "prettier": "^3.2.5",
     "prisma": "^5.12.0",
     "prisma-typebox-generator": "^2.1.0"
   }
