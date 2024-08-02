@@ -23,3 +23,6 @@ wrangler.toml
 .turbo
 
 out/
+
+# Added by cargo
+target/

@@ -1,0 +1,10 @@
+[package]
+name = "shrimp-server"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+axum = "0.7.5"
+chrono = "0.4.38"
+log = "0.4.22"
+tokio = { version = "1.39.2", features = ["full"] }
