@@ -1,0 +1,17 @@
+services:
+  postgres:
+    image: postgres:16
+    restart: unless-stopped
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DB: shrimp
+      POSTGRES_PASSWORD: postgres
+
+  pgweb:
+    image: sosedoff/pgweb
+    restart: unless-stopped
+    ports:
+      - 8081:8081
+    environment:
+      PGWEB_DATABASE_URL: postgresql://postgres:postgres@postgres/shrimp?sslmode=disable

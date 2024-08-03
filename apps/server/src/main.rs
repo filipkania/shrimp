@@ -1,32 +1,44 @@
-pub mod utils;
+use axum::{Extension, Router};
+use sqlx::{postgres::PgPoolOptions, PgPool};
+use tokio::net::TcpListener;
+use tower_http::trace::TraceLayer;
+
 pub mod routes;
 
-use axum::{response::Html, routing::get, Router};
-use log::info;
-use utils::logger::Logger;
-
 const BIND: &'static str = "0.0.0.0:8080";
-static LOGGER: Logger = Logger;
 
 #[tokio::main]
-async fn main() {
-  log::set_logger(&LOGGER)
-    .map(|()| log::set_max_level(log::LevelFilter::Info))
-    .unwrap();
+async fn main() -> anyhow::Result<()> {
+  tracing_subscriber::fmt()
+    .with_max_level(tracing::Level::INFO)
+    .init();
+
+  let pool = init_db_pool().await?;
 
   let app = Router::new()
-    .route("/", get(root))
-    /* login routes */
-    .route("/auth/login", get(routes::auth::login));
+    /* routers */
+    .merge(routes::auth::router())
+    .layer(TraceLayer::new_for_http())
+    .layer(Extension(pool));
 
-  let listener = tokio::net::TcpListener::bind(BIND)
-    .await
-    .expect("Couldn't bind Shrimp's server");
+  let listener = TcpListener::bind(BIND).await?;
 
-  info!("Listening on {BIND}...");
-  axum::serve(listener, app).await.unwrap();
+  tracing::info!("Listening on {}...", listener.local_addr().unwrap());
+  axum::serve(listener, app).await?;
+
+  Ok(())
 }
 
-async fn root() -> Html<&'static str> {
-  Html("asdf")
+async fn init_db_pool() -> anyhow::Result<PgPool> {
+  let database_url = dotenvy::var("DATABASE_URL")
+    .unwrap_or_else(|_| "postgresql://postgres:postgres@localhost/shrimp".into());
+
+  let pool = PgPoolOptions::new()
+    .connect(&database_url)
+    .await
+    .expect("Can't connect to database");
+
+  sqlx::migrate!().run(&pool).await?;
+
+  Ok(pool)
 }
