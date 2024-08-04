@@ -3,14 +3,15 @@ use sqlx::{postgres::PgPoolOptions, PgPool};
 use tokio::net::TcpListener;
 use tower_http::trace::TraceLayer;
 
-pub mod routes;
+mod routes;
+pub mod models;
 
 const BIND: &'static str = "0.0.0.0:8080";
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
   tracing_subscriber::fmt()
-    .with_max_level(tracing::Level::INFO)
+    .with_max_level(tracing::Level::DEBUG)
     .init();
 
   let pool = init_db_pool().await?;

@@ -5,7 +5,7 @@ edition = "2021"
 
 [dependencies]
 axum = { version = "0.7.5", features = ["macros"] }
-sqlx = { version = "0.8.0", features = ["runtime-tokio-rustls", "postgres", "uuid", "time"] }
+sqlx = { version = "0.8.0", features = ["runtime-tokio-rustls", "postgres", "uuid", "chrono"] }
 tokio = { version = "1.39.2", features = ["rt-multi-thread", "macros"] }
 
 tracing = "0.1.40"
@@ -18,3 +18,4 @@ anyhow = "1.0.86"
 thiserror = "1.0.63"
 serde = "1.0.204"
 validator = { version = "0.18.1", features = ["derive"] }
+uuid = { version = "1.10.0", features = ["serde"] }

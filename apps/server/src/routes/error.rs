@@ -8,7 +8,7 @@ use validator::ValidationErrors;
 
 // thx sqlx!
 #[derive(thiserror::Error, Debug)]
-pub enum Error {
+pub enum APIError {
   #[error("Database Error")]
   Sqlx(#[from] sqlx::Error),
 
@@ -18,11 +18,12 @@ pub enum Error {
   #[error("Validation Error")]
   ValidationError(#[from] ValidationErrors),
 
+  /* response errors */
   #[error("{0}")]
-  Conflict(String),
+  Conflict(&'static str),
 }
 
-impl IntoResponse for Error {
+impl IntoResponse for APIError {
   fn into_response(self) -> Response {
     #[derive(Serialize)]
     struct ErrorResponse<'a> {
@@ -33,15 +34,15 @@ impl IntoResponse for Error {
     }
 
     let errors = match &self {
-      Error::ValidationError(errors) => Some(errors),
+      APIError::ValidationError(errors) => Some(errors),
       _ => None,
     };
 
     match self {
       Self::Anyhow(_) | Self::Sqlx(_) => {
         tracing::error!("ERR: {self:?}");
-      },
-      _ => {},
+      }
+      _ => {}
     }
 
     (
@@ -57,9 +58,9 @@ impl IntoResponse for Error {
   }
 }
 
-impl Error {
+impl APIError {
   fn status_code(&self) -> StatusCode {
-    use Error::*;
+    use APIError::*;
 
     match self {
       Anyhow(_) | Sqlx(_) => StatusCode::INTERNAL_SERVER_ERROR,

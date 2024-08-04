@@ -3,6 +3,6 @@ use axum::Json;
 pub mod auth;
 mod error;
 
-pub use self::error::Error;
+pub use self::error::APIError;
 
-type JSONResponse<T, E = Error> = Result<Json<T>, E>;
+type JSONResponse<T, E = APIError> = Result<Json<T>, E>;
