@@ -3,16 +3,15 @@ use sqlx::{postgres::PgPoolOptions, PgPool};
 use tokio::net::TcpListener;
 use tower_http::trace::TraceLayer;
 
-mod routes;
 pub mod models;
+mod routes;
 
-const BIND: &'static str = "0.0.0.0:8080";
+const BIND: &str = "0.0.0.0:8080";
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
-  tracing_subscriber::fmt()
-    .with_max_level(tracing::Level::DEBUG)
-    .init();
+  let _ = dotenvy::dotenv();
+  tracing_subscriber::fmt::init();
 
   let pool = init_db_pool().await?;
 
@@ -31,8 +30,7 @@ async fn main() -> anyhow::Result<()> {
 }
 
 async fn init_db_pool() -> anyhow::Result<PgPool> {
-  let database_url = dotenvy::var("DATABASE_URL")
-    .unwrap_or_else(|_| "postgresql://postgres:postgres@localhost/shrimp".into());
+  let database_url = dotenvy::var("DATABASE_URL")?;
 
   let pool = PgPoolOptions::new()
     .connect(&database_url)
