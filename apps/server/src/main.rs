@@ -3,8 +3,9 @@ use sqlx::{postgres::PgPoolOptions, PgPool};
 use tokio::net::TcpListener;
 use tower_http::trace::TraceLayer;
 
-pub mod models;
+mod db;
 mod routes;
+mod utils;
 
 const BIND: &str = "0.0.0.0:8080";
 

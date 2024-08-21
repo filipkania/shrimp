@@ -21,6 +21,13 @@ pub enum APIError {
   /* response errors */
   #[error("{0}")]
   Conflict(&'static str),
+
+  #[error("{0}")]
+  Unauthorized(&'static str),
+
+  /* auth errors */
+  #[error("Invalid username or password.")]
+  InvalidUsernameOrPassword,
 }
 
 impl IntoResponse for APIError {
@@ -66,6 +73,7 @@ impl APIError {
       Anyhow(_) | Sqlx(_) => StatusCode::INTERNAL_SERVER_ERROR,
       ValidationError(_) => StatusCode::BAD_REQUEST,
       Conflict(_) => StatusCode::CONFLICT,
+      Unauthorized(_) | InvalidUsernameOrPassword => StatusCode::UNAUTHORIZED,
     }
   }
 }
