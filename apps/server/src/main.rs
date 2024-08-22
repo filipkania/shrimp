@@ -1,11 +1,6 @@
-use axum::{Extension, Router};
+use shrimp_server::create_app;
 use sqlx::{postgres::PgPoolOptions, PgPool};
 use tokio::net::TcpListener;
-use tower_http::trace::TraceLayer;
-
-mod db;
-mod routes;
-mod utils;
 
 const BIND: &str = "0.0.0.0:8080";
 
@@ -15,12 +10,7 @@ async fn main() -> anyhow::Result<()> {
   tracing_subscriber::fmt::init();
 
   let pool = init_db_pool().await?;
-
-  let app = Router::new()
-    /* routers */
-    .merge(routes::auth::router())
-    .layer(TraceLayer::new_for_http())
-    .layer(Extension(pool));
+  let app = create_app(pool);
 
   let listener = TcpListener::bind(BIND).await?;
 

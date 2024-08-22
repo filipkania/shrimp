@@ -11,7 +11,7 @@ pub struct User {
 
   pub username: String,
   #[serde(skip_serializing)]
-  pub password: String,
+  pub password_hash: String,
 
   pub created_at: DateTime<Utc>,
   pub updated_at: Option<DateTime<Utc>>,
@@ -30,16 +30,16 @@ impl User {
       .await
   }
 
-  pub async fn create(pool: &PgPool, username: String, password: String) -> DBResult<User> {
+  pub async fn create(pool: &PgPool, username: String, password_hash: String) -> DBResult<User> {
     sqlx::query_as!(
       Self,
       r#"
-        INSERT INTO users(username, password)
+        INSERT INTO users(username, password_hash)
         VALUES ($1, $2)
         RETURNING *;
       "#,
       username,
-      password
+      password_hash
     )
     .fetch_one(pool)
     .await
@@ -49,12 +49,12 @@ impl User {
     sqlx::query_as!(
       Self,
       r#"
-        UPDATE users SET username = $2, password = $3, updated_at = now()
+        UPDATE users SET username = $2, password_hash = $3, updated_at = now()
         WHERE id = $1 RETURNING *;
       "#,
       self.id,
       self.username,
-      self.password
+      self.password_hash
     )
     .fetch_one(pool)
     .await

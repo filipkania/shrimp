@@ -18,7 +18,6 @@ static USERNAME_REGEX: Lazy<Regex> = Lazy::new(|| Regex::new(r"^[a-zA-Z0-9_\.]+$
 struct LoginRequest {
   #[validate(length(min = 3, max = 32), regex(path = *USERNAME_REGEX))]
   username: String,
-  #[validate(length(min = 8))]
   password: String,
 }
 
@@ -29,7 +28,7 @@ async fn login(
   data.validate()?;
 
   if let Some(user) = User::find_by_username(&pool, data.username).await? {
-    if utils::password::verify(user.password.to_owned(), data.password).await? {
+    if utils::password::verify(user.password_hash.to_owned(), data.password).await? {
       return Ok(Json(user));
     }
   }
