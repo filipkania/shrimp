@@ -1,4 +1,4 @@
-use shrimp_server::create_app;
+use shrimp_server::{create_app, get_config};
 use sqlx::{postgres::PgPoolOptions, PgPool};
 use tokio::net::TcpListener;
 
@@ -9,8 +9,10 @@ async fn main() -> anyhow::Result<()> {
   let _ = dotenvy::dotenv();
   tracing_subscriber::fmt::init();
 
+  let config = get_config();
+
   let pool = init_db_pool().await?;
-  let app = create_app(pool);
+  let app = create_app(pool, config);
 
   let listener = TcpListener::bind(BIND).await?;
 

@@ -5,7 +5,7 @@ use uuid::Uuid;
 
 use super::DBResult;
 
-#[derive(Debug, Serialize)]
+#[derive(Debug, Clone, Serialize)]
 pub struct User {
   pub id: Uuid,
 

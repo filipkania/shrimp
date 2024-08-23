@@ -5,6 +5,8 @@ use axum::{
   http::{header::CONTENT_TYPE, request, Request, Response},
   Router,
 };
+use once_cell::sync::Lazy;
+use shrimp_server::AppConfig;
 use tower::ServiceExt;
 
 pub trait RequestBuilderExt {
@@ -55,3 +57,10 @@ impl ResponseParserExt for Response<Body> {
     serde_json::from_slice::<serde_json::Value>(&bytes[..]).expect("failed to parse body as json")
   }
 }
+
+// --
+
+pub static DEFAULT_CONFIG: Lazy<AppConfig> = Lazy::new(|| AppConfig {
+  JWT_SECRET: String::from("wbWX2InUoMI1L5GT1JGuRA=="),
+  JWT_EXPIRES_AFTER: "24h".parse().unwrap(),
+});
