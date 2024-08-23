@@ -1,12 +1,13 @@
+use std::time::Duration;
+
+use crate::common::{get_token, RequestBuilderExt, RequestExt, ResponseParserExt, DEFAULT_CONFIG};
 use axum::http::{Request, StatusCode};
-use common::{RequestBuilderExt, RequestExt, ResponseParserExt, DEFAULT_CONFIG};
 use serde_json::json;
 use shrimp_server::{create_app, jwt};
 use sqlx::PgPool;
+use tokio::time::sleep;
 
-mod common;
-
-#[sqlx::test(fixtures("users"))]
+#[sqlx::test(fixtures("../fixtures/users.sql"))]
 async fn test_login(pool: PgPool) {
   let mut app = create_app(pool, DEFAULT_CONFIG.clone());
 
@@ -30,7 +31,7 @@ async fn test_login(pool: PgPool) {
   assert!(decoded_token.is_ok());
 }
 
-#[sqlx::test(fixtures("users"))]
+#[sqlx::test(fixtures("../fixtures/users.sql"))]
 async fn test_wrong_creds(pool: PgPool) {
   let mut app = create_app(pool, DEFAULT_CONFIG.clone());
 
@@ -57,4 +58,29 @@ async fn test_wrong_creds(pool: PgPool) {
   assert_eq!(resp.status(), StatusCode::UNAUTHORIZED);
 }
 
-// TODO: add JWT expiration
+#[sqlx::test]
+async fn test_wrong_jwt(pool: PgPool) {
+  let mut app = create_app(pool, DEFAULT_CONFIG.clone());
+
+  let resp = Request::get("/v1/me")
+    .with_auth("some_not_working_token".into())
+    .send(&mut app)
+    .await;
+
+  assert_eq!(resp.status(), StatusCode::UNAUTHORIZED);
+}
+
+#[sqlx::test(fixtures("../fixtures/users.sql"))]
+async fn test_jwt_expiration(pool: PgPool) {
+  let mut config = DEFAULT_CONFIG.clone();
+  config.JWT_EXPIRES_AFTER = "1s".parse().unwrap();
+
+  let mut app = create_app(pool, config);
+  let token = get_token(&mut app).await;
+
+  sleep(Duration::from_secs(2)).await;
+
+  let resp = Request::get("/v1/me").with_auth(token).send(&mut app).await;
+
+  assert_eq!(resp.status(), StatusCode::UNAUTHORIZED);
+}

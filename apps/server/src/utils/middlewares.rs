@@ -38,7 +38,7 @@ pub async fn auth_middleware(mut request: Request, next: Next) -> Result<Respons
   debug!("header value: {:?}", token);
   debug!("token: {:?}", &token_values);
 
-  let Some(user) = User::find_by_username(&pool, token_values.username).await? else {
+  let Some(user) = User::find_by_username(pool, token_values.username).await? else {
     return Err(APIError::Unauthorized);
   };
 

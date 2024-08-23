@@ -26,10 +26,13 @@ pub fn sign_token(username: String, config: &AppConfig) -> Result<String, Error>
 }
 
 pub fn decode_token(token: String, config: &AppConfig) -> Result<TokenValues, Error> {
+  let mut validation = Validation::new(Algorithm::HS512);
+  validation.leeway = 0;
+
   decode::<TokenValues>(
     &token,
     &DecodingKey::from_secret(config.JWT_SECRET.as_bytes()),
-    &Validation::new(Algorithm::HS512),
+    &validation,
   )
   .map(|token_data| token_data.claims)
   .context("jsonwebtoken::decode() failed")
