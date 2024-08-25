@@ -1,0 +1,13 @@
+Received: from 1.0.0.127.in-addr.arpa ([172.21.0.1]) by inbound.shrimp.email
+ (envelope-sender <sender@example.com>) with ESMTP id 34f06f76; Sun, 25 Aug
+ 2024 19:17:12 +0000
+Content-Type: text/html; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Subject: Test Email
+From: sender@example.com
+To: admin@localhost
+X-Example-Header: hello!
+
+<h1>Hello!</h1>
+<p>This is a test email.</p>

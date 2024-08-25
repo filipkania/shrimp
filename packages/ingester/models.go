@@ -2,6 +2,7 @@ package ingester
 
 import (
 	"encoding/json"
+	"errors"
 	"net/mail"
 	"strings"
 	"time"
@@ -35,9 +36,7 @@ func ParseMail(sender, recipient string, envelope *enmime.Envelope) (*Mail, erro
 	if err != nil {
 		rcpt, err := mail.ParseAddress(recipient)
 		if err != nil {
-			return nil, &ParseError{
-				msg: "Recipient field could not be parsed",
-			}
+			return nil, errors.New("Recipient field could not be parsed")
 		}
 
 		toAddresses = []*mail.Address{
@@ -80,12 +79,4 @@ func headersToJson(envelope *enmime.Envelope) string {
 
 	json, _ := json.Marshal(headers)
 	return string(json)
-}
-
-type ParseError struct {
-	msg string
-}
-
-func (p *ParseError) Error() string {
-	return p.msg
 }
