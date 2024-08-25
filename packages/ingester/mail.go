@@ -20,7 +20,7 @@ type Mail struct {
 
 	To      pq.StringArray `db:"to"`
 	Ccs     pq.StringArray `db:"ccs"`
-	ReplyTo string         `db:"reply_to"`
+	ReplyTo pq.StringArray `db:"reply_to"`
 
 	Headers string `db:"headers"`
 
@@ -50,16 +50,26 @@ func ParseMail(sender, recipient string, envelope *enmime.Envelope) (*Mail, erro
 		received_at = time.Now()
 	}
 
+	ccs, err := envelope.AddressList("Cc")
+	if err != nil {
+		ccs = []*mail.Address{}
+	}
+
+	// according to RFC 5322, Reply-To can have multiple addresses
+	replyTos, err := envelope.AddressList("Reply-To")
+	if err != nil {
+		replyTos = []*mail.Address{}
+	}
+
 	return &Mail{
 		MessageId: envelope.GetHeader("Message-Id"),
 
 		TechnicalSender: sender,
 		From:            envelope.GetHeader("From"),
 
-		To: lo.Map(toAddresses, func(addr *mail.Address, _ int) string { return addr.String() }),
-		// TODO: implement Ccs & ReplyTos
-		Ccs:     []string{},
-		ReplyTo: "",
+		To:      lo.Map(toAddresses, func(addr *mail.Address, _ int) string { return addr.String() }),
+		Ccs:     lo.Map(ccs, func(addr *mail.Address, _ int) string { return addr.String() }),
+		ReplyTo: lo.Map(replyTos, func(addr *mail.Address, _ int) string { return addr.String() }),
 
 		Headers: headersToJson(envelope),
 

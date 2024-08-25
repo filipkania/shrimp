@@ -8,7 +8,7 @@ CREATE TABLE mails (
 
   "to" TEXT[],
   ccs TEXT[],
-  reply_to TEXT,
+  reply_to TEXT[],
 
   headers TEXT NOT NULL,
 
