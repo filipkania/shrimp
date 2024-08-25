@@ -7,6 +7,7 @@ use crate::utils::middlewares::auth_middleware;
 
 pub mod auth;
 pub mod user;
+pub mod mail;
 mod error;
 
 pub use self::error::APIError;
@@ -21,6 +22,7 @@ pub fn create_app(pool: PgPool, config: AppConfig) -> Router {
       /* protected routes */
       Router::new()
         .merge(user::router())
+        .merge(mail::router())
         .layer(middleware::from_fn(auth_middleware)),
     )
     .layer(Extension(pool))

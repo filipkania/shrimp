@@ -41,7 +41,7 @@ services:
       - 1.1.1.1
       - 8.8.8.8
     volumes:
-      - /root/shrimp/maddy.conf:/data/maddy.conf:ro
+      - ./maddy.conf:/data/maddy.conf:ro
     depends_on:
       - ingester
     <<: *shared_config

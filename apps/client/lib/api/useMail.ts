@@ -9,7 +9,7 @@ export const useMail = (id: number | string) => {
   return useQuery({
     queryKey: ["mail", id],
     queryFn: async () => {
-      const { data } = await API.get(`/mails/${id}`, {
+      const { data } = await API.get(`/v1/mails/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

@@ -61,14 +61,12 @@ export const MailEntry = forwardRef<HTMLButtonElement, Props>(
           <Tooltip>
             <TooltipTrigger>
               <span className="flex items-center gap-2 pr-3 text-left font-semibold">
-                {[2, 3, 30].includes(data.id) && (
-                  <div className="min-h-1.5 min-w-1.5 rounded-full bg-blue-500 motion-safe:animate-pulse" />
-                )}
+                <div className="min-h-1.5 min-w-1.5 rounded-full bg-blue-500 motion-safe:animate-pulse" />
 
-                {data.from_name || data.from_address}
+                {data.from || data.technical_sender}
               </span>
             </TooltipTrigger>
-            <TooltipContent>{data.from_address}</TooltipContent>
+            <TooltipContent>{data.from}</TooltipContent>
           </Tooltip>
 
           <Tooltip>

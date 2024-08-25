@@ -18,9 +18,10 @@ type Mail struct {
 	TechnicalSender string `db:"technical_sender"`
 	From            string `db:"from"`
 
-	To      pq.StringArray `db:"to"`
-	Ccs     pq.StringArray `db:"ccs"`
-	ReplyTo pq.StringArray `db:"reply_to"`
+	TechnicalRcpt string         `db:"technical_rcpt"`
+	To            pq.StringArray `db:"to"`
+	Ccs           pq.StringArray `db:"ccs"`
+	ReplyTo       pq.StringArray `db:"reply_to"`
 
 	Headers string `db:"headers"`
 
@@ -67,9 +68,10 @@ func ParseMail(sender, recipient string, envelope *enmime.Envelope) (*Mail, erro
 		TechnicalSender: sender,
 		From:            envelope.GetHeader("From"),
 
-		To:      lo.Map(toAddresses, func(addr *mail.Address, _ int) string { return addr.String() }),
-		Ccs:     lo.Map(ccs, func(addr *mail.Address, _ int) string { return addr.String() }),
-		ReplyTo: lo.Map(replyTos, func(addr *mail.Address, _ int) string { return addr.String() }),
+		TechnicalRcpt: recipient,
+		To:            lo.Map(toAddresses, func(addr *mail.Address, _ int) string { return addr.String() }),
+		Ccs:           lo.Map(ccs, func(addr *mail.Address, _ int) string { return addr.String() }),
+		ReplyTo:       lo.Map(replyTos, func(addr *mail.Address, _ int) string { return addr.String() }),
 
 		Headers: headersToJson(envelope),
 

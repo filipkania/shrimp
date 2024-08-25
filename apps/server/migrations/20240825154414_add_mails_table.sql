@@ -6,9 +6,10 @@ CREATE TABLE mails (
   technical_sender TEXT NOT NULL,
   "from" TEXT,
 
-  "to" TEXT[],
-  ccs TEXT[],
-  reply_to TEXT[],
+  technical_rcpt TEXT NOT NULL,
+  "to" TEXT[] NOT NULL DEFAULT '{}',
+  ccs TEXT[] NOT NULL DEFAULT '{}',
+  reply_to TEXT[] NOT NULL DEFAULT '{}',
 
   headers TEXT NOT NULL,
 

@@ -16,7 +16,7 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
   const { error, status, data } = useQuery({
     queryKey: ["me"],
     queryFn: () => {
-      return API.get<MeQuery>("/me", {
+      return API.get<MeQuery>("/v1/me", {
         headers: {
           Authorization: `Bearer ${token}`,
         },

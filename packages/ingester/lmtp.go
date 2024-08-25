@@ -51,15 +51,15 @@ func (s *LmtpSession) Data(r io.Reader) error {
 	_, err = s.pool.NamedExec(`
 		INSERT INTO mails(
 			message_id, technical_sender, "from",
-			"to", ccs, reply_to, headers,
-			subject, text, html,
-			received_at
+			technical_rcpt, "to", ccs,
+			reply_to, headers, subject,
+			text, html, received_at
 		)
 		VALUES (
 			:message_id, :technical_sender, :from,
-			:to, :ccs, :reply_to, :headers,
-			:subject, :text, :html,
-			:received_at
+			:technical_rcpt, :to, :ccs,
+			:reply_to, :headers, :subject,
+			:text, :html, :received_at
 		);
 	`, parsedMail)
 	if err != nil {

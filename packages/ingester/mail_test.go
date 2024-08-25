@@ -22,9 +22,11 @@ func TestParser(t *testing.T) {
 	}
 
 	assert.Equal(t, msg.To[0], "<admin@localhost>")
-	assert.Equal(t, msg.TechnicalSender, "a@a.com")
+	assert.Equal(t, msg.TechnicalRcpt, "a@a.com")
 
 	assert.Equal(t, msg.From, "sender@example.com")
+	assert.Equal(t, msg.TechnicalSender, "a@a.com")
+
 	assert.Equal(t, msg.MessageId, "")
 
 	assert.Equal(t, msg.Html, "<h1>Hello!</h1>\n<p>This is a test email.</p>\n")

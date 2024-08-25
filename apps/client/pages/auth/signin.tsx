@@ -19,7 +19,7 @@ const SignInPage = () => {
 
   const signIn = useMutation({
     mutationFn: (data: { username: string; password: string }) => {
-      return API.post<SignInQuery>("/login", data);
+      return API.post<SignInQuery>("/v1/auth/login", data);
     },
 
     onSuccess: ({ data }) => {

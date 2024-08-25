@@ -27,6 +27,13 @@ export const MailView = () => {
   const isMobile = useMediaQuery("(max-width: 1024px)");
 
   const emailHtml = useMemo(() => {
+    if (!mail?.html && mail?.text)
+      return (
+        <div className="mailview min-w-fit bg-white p-4 text-black md:p-8">
+          {mail.text}
+        </div>
+      );
+
     if (!mail?.html) return null;
 
     const sanitizedHTML = sanitize(mail.html, {
@@ -43,7 +50,7 @@ export const MailView = () => {
         }}
       />
     );
-  }, [mail?.html]);
+  }, [mail?.html, mail?.text]);
 
   if (!selectedMail || !mail)
     return (
@@ -116,7 +123,7 @@ export const MailView = () => {
           <Avatar className="h-12 w-12">
             <AvatarImage />
             <AvatarFallback className="text-muted-foreground">
-              {(mail.from_name || mail.from_address)
+              {(mail.from || mail.technical_sender)
                 .substring(0, 2)
                 .toUpperCase()}
             </AvatarFallback>
@@ -125,7 +132,7 @@ export const MailView = () => {
           <div className="flex w-full flex-col break-words">
             <div className="flex w-full items-center justify-between">
               <span className="p-0 font-medium">
-                {mail.from_name || mail.from_address}
+                {mail.from || mail.technical_sender}
               </span>
 
               <span className="ml-auto min-w-fit text-sm text-muted-foreground">
@@ -134,7 +141,7 @@ export const MailView = () => {
             </div>
 
             <span className="text-sm text-muted-foreground">
-              From: <code>{mail.from_address}</code>
+              From: <code>{mail.from}</code>
             </span>
 
             <span className="text-sm">{mail.subject || "No subject"}</span>

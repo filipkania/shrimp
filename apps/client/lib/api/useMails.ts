@@ -3,22 +3,28 @@ import { useAuth } from "../auth/AuthContext";
 import { API } from "../api.mjs";
 
 export type Mail = {
-  id: number;
+  id: string;
 
-  from_id: number;
-  from_name: string;
-  from_address: string;
+  message_id: string | null;
 
-  message_id?: string;
-  references?: string;
+  technical_sender: string;
+  from: string | null;
+
+  technical_rcpt: string;
+  to: Array<string>;
+  ccs: Array<string>;
+  reply_to: Array<string>;
 
   headers: string;
-  subject?: string;
 
-  text?: string;
-  html?: string;
+  subject: string | null;
+  text: string | null;
+  html: string | null;
 
   received_at: string;
+
+  created_at: string;
+  updated_at: string | null;
 };
 
 const LIMIT = 25;
@@ -30,7 +36,7 @@ export const useMails = (searchQuery?: string) => {
     queryKey: ["mails", searchQuery],
     queryFn: async ({ pageParam = 0 }) => {
       const res = await API.get(
-        `/mails?offset=${pageParam}&limit=${LIMIT}&query=${encodeURIComponent(
+        `/v1/mails?offset=${pageParam}&limit=${LIMIT}&query=${encodeURIComponent(
           searchQuery || ""
         )}`,
         {
