@@ -1,3 +1,7 @@
+x-config: &shared_config
+  networks:
+    - shrimp_network
+
 services:
   postgres:
     image: postgres:16
@@ -7,6 +11,7 @@ services:
     environment:
       POSTGRES_DB: shrimp
       POSTGRES_PASSWORD: postgres
+    <<: *shared_config
 
   pgweb:
     image: sosedoff/pgweb
@@ -15,3 +20,35 @@ services:
       - 8081:8081
     environment:
       PGWEB_DATABASE_URL: postgresql://postgres:postgres@postgres/shrimp?sslmode=disable
+    <<: *shared_config
+
+  ingester:
+    build: ./packages/ingester
+    expose:
+      - 8047:8047
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@postgres/shrimp?sslmode=disable
+      DEBUG: 1
+    depends_on:
+      - postgres
+    <<: *shared_config
+
+  maddy:
+    image: foxcpp/maddy:0.7
+    ports:
+      - 25:25
+    dns:
+      - 1.1.1.1
+      - 8.8.8.8
+    volumes:
+      - /root/shrimp/maddy.conf:/data/maddy.conf:ro
+    depends_on:
+      - ingester
+    <<: *shared_config
+
+networks:
+  shrimp_network:
+    enable_ipv6: true
+    ipam:
+      config:
+        - subnet: FC00:7368:7269:6D70::/112
