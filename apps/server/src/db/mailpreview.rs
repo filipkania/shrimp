@@ -52,6 +52,7 @@ impl MailPreview {
           "to", subject, text, received_at,
           created_at, updated_at
         FROM mails m
+        ORDER BY received_at DESC
         LIMIT $1
         OFFSET $2;
       "#,

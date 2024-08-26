@@ -44,7 +44,7 @@ impl Mail {
   pub async fn find_many(pool: &PgPool, offset: usize, limit: usize) -> DBResult<Vec<Mail>> {
     sqlx::query_as!(
       Self,
-      "SELECT * FROM mails m LIMIT $1 OFFSET $2",
+      "SELECT * FROM mails m ORDER BY received_at DESC LIMIT $1 OFFSET $2",
       limit as i64,
       offset as i64
     )
