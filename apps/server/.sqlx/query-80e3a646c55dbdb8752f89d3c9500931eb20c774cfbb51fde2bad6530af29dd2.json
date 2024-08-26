@@ -1,0 +1,70 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n        SELECT \n          id, message_id, \"from\",\n          \"to\", subject, text, received_at,\n          created_at, updated_at\n        FROM mails m WHERE id = $1;\n      ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "message_id",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 2,
+        "name": "from",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 3,
+        "name": "to",
+        "type_info": "TextArray"
+      },
+      {
+        "ordinal": 4,
+        "name": "subject",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 5,
+        "name": "text",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 6,
+        "name": "received_at",
+        "type_info": "Timestamptz"
+      },
+      {
+        "ordinal": 7,
+        "name": "created_at",
+        "type_info": "Timestamptz"
+      },
+      {
+        "ordinal": 8,
+        "name": "updated_at",
+        "type_info": "Timestamptz"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      false,
+      true,
+      false,
+      false,
+      true,
+      true,
+      false,
+      false,
+      true
+    ]
+  },
+  "hash": "80e3a646c55dbdb8752f89d3c9500931eb20c774cfbb51fde2bad6530af29dd2"
+}

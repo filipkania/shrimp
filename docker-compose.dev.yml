@@ -3,6 +3,16 @@ x-config: &shared_config
     - shrimp_network
 
 services:
+  backend:
+    build: ./apps/server
+    ports:
+      - 8080:8080
+    environment:
+      RUST_LOG: debug
+      DATABASE_URL: postgresql://postgres:postgres@postgres/shrimp?sslmode=disable
+      JWT_SECRET: example_secret_that_nobody_should_know
+    <<: *shared_config
+
   postgres:
     image: postgres:16
     restart: unless-stopped

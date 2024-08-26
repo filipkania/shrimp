@@ -64,7 +64,7 @@ export const MailView = () => {
 
   return (
     <div className="flex h-full flex-col">
-      <NextSeo title={mail.subject || "No Subject"} />
+      {mail.subject && <NextSeo title={mail.subject} />}
 
       <div className="inline-flex h-[58px] w-full items-center justify-between border-b px-6 py-5">
         <div className="inline-flex h-6 items-center gap-1">

@@ -1,0 +1,107 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT * FROM mails m ORDER BY received_at DESC LIMIT $1 OFFSET $2",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "message_id",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 2,
+        "name": "technical_sender",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 3,
+        "name": "from",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 4,
+        "name": "technical_rcpt",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 5,
+        "name": "to",
+        "type_info": "TextArray"
+      },
+      {
+        "ordinal": 6,
+        "name": "ccs",
+        "type_info": "TextArray"
+      },
+      {
+        "ordinal": 7,
+        "name": "reply_to",
+        "type_info": "TextArray"
+      },
+      {
+        "ordinal": 8,
+        "name": "headers",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 9,
+        "name": "subject",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 10,
+        "name": "text",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 11,
+        "name": "html",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 12,
+        "name": "received_at",
+        "type_info": "Timestamptz"
+      },
+      {
+        "ordinal": 13,
+        "name": "created_at",
+        "type_info": "Timestamptz"
+      },
+      {
+        "ordinal": 14,
+        "name": "updated_at",
+        "type_info": "Timestamptz"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Int8",
+        "Int8"
+      ]
+    },
+    "nullable": [
+      false,
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      true,
+      true,
+      false,
+      false,
+      true
+    ]
+  },
+  "hash": "d66597eb9401f1be826396a423b6a6771b1dd5bb91de674b77374e4b4014572c"
+}
