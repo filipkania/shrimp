@@ -1,12 +1,14 @@
-import { APIError, type MeQuery } from "@/types/API";
 import { AuthContext } from "./AuthContext";
 import { useLocalStorage } from "@uidotdev/usehooks";
 import { useRouter } from "next/router";
-import { useEffect, type PropsWithChildren } from "react";
+import { useEffect, useLayoutEffect, type PropsWithChildren } from "react";
 import { API } from "../api.mjs";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { type AxiosError } from "axios";
 import { toast } from "sonner";
+
+import { type ErrorResponse } from "@shrimp/server/bindings/ErrorResponse";
+import { type User } from "@shrimp/server/bindings/User";
 
 const AuthProvider = ({ children }: PropsWithChildren) => {
   const router = useRouter();
@@ -16,7 +18,7 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
   const { error, status, data } = useQuery({
     queryKey: ["me"],
     queryFn: () => {
-      return API.get<MeQuery>("/v1/me", {
+      return API.get<User>("/v1/me", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -36,7 +38,7 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
     }
 
     if (token && status === "error") {
-      const err = error as AxiosError<APIError>;
+      const err = error as AxiosError<ErrorResponse>;
 
       if (router.pathname !== "/auth/signin") {
         if (err?.response?.status === 401) {

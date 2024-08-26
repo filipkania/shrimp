@@ -1,15 +1,18 @@
 use chrono::{DateTime, Utc};
 use serde::Serialize;
 use sqlx::PgPool;
+use ts_rs::TS;
 use uuid::Uuid;
 
 use super::DBResult;
 
-#[derive(Debug, Clone, Serialize)]
+#[derive(Debug, Clone, Serialize, TS)]
+#[ts(export)]
 pub struct User {
   pub id: Uuid,
 
   pub username: String,
+  #[ts(skip)]
   #[serde(skip_serializing)]
   pub password_hash: String,
 

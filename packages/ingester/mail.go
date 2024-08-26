@@ -13,7 +13,7 @@ import (
 )
 
 type Mail struct {
-	MessageId string `db:"message_id"`
+	MessageId *string `db:"message_id"`
 
 	TechnicalSender string `db:"technical_sender"`
 	From            string `db:"from"`
@@ -25,11 +25,20 @@ type Mail struct {
 
 	Headers string `db:"headers"`
 
-	Subject string `db:"subject"`
-	Text    string `db:"text"`
-	Html    string `db:"html"`
+	Subject *string `db:"subject"`
+	Text    string  `db:"text"`
+	Html    string  `db:"html"`
 
 	ReceivedAt time.Time `db:"received_at"`
+}
+
+func getHeader(envelope *enmime.Envelope, key string) *string {
+	if lo.Contains(envelope.GetHeaderKeys(), key) {
+		value := envelope.GetHeader(key)
+		return &value
+	} else {
+		return nil
+	}
 }
 
 func ParseMail(sender, recipient string, envelope *enmime.Envelope) (*Mail, error) {
@@ -63,10 +72,10 @@ func ParseMail(sender, recipient string, envelope *enmime.Envelope) (*Mail, erro
 	}
 
 	return &Mail{
-		MessageId: envelope.GetHeader("Message-Id"),
+		MessageId: getHeader(envelope, "Message-Id"),
 
 		TechnicalSender: sender,
-		From:            envelope.GetHeader("From"),
+		From:            lo.FromPtrOr(getHeader(envelope, "From"), sender),
 
 		TechnicalRcpt: recipient,
 		To:            lo.Map(toAddresses, func(addr *mail.Address, _ int) string { return addr.String() }),
@@ -75,7 +84,7 @@ func ParseMail(sender, recipient string, envelope *enmime.Envelope) (*Mail, erro
 
 		Headers: headersToJson(envelope),
 
-		Subject: envelope.GetHeader("Subject"),
+		Subject: getHeader(envelope, "Subject"),
 		Text:    envelope.Text,
 		Html:    envelope.HTML,
 

@@ -4,6 +4,7 @@ use axum::{
   Json,
 };
 use serde::Serialize;
+use ts_rs::TS;
 use validator::ValidationErrors;
 
 // thx sqlx!
@@ -30,16 +31,18 @@ pub enum APIError {
   InvalidUsernameOrPassword,
 }
 
+#[derive(Serialize, TS)]
+#[ts(export)]
+struct ErrorResponse<'a> {
+  code: u16,
+  message: String,
+
+  #[ts(skip)]
+  errors: Option<&'a ValidationErrors>,
+}
+
 impl IntoResponse for APIError {
   fn into_response(self) -> Response {
-    #[derive(Serialize)]
-    struct ErrorResponse<'a> {
-      code: u16,
-      message: String,
-
-      errors: Option<&'a ValidationErrors>,
-    }
-
     let errors = match &self {
       APIError::ValidationError(errors) => Some(errors),
       _ => None,

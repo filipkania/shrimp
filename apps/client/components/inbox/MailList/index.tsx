@@ -98,7 +98,7 @@ export const MailList = ({ toggleMenu }: Props) => {
           <MailEntry
             data={mail}
             key={i}
-            selected={Number(selectedMail) === mail?.id}
+            selected={selectedMail === mail?.id}
             ref={i === mails.length - 8 ? ref : null}
             onClick={(e) => {
               e.preventDefault();

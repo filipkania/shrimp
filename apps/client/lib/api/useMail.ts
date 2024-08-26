@@ -1,7 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "../auth/AuthContext";
 import { API } from "../api.mjs";
-import { Mail } from "./useMails";
+
+import { type Mail } from "@shrimp/server/bindings/Mail";
 
 export const useMail = (id: number | string) => {
   const { token } = useAuth();

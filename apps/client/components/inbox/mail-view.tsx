@@ -123,7 +123,7 @@ export const MailView = () => {
           <Avatar className="h-12 w-12">
             <AvatarImage />
             <AvatarFallback className="text-muted-foreground">
-              {(mail.from || mail.technical_sender)
+              {(mail.from.name || mail.from.address)
                 .substring(0, 2)
                 .toUpperCase()}
             </AvatarFallback>
@@ -132,7 +132,7 @@ export const MailView = () => {
           <div className="flex w-full flex-col break-words">
             <div className="flex w-full items-center justify-between">
               <span className="p-0 font-medium">
-                {mail.from || mail.technical_sender}
+                {mail.from.name || mail.from.address}
               </span>
 
               <span className="ml-auto min-w-fit text-sm text-muted-foreground">
@@ -141,7 +141,7 @@ export const MailView = () => {
             </div>
 
             <span className="text-sm text-muted-foreground">
-              From: <code>{mail.from}</code>
+              From: <code>{mail.from.address}</code>
             </span>
 
             <span className="text-sm">{mail.subject || "No subject"}</span>

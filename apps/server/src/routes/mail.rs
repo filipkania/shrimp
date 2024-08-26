@@ -7,7 +7,7 @@ use serde::Deserialize;
 use sqlx::PgPool;
 use uuid::Uuid;
 
-use crate::db::Mail;
+use crate::db::{Mail, MailPreview};
 
 use super::JSONResponse;
 
@@ -19,15 +19,21 @@ pub fn router() -> Router {
 
 #[derive(Deserialize)]
 struct Pagination {
-  offset: usize,
-  limit: usize,
+  offset: Option<usize>,
+  limit: Option<usize>,
 }
 
 async fn get_mails(
   Extension(pool): Extension<PgPool>,
   pagination: Query<Pagination>,
-) -> JSONResponse<Vec<Mail>> {
-  let mails = Mail::find_many(&pool, pagination.offset, pagination.limit).await?;
+) -> JSONResponse<Vec<MailPreview>> {
+  let mails = MailPreview::find_many(
+    &pool,
+    pagination.offset.unwrap_or(0),
+    pagination.limit.unwrap_or(25),
+  )
+  .await?;
+
   Ok(Json(mails))
 }
 

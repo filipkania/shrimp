@@ -4,7 +4,7 @@ CREATE TABLE mails (
 
   -- this is envelope sender
   technical_sender TEXT NOT NULL,
-  "from" TEXT,
+  "from" TEXT NOT NULL,
 
   technical_rcpt TEXT NOT NULL,
   "to" TEXT[] NOT NULL DEFAULT '{}',

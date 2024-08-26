@@ -9,7 +9,7 @@ content = """
 <p>This is a test email.</p>
 """.strip()
 
-with smtplib.SMTP("kiwi", 25) as s:
+with smtplib.SMTP("localhost", 25) as s:
   msg = MIMEText(content, "html")
 
   msg["Subject"] = "Test Email"

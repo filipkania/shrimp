@@ -2,30 +2,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { useAuth } from "../auth/AuthContext";
 import { API } from "../api.mjs";
 
-export type Mail = {
-  id: string;
-
-  message_id: string | null;
-
-  technical_sender: string;
-  from: string | null;
-
-  technical_rcpt: string;
-  to: Array<string>;
-  ccs: Array<string>;
-  reply_to: Array<string>;
-
-  headers: string;
-
-  subject: string | null;
-  text: string | null;
-  html: string | null;
-
-  received_at: string;
-
-  created_at: string;
-  updated_at: string | null;
-};
+import { type MailPreview } from "@shrimp/server/bindings/MailPreview";
 
 const LIMIT = 25;
 
@@ -46,7 +23,7 @@ export const useMails = (searchQuery?: string) => {
         }
       );
 
-      return res.data as Array<Mail>;
+      return res.data as Array<MailPreview>;
     },
     initialPageParam: 0,
     getNextPageParam: (lastPage, pages) => {

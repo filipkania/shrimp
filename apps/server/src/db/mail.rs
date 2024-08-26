@@ -1,24 +1,28 @@
 use chrono::{DateTime, Utc};
 use serde::Serialize;
 use sqlx::PgPool;
+use ts_rs::TS;
 use uuid::Uuid;
+
+use crate::utils::mailaddress::{MailAddress, MailAddressList};
 
 use super::DBResult;
 
-#[derive(Debug, Clone, Serialize)]
+#[derive(Debug, Clone, Serialize, TS)]
+#[ts(export)]
 pub struct Mail {
   pub id: Uuid,
   pub message_id: Option<String>,
 
   pub technical_sender: String,
-  pub from: Option<String>,
+  pub from: MailAddress, // TODO: change to MailAddress struct
 
   pub technical_rcpt: String,
-  pub to: Vec<String>,
-  pub ccs: Vec<String>,
-  pub reply_to: Vec<String>,
+  pub to: MailAddressList,
+  pub ccs: MailAddressList,
+  pub reply_to: MailAddressList,
 
-  pub headers: String,
+  pub headers: Option<String>,
 
   pub subject: Option<String>,
   pub text: Option<String>,

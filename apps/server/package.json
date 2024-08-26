@@ -1,0 +1,10 @@
+{
+  "name": "@shrimp/server",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "cargo run",
+    "build": "cargo build --release",
+    "gen:bindings": "cargo test --lib"
+  }
+}
