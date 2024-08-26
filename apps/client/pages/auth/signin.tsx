@@ -7,11 +7,13 @@ import { SymbolIcon } from "@radix-ui/react-icons";
 import { toast } from "sonner";
 
 import { useAuth } from "@/lib/auth/AuthContext";
-import type { APIError, SignInQuery } from "@/types/API";
 import { useMutation } from "@tanstack/react-query";
-import type { AxiosError } from "axios";
 import { useRouter } from "next/router";
 import { NextSeo } from "next-seo";
+
+import type { AxiosError } from "axios";
+import { type ErrorResponse } from "@shrimp/server/bindings/ErrorResponse";
+import { type TokenResponse } from "@shrimp/server/bindings/TokenResponse";
 
 const SignInPage = () => {
   const auth = useAuth();
@@ -19,7 +21,7 @@ const SignInPage = () => {
 
   const signIn = useMutation({
     mutationFn: (data: { username: string; password: string }) => {
-      return API.post<SignInQuery>("/v1/auth/login", data);
+      return API.post<TokenResponse>("/v1/auth/login", data);
     },
 
     onSuccess: ({ data }) => {
@@ -29,7 +31,7 @@ const SignInPage = () => {
       router.push("/inbox");
     },
 
-    onError: (error: AxiosError<APIError>) => {
+    onError: (error: AxiosError<ErrorResponse>) => {
       let message = error.message;
       if (error.response?.data.message) {
         message = error.response.data.message;

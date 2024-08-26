@@ -4,6 +4,7 @@ use regex::Regex;
 use serde::{Deserialize, Serialize};
 use sqlx::PgPool;
 use tracing::debug;
+use ts_rs::TS;
 use validator::Validate;
 
 use super::{APIError, JSONResponse};
@@ -26,7 +27,8 @@ struct LoginRequest {
   password: String,
 }
 
-#[derive(Serialize)]
+#[derive(Serialize, TS)]
+#[ts(export)]
 struct TokenResponse {
   token: String,
 }

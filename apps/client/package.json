@@ -63,8 +63,5 @@
     "prettier": "^3.2.5",
     "prettier-plugin-tailwindcss": "^0.5.11",
     "typescript": "^5"
-  },
-  "peerDependencies": {
-    "@shrimp/server": "^0.1.0"
   }
 }

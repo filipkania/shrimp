@@ -3,6 +3,16 @@ x-config: &shared_config
     - shrimp_network
 
 services:
+  frontend:
+    build:
+      context: .
+      dockerfile: ./apps/client/Dockerfile
+    ports:
+      - 80:80
+    depends_on:
+      - backend
+    <<: *shared_config
+
   backend:
     build: ./apps/server
     ports:
