@@ -1,4 +1,9 @@
 #!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
 
-bunx lint-staged
+if which bunx &>/dev/null;
+then
+  bunx lint-staged
+else
+  echo "bunx not found. Running pre-commit hook using npx."
+  npx lint-staged
+fi
