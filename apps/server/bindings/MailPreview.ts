@@ -3,13 +3,13 @@ import type { MailAddress } from "./MailAddress";
 import type { MailAddressList } from "./MailAddressList";
 
 export type MailPreview = {
-	id: string;
-	message_id: string | null;
-	from: MailAddress;
-	to: MailAddressList;
-	subject: string | null;
-	text: string | null;
-	received_at: string;
-	created_at: string;
-	updated_at: string | null;
+  id: string;
+  message_id: string | null;
+  from: MailAddress;
+  to: MailAddressList;
+  subject: string | null;
+  text: string | null;
+  received_at: string;
+  created_at: string;
+  updated_at: string | null;
 };

@@ -25,7 +25,7 @@ Shrimp is [_will be_] an fully-featured email service, fully self-hostable. It [
 
 ## Deploy your own Shrimp
 
-> There will be a detailed setup guide, only when we release container images.
+> There will be a detailed setup guide, once we release container images.
 >
 > For now, you shouldn't deploy Shrimp as your production email service.
 

@@ -63,7 +63,7 @@ func (s *LmtpSession) Data(r io.Reader) error {
 		);
 	`, parsedMail)
 	if err != nil {
-		s.log.Debugf("Error while inserting mail to database: %v\n", err)
+		s.log.Errorf("Error while inserting mail to database: %v\n", err)
 
 		return &smtp.SMTPError{
 			Code:    451,

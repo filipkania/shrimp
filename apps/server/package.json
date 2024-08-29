@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "cargo run",
     "build": "cargo build --release",
+    "test": "cargo test",
     "gen:bindings": "cargo test --lib"
   }
 }

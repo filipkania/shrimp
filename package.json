@@ -8,6 +8,7 @@
     "build": "turbo build",
     "build:client": "turbo build --filter=@shrimp/client",
     "lint": "turbo lint",
+    "test": "turbo test",
     "prepare": "husky"
   },
   "devDependencies": {
