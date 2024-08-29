@@ -59,7 +59,8 @@ pub trait ResponseParserExt {
 }
 
 impl ResponseParserExt for Response<Body> {
-  async fn parse_json(self) -> serde_json::Value {
+  async fn parse_json(self) -> serde_json::Value
+  {
     assert_eq!(
       self
         .headers()
@@ -72,7 +73,7 @@ impl ResponseParserExt for Response<Body> {
       .await
       .expect("to_bytes() failed");
 
-    serde_json::from_slice::<serde_json::Value>(&bytes[..]).expect("failed to parse body as json")
+    serde_json::from_slice(&bytes[..]).expect("failed to parse body as json")
   }
 }
 
