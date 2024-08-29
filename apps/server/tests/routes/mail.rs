@@ -14,11 +14,11 @@ async fn test_should_return_mails(pool: PgPool) {
     .send(&mut app)
     .await;
 
-  let mut mails = resp.parse_json().await;
+  let mails = resp.parse_json().await;
   assert!(mails.is_array());
   println!("{:?}", mails);
 
-  let mail = mails[0].take();
+  let mail = mails[0].clone();
   assert_eq!(mail["id"], "004d92b3-1a32-46e9-9219-786a1bca3ae8");
 
   assert_eq!(mail["from"]["address"], "hello@example.com");
