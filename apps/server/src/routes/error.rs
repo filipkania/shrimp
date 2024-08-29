@@ -26,6 +26,9 @@ pub enum APIError {
   #[error("Bad Request")]
   BadRequest,
 
+  #[error("Not Found")]
+  NotFound,
+
   /* auth errors */
   #[error("Invalid username or password.")]
   InvalidUsernameOrPassword,
@@ -76,6 +79,7 @@ impl APIError {
       Anyhow(_) | Sqlx(_) => StatusCode::INTERNAL_SERVER_ERROR,
       ValidationError(_) | BadRequest => StatusCode::BAD_REQUEST,
       Unauthorized | InvalidUsernameOrPassword => StatusCode::UNAUTHORIZED,
+      NotFound => StatusCode::NOT_FOUND,
     }
   }
 }

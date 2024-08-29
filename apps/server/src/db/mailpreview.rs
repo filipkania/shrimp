@@ -27,27 +27,11 @@ pub struct MailPreview {
 }
 
 impl MailPreview {
-  pub async fn find_by_id(pool: &PgPool, id: Uuid) -> DBResult<Option<MailPreview>> {
-    sqlx::query_as!(
-      Self,
-      r#"
-        SELECT 
-          id, message_id, "from",
-          "to", subject, text, received_at,
-          created_at, updated_at
-        FROM mails m WHERE id = $1;
-      "#,
-      id
-    )
-    .fetch_optional(pool)
-    .await
-  }
-
   pub async fn find_many(pool: &PgPool, offset: usize, limit: usize) -> DBResult<Vec<MailPreview>> {
     sqlx::query_as!(
       Self,
       r#"
-        SELECT 
+        SELECT
           id, message_id, "from",
           "to", subject, text, received_at,
           created_at, updated_at

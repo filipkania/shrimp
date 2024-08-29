@@ -6,7 +6,7 @@ use uuid::Uuid;
 
 use super::DBResult;
 
-#[derive(Debug, Clone, Serialize, TS)]
+#[derive(Debug, Clone, Serialize, TS, sqlx::Type)]
 #[ts(export)]
 pub struct User {
   pub id: Uuid,
