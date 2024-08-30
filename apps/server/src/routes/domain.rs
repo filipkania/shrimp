@@ -48,11 +48,11 @@ async fn delete_domain(
   Path(domain_id): Path<Uuid>,
 ) -> JSONResponse<()> {
   let Some(domain) = Domain::find_by_id(&pool, domain_id).await? else {
-    return Err(APIError::NotFound);
+    return Err(APIError::NotFound("Couldn't find any domain with this id"));
   };
 
   if domain.owner.id != user.id {
-    return Err(APIError::BadRequest);
+    return Err(APIError::BadRequest("You don't have permissions to this domain"));
   }
 
   Domain::delete(&pool, domain_id).await?;

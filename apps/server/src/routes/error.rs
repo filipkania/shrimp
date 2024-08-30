@@ -20,14 +20,14 @@ pub enum APIError {
   ValidationError(#[from] ValidationErrors),
 
   /* http errors */
-  #[error("Unauthorized")]
-  Unauthorized,
+  #[error("{0}")]
+  Unauthorized(&'static str),
 
-  #[error("Bad Request")]
-  BadRequest,
+  #[error("{0}")]
+  BadRequest(&'static str),
 
-  #[error("Not Found")]
-  NotFound,
+  #[error("{0}")]
+  NotFound(&'static str),
 
   /* auth errors */
   #[error("Invalid username or password.")]
@@ -77,9 +77,9 @@ impl APIError {
 
     match self {
       Anyhow(_) | Sqlx(_) => StatusCode::INTERNAL_SERVER_ERROR,
-      ValidationError(_) | BadRequest => StatusCode::BAD_REQUEST,
-      Unauthorized | InvalidUsernameOrPassword => StatusCode::UNAUTHORIZED,
-      NotFound => StatusCode::NOT_FOUND,
+      ValidationError(_) | BadRequest(_) => StatusCode::BAD_REQUEST,
+      Unauthorized(_) | InvalidUsernameOrPassword => StatusCode::UNAUTHORIZED,
+      NotFound(_) => StatusCode::NOT_FOUND,
     }
   }
 }

@@ -17,29 +17,29 @@ pub async fn auth_middleware(mut request: Request, next: Next) -> Result<Respons
   let mut auth_header = match request.headers().get(http::header::AUTHORIZATION) {
     Some(header) => header
       .to_str()
-      .map_err(|_| APIError::BadRequest)?
+      .map_err(|_| APIError::BadRequest("Invalid header value"))?
       .split_whitespace(),
     None => {
-      return Err(APIError::Unauthorized);
+      return Err(APIError::Unauthorized("Unauthorized"));
     }
   };
 
   let token = auth_header.next_back();
   if auth_header.next() != Some("Bearer") || token.is_none() {
-    return Err(APIError::BadRequest);
+    return Err(APIError::BadRequest("Token is missing"));
   }
 
   let token_values = decode_token(token.unwrap().into(), config).map_err(|e| {
     debug!("Invalid token: {:?} (err: {})", token, e.root_cause());
 
-    APIError::Unauthorized
+    APIError::Unauthorized("Unauthorized")
   })?;
 
   debug!("header value: {:?}", token);
   debug!("token: {:?}", &token_values);
 
   let Some(user) = User::find_by_username(pool, token_values.username).await? else {
-    return Err(APIError::Unauthorized);
+    return Err(APIError::Unauthorized("Unauthorized"));
   };
 
   // current user's object should be accessible
