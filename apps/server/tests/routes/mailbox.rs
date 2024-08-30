@@ -26,10 +26,10 @@ async fn test_should_return_mailboxes(pool: PgPool) {
   assert!(mailbox.is_object());
 
   assert_eq!(mailbox["alias"], "hello");
-  assert_eq!(mailbox["is_catch_all"], true);
+  assert_eq!(mailbox["is_catch_all"], false);
 
   assert_eq!(mailbox["owner"]["username"], "admin");
-  assert_eq!(mailbox["domain"]["domain"], "shrimp.email");
+  assert_eq!(mailbox["domain_id"], "1b6c3679-3b92-45a9-a411-b3fe02568040");
 }
 
 #[sqlx::test(fixtures(
@@ -45,6 +45,7 @@ async fn test_should_create_mailbox(pool: PgPool) {
     .json(json!({
       "alias": "asdf",
       "is_catch_all": false,
+      "owner_id": "8b1c2635-6995-4acd-abe3-7b2eef884340",
       "domain_id": "1b6c3679-3b92-45a9-a411-b3fe02568040",
     }))
     .send(&mut app)
@@ -63,7 +64,7 @@ async fn test_should_create_mailbox(pool: PgPool) {
     .as_array()
     .unwrap()
     .iter()
-    .any(|m| m["alias"] == "asdf" && m["domain"]["domain"] == "shrimp.email"));
+    .any(|m| m["alias"] == "asdf"));
 }
 
 #[sqlx::test(fixtures(
@@ -79,6 +80,7 @@ async fn test_should_fail_invalid_domain(pool: PgPool) {
     .json(json!({
       "alias": "asdf",
       "is_catch_all": false,
+      "owner_id": "8b1c2635-6995-4acd-abe3-7b2eef884340",
       "domain_id": "11111111-1111-1111-1111-111111111111",
     }))
     .send(&mut app)

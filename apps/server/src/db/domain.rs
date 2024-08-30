@@ -6,7 +6,7 @@ use uuid::Uuid;
 
 use super::{DBResult, User};
 
-#[derive(Debug, Clone, Serialize, TS, sqlx::FromRow)]
+#[derive(Debug, Clone, Serialize, TS, sqlx::FromRow, sqlx::Type)]
 #[ts(export)]
 pub struct Domain {
   pub id: Uuid,
