@@ -15,7 +15,7 @@ pub struct Mail {
   pub message_id: Option<String>,
 
   pub technical_sender: String,
-  pub from: MailAddress, // TODO: change to MailAddress struct
+  pub from: MailAddress,
 
   pub technical_rcpt: String,
   pub to: MailAddressList,

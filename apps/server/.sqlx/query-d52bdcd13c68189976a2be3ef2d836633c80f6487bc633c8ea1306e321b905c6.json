@@ -1,0 +1,61 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n        WITH inserted_mailbox AS (\n          INSERT INTO mailboxes(alias, owner_id, domain_id, is_catch_all)\n          VALUES ($1, $2, $3, $4)\n          RETURNING *\n        )\n        SELECT\n          m.id,\n          m.alias,\n          m.is_catch_all,\n          m.domain_id,\n\n          (\n            u.id,\n            u.username,\n            u.password_hash,\n            u.created_at,\n            u.updated_at\n          ) AS \"owner!: User\",\n\n          m.created_at,\n          m.updated_at\n\n        FROM inserted_mailbox m\n        INNER JOIN users u ON u.id = m.owner_id\n        INNER JOIN domains d ON d.id = m.domain_id;\n      ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "alias",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 2,
+        "name": "is_catch_all",
+        "type_info": "Bool"
+      },
+      {
+        "ordinal": 3,
+        "name": "domain_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 4,
+        "name": "owner!: User",
+        "type_info": "Record"
+      },
+      {
+        "ordinal": 5,
+        "name": "created_at",
+        "type_info": "Timestamptz"
+      },
+      {
+        "ordinal": 6,
+        "name": "updated_at",
+        "type_info": "Timestamptz"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Text",
+        "Uuid",
+        "Uuid",
+        "Bool"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      null,
+      false,
+      true
+    ]
+  },
+  "hash": "d52bdcd13c68189976a2be3ef2d836633c80f6487bc633c8ea1306e321b905c6"
+}

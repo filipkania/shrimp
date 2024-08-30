@@ -15,6 +15,7 @@ pub struct User {
   #[ts(skip)]
   #[serde(skip_serializing)]
   pub password_hash: String,
+  pub is_admin: bool,
 
   pub created_at: DateTime<Utc>,
   pub updated_at: Option<DateTime<Utc>>,

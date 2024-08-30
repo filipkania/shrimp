@@ -20,11 +20,16 @@
       },
       {
         "ordinal": 3,
+        "name": "is_admin",
+        "type_info": "Bool"
+      },
+      {
+        "ordinal": 4,
         "name": "created_at",
         "type_info": "Timestamptz"
       },
       {
-        "ordinal": 4,
+        "ordinal": 5,
         "name": "updated_at",
         "type_info": "Timestamptz"
       }
@@ -36,6 +41,7 @@
       ]
     },
     "nullable": [
+      false,
       false,
       false,
       false,
