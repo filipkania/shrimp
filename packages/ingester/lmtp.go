@@ -75,7 +75,7 @@ func (s *LmtpSession) Data(r io.Reader) error {
 }
 
 func (s *LmtpSession) Logout() error {
-	s.log.Printf("Logout()")
+	s.log.Debugf("Logout()")
 
 	return nil
 }
@@ -86,21 +86,21 @@ func (s *LmtpSession) Mail(from string, opts *smtp.MailOptions) error {
 		"envelope_id": randomString(8),
 	})
 
+	s.log.Debugf("Mail(): from: %s", from)
 	s.from = from
-	s.log.Printf("Mail(): from: %s", from)
 
 	return nil
 }
 
 func (s *LmtpSession) Rcpt(to string, opts *smtp.RcptOptions) error {
-	s.log.Printf("Rcpt(): to: %s", to)
+	s.log.Debugf("Rcpt(): to: %s", to)
 	s.to = to
 
 	return nil
 }
 
 func (s *LmtpSession) Reset() {
-	s.log.Printf("Reset()")
+	s.log.Debugf("Reset()")
 
 	s.from = ""
 	s.to = ""
