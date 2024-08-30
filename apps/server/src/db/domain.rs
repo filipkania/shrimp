@@ -32,6 +32,7 @@ impl Domain {
             u.id,
             u.username,
             u.password_hash,
+            u.is_admin,
             u.created_at,
             u.updated_at
           ) AS "owner!: User"
@@ -58,6 +59,7 @@ impl Domain {
             u.id,
             u.username,
             u.password_hash,
+            u.is_admin,
             u.created_at,
             u.updated_at
           ) AS "owner!: User"
@@ -89,6 +91,7 @@ impl Domain {
             u.id,
             u.username,
             u.password_hash,
+            u.is_admin,
             u.created_at,
             u.updated_at
           ) AS "owner!: User"

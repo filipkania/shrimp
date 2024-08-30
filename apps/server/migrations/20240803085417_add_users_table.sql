@@ -13,9 +13,9 @@ CREATE TABLE users (
 CREATE UNIQUE INDEX users_unique_username ON users(username);
 
 -- adds admin user with password `shrimpadmin`
-INSERT INTO users(username, password_hash, is_admin)
-VALUES (
-  'admin',
-  '$argon2id$v=19$m=16,t=2,p=1$bkJHcE9MaElhN1pqeGc2Tw$YgvFl0L+jCnD2hVXUunGjQ',
-  true
-);
+-- INSERT INTO users(username, password_hash, is_admin)
+-- VALUES (
+--   'admin',
+--   '$argon2id$v=19$m=16,t=2,p=1$bkJHcE9MaElhN1pqeGc2Tw$YgvFl0L+jCnD2hVXUunGjQ',
+--   true
+-- );

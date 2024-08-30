@@ -9,7 +9,7 @@ pub mod auth;
 pub mod user;
 pub mod mail;
 pub mod domain;
-pub mod mailboxes;
+pub mod mailbox;
 mod error;
 
 pub use self::error::APIError;
@@ -26,7 +26,7 @@ pub fn create_app(pool: PgPool, config: AppConfig) -> Router {
         .merge(user::router())
         .merge(mail::router())
         .merge(domain::router())
-        .merge(mailboxes::router())
+        .merge(mailbox::router())
         .layer(middleware::from_fn(auth_middleware)),
     )
     .layer(Extension(pool))
