@@ -24,7 +24,7 @@ services:
   #   <<: *shared_config
 
   postgres:
-    image: postgres:16
+    image: postgres:16-alpine
     restart: unless-stopped
     ports:
       - 5432:5432
@@ -33,14 +33,14 @@ services:
       POSTGRES_PASSWORD: postgres
     <<: *shared_config
 
-  pgweb:
-    image: sosedoff/pgweb
-    restart: unless-stopped
-    ports:
-      - 8081:8081
-    environment:
-      PGWEB_DATABASE_URL: postgresql://postgres:postgres@postgres/shrimp?sslmode=disable
-    <<: *shared_config
+  # pgweb:
+  #   image: sosedoff/pgweb
+  #   restart: unless-stopped
+  #   ports:
+  #     - 8081:8081
+  #   environment:
+  #     PGWEB_DATABASE_URL: postgresql://postgres:postgres@postgres/shrimp?sslmode=disable
+  #   <<: *shared_config
 
   # ingester:
   #   build: ./packages/ingester
