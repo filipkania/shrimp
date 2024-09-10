@@ -29,6 +29,9 @@ pub enum APIError {
   #[error("{0}")]
   NotFound(&'static str),
 
+  #[error("{0}")]
+  InternalServerError(&'static str),
+
   /* auth errors */
   #[error("Invalid username or password.")]
   InvalidUsernameOrPassword,
@@ -80,6 +83,7 @@ impl APIError {
       ValidationError(_) | BadRequest(_) => StatusCode::BAD_REQUEST,
       Unauthorized(_) | InvalidUsernameOrPassword => StatusCode::UNAUTHORIZED,
       NotFound(_) => StatusCode::NOT_FOUND,
+      InternalServerError(_) => StatusCode::INTERNAL_SERVER_ERROR,
     }
   }
 }

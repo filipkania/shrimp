@@ -3,14 +3,16 @@ use sqlx::PgPool;
 use tower_http::trace::TraceLayer;
 
 use crate::utils::config::AppConfig;
-use crate::utils::middlewares::auth_middleware;
+use crate::utils::middlewares::{admin_middleware, auth_middleware};
 
 pub mod auth;
-pub mod user;
-pub mod mail;
 pub mod domain;
-pub mod mailbox;
 mod error;
+pub mod mail;
+pub mod mailbox;
+pub mod user;
+
+mod admin;
 
 pub use self::error::APIError;
 
@@ -28,6 +30,12 @@ pub fn create_app(pool: PgPool, config: AppConfig) -> Router {
         .merge(domain::router())
         .merge(mailbox::router())
         .layer(middleware::from_fn(auth_middleware)),
+    )
+    .merge(
+      /* admin routes */
+      Router::new()
+        .merge(admin::user::router())
+        .layer(middleware::from_fn(admin_middleware)),
     )
     .layer(Extension(pool))
     .layer(Extension(config))

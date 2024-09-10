@@ -34,6 +34,12 @@ impl User {
       .await
   }
 
+  pub async fn get_all(pool: &PgPool) -> DBResult<Vec<User>> {
+    sqlx::query_as!(Self, "SELECT * FROM users;")
+      .fetch_all(pool)
+      .await
+  }
+
   pub async fn create(pool: &PgPool, username: String, password_hash: String) -> DBResult<User> {
     sqlx::query_as!(
       Self,

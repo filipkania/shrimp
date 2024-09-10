@@ -10,24 +10,28 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Skeleton } from "@/components/ui/skeleton";
 import { useAuth } from "@/lib/auth/AuthContext";
 import { CheckIcon, LogOutIcon, MoonStarIcon, SunIcon } from "lucide-react";
 import { useTheme } from "next-themes";
 
 export const NavMenu = () => {
   const { resolvedTheme, theme, setTheme } = useTheme();
-  const { logout } = useAuth();
+  const { user, logout } = useAuth();
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="mx-2 my-4 flex items-center gap-2 rounded-lg px-4 py-2 outline-none hover:bg-muted">
         <Avatar className="h-9 w-9">
-          <AvatarImage src="https://github.com/filipkania.png" />
-          <AvatarFallback delayMs={500}>FK</AvatarFallback>
+          <AvatarFallback>
+            {user?.username.slice(0, 2).toLocaleUpperCase()}
+          </AvatarFallback>
         </Avatar>
 
         <div className="flex flex-col break-words text-left [&>*]:line-clamp-1">
-          <span className="text-sm font-medium leading-4">Filip Kania</span>
+          <span className="text-sm font-medium leading-4">
+            {user?.username || <Skeleton className="h-4 w-16" />}
+          </span>
           <span className="text-xs text-muted-foreground">fkrq.xyz</span>
         </div>
       </DropdownMenuTrigger>

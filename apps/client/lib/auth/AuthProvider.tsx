@@ -54,6 +54,18 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
         router.push("/auth/signin");
       }
     }
+
+    if (data && status == "success") {
+      if (router.pathname.toLowerCase().startsWith("/admin")) {
+        if (!data.data.is_admin) {
+          toast.error("Error", {
+            description: "You don't have permissions to access that route.",
+            duration: 5000,
+          });
+          router.push("/inbox");
+        }
+      }
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token, status]);
 

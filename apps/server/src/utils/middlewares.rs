@@ -3,7 +3,29 @@ use sqlx::PgPool;
 use tracing::debug;
 
 use crate::{db::User, routes::APIError, utils::jwt::decode_token, AppConfig};
+
 pub async fn auth_middleware(mut request: Request, next: Next) -> Result<Response, APIError> {
+  query_user(&mut request).await?;
+  Ok(next.run(request).await)
+}
+
+pub async fn admin_middleware(mut request: Request, next: Next) -> Result<Response, APIError> {
+  query_user(&mut request).await?;
+  let user = request
+    .extensions()
+    .get::<User>()
+    .ok_or_else(|| APIError::InternalServerError("Couldn't get user info from request extensions."))?;
+
+  if user.is_admin == false {
+    return Err(APIError::Unauthorized(
+      "You don't have permission to do this.",
+    ));
+  }
+
+  Ok(next.run(request).await)
+}
+
+async fn query_user(request: &mut Request) -> Result<(), APIError> {
   let config = request
     .extensions()
     .get::<AppConfig>()
@@ -47,5 +69,5 @@ pub async fn auth_middleware(mut request: Request, next: Next) -> Result<Respons
   debug!("user: {:?}", user);
   request.extensions_mut().insert(user);
 
-  Ok(next.run(request).await)
+  Ok(())
 }

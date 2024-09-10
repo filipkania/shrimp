@@ -23,7 +23,7 @@ export const MailList = ({ toggleMenu }: Props) => {
   const [searchQuery, setSearchQuery] = useState("");
   const debouncedSearchQuery = useDebounce(searchQuery, 250);
 
-  const { data, isFetching, hasNextPage, fetchNextPage } =
+  const { data, isSuccess, isFetching, hasNextPage, fetchNextPage } =
     useMails(debouncedSearchQuery);
   const mails = data?.pages.flatMap((x) => x) || new Array<null>(15).fill(null);
 
@@ -91,6 +91,16 @@ export const MailList = ({ toggleMenu }: Props) => {
                 onChange={(e) => setSearchQuery(e.currentTarget.value)}
               />
             </div>
+          </div>
+        )}
+
+        {isSuccess && mails.length === 0 && (
+          <div className="my-8 flex w-full">
+            <span className="w-full text-center text-sm text-muted-foreground">
+              It&apos;s so quiet there...
+              <br />
+              Maybe you should start getting some emails?
+            </span>
           </div>
         )}
 
