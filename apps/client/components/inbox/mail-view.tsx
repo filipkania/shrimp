@@ -4,6 +4,7 @@ import {
   ClockIcon,
   ForwardIcon,
   MailboxIcon,
+  MailWarningIcon,
   MoreVerticalIcon,
   ReplyAllIcon,
   ReplyIcon,
@@ -23,7 +24,7 @@ import { NextSeo } from "next-seo";
 
 export const MailView = () => {
   const [selectedMail] = useHash();
-  const { data: mail } = useMail(selectedMail);
+  const { data: mail, error } = useMail(selectedMail);
   const isMobile = useMediaQuery("(max-width: 1024px)");
 
   const emailHtml = useMemo(() => {
@@ -51,6 +52,16 @@ export const MailView = () => {
       />
     );
   }, [mail?.html, mail?.text]);
+
+  if (error)
+    return (
+      <div className="flex h-full w-full flex-col items-center justify-center gap-2 text-muted-foreground">
+        <NextSeo title="Inbox" />
+
+        <MailWarningIcon className="h-24 w-24" />
+        <span className="text-xl font-medium">{error.message}</span>
+      </div>
+    );
 
   if (!selectedMail || !mail)
     return (

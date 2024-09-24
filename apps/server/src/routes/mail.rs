@@ -9,7 +9,7 @@ use uuid::Uuid;
 
 use crate::db::{Mail, MailPreview};
 
-use super::JSONResponse;
+use super::{APIError, JSONResponse};
 
 pub fn router() -> Router {
   Router::new()
@@ -42,5 +42,10 @@ async fn get_mail_by_id(
   Path(mail_id): Path<Uuid>,
 ) -> JSONResponse<Option<Mail>> {
   let mail = Mail::find_by_id(&pool, mail_id).await?;
+
+  if mail.is_none() {
+    return Err(APIError::NotFound("This mail could not be found."));
+  }
+
   Ok(Json(mail))
 }

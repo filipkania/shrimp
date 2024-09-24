@@ -3,6 +3,7 @@ import { useAuth } from "../auth/AuthContext";
 import { API } from "../api.mjs";
 
 import { type Mail } from "@shrimp/server/bindings/Mail";
+import { ErrorResponse } from "@shrimp/server/bindings/ErrorResponse";
 
 export const useMail = (id: number | string) => {
   const { token } = useAuth();
@@ -10,19 +11,18 @@ export const useMail = (id: number | string) => {
   return useQuery({
     queryKey: ["mail", id],
     queryFn: async () => {
-      const { data } = await API.get(`/v1/mails/${id}`, {
+      const { data, status } = await API.get(`/v1/mails/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
 
-      if (data.length === 0) {
-        throw new Error("Mail not found.");
+      if (status == 404) {
+        throw new Error((data as ErrorResponse).message);
       }
 
       return data as Mail;
     },
-    retry: false,
     staleTime: Infinity,
     enabled: !!token && !!id,
   });
