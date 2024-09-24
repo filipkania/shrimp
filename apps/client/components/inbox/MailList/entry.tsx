@@ -4,12 +4,13 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { type Mail } from "@/lib/api/useMails";
 import { cn } from "@/lib/utils";
 import { forwardRef, useMemo, type HTMLAttributes } from "react";
 
+import { type MailPreview } from "@shrimp/server/bindings/MailPreview";
+
 type Props = {
-  data: Mail | null;
+  data: MailPreview | null;
   selected?: boolean;
 } & HTMLAttributes<HTMLButtonElement>;
 
@@ -61,14 +62,12 @@ export const MailEntry = forwardRef<HTMLButtonElement, Props>(
           <Tooltip>
             <TooltipTrigger>
               <span className="flex items-center gap-2 pr-3 text-left font-semibold">
-                {[2, 3, 30].includes(data.id) && (
-                  <div className="min-h-1.5 min-w-1.5 rounded-full bg-blue-500 motion-safe:animate-pulse" />
-                )}
+                <div className="min-h-1.5 min-w-1.5 rounded-full bg-blue-500 motion-safe:animate-pulse" />
 
-                {data.from_name || data.from_address}
+                {data.from.name || data.from.address}
               </span>
             </TooltipTrigger>
-            <TooltipContent>{data.from_address}</TooltipContent>
+            <TooltipContent>{data.from.address}</TooltipContent>
           </Tooltip>
 
           <Tooltip>
@@ -82,7 +81,9 @@ export const MailEntry = forwardRef<HTMLButtonElement, Props>(
         </div>
 
         <span className="line-clamp-2 text-sm">
-          {data.subject || "No subject"}
+          {data.subject || (
+            <span className="text-muted-foreground">No subject</span>
+          )}
         </span>
 
         <span className="mt-1 line-clamp-2 text-sm text-muted-foreground">

@@ -4,6 +4,7 @@ import {
   ClockIcon,
   ForwardIcon,
   MailboxIcon,
+  MailWarningIcon,
   MoreVerticalIcon,
   ReplyAllIcon,
   ReplyIcon,
@@ -23,10 +24,17 @@ import { NextSeo } from "next-seo";
 
 export const MailView = () => {
   const [selectedMail] = useHash();
-  const { data: mail } = useMail(selectedMail);
+  const { data: mail, error } = useMail(selectedMail);
   const isMobile = useMediaQuery("(max-width: 1024px)");
 
   const emailHtml = useMemo(() => {
+    if (!mail?.html && mail?.text)
+      return (
+        <div className="mailview min-w-fit bg-white p-4 text-black md:p-8">
+          {mail.text}
+        </div>
+      );
+
     if (!mail?.html) return null;
 
     const sanitizedHTML = sanitize(mail.html, {
@@ -43,7 +51,17 @@ export const MailView = () => {
         }}
       />
     );
-  }, [mail?.html]);
+  }, [mail?.html, mail?.text]);
+
+  if (error)
+    return (
+      <div className="flex h-full w-full flex-col items-center justify-center gap-2 text-muted-foreground">
+        <NextSeo title="Inbox" />
+
+        <MailWarningIcon className="h-24 w-24" />
+        <span className="text-xl font-medium">{error.message}</span>
+      </div>
+    );
 
   if (!selectedMail || !mail)
     return (
@@ -57,7 +75,7 @@ export const MailView = () => {
 
   return (
     <div className="flex h-full flex-col">
-      <NextSeo title={mail.subject || "No Subject"} />
+      {mail.subject && <NextSeo title={mail.subject} />}
 
       <div className="inline-flex h-[58px] w-full items-center justify-between border-b px-6 py-5">
         <div className="inline-flex h-6 items-center gap-1">
@@ -116,7 +134,7 @@ export const MailView = () => {
           <Avatar className="h-12 w-12">
             <AvatarImage />
             <AvatarFallback className="text-muted-foreground">
-              {(mail.from_name || mail.from_address)
+              {(mail.from.name || mail.from.address)
                 .substring(0, 2)
                 .toUpperCase()}
             </AvatarFallback>
@@ -125,7 +143,7 @@ export const MailView = () => {
           <div className="flex w-full flex-col break-words">
             <div className="flex w-full items-center justify-between">
               <span className="p-0 font-medium">
-                {mail.from_name || mail.from_address}
+                {mail.from.name || mail.from.address}
               </span>
 
               <span className="ml-auto min-w-fit text-sm text-muted-foreground">
@@ -134,7 +152,7 @@ export const MailView = () => {
             </div>
 
             <span className="text-sm text-muted-foreground">
-              From: <code>{mail.from_address}</code>
+              From: <code>{mail.from.address}</code>
             </span>
 
             <span className="text-sm">{mail.subject || "No subject"}</span>

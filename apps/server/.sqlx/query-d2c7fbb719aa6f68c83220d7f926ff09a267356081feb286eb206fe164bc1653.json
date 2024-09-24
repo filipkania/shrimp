@@ -1,0 +1,106 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT * FROM mails m WHERE id = $1",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "message_id",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 2,
+        "name": "technical_sender",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 3,
+        "name": "from",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 4,
+        "name": "technical_rcpt",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 5,
+        "name": "to",
+        "type_info": "TextArray"
+      },
+      {
+        "ordinal": 6,
+        "name": "ccs",
+        "type_info": "TextArray"
+      },
+      {
+        "ordinal": 7,
+        "name": "reply_to",
+        "type_info": "TextArray"
+      },
+      {
+        "ordinal": 8,
+        "name": "headers",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 9,
+        "name": "subject",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 10,
+        "name": "text",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 11,
+        "name": "html",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 12,
+        "name": "received_at",
+        "type_info": "Timestamptz"
+      },
+      {
+        "ordinal": 13,
+        "name": "created_at",
+        "type_info": "Timestamptz"
+      },
+      {
+        "ordinal": 14,
+        "name": "updated_at",
+        "type_info": "Timestamptz"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      false,
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      true,
+      true,
+      false,
+      false,
+      true
+    ]
+  },
+  "hash": "d2c7fbb719aa6f68c83220d7f926ff09a267356081feb286eb206fe164bc1653"
+}

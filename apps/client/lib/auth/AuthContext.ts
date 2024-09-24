@@ -1,10 +1,10 @@
-import type { MeQuery } from "@/types/API";
 import { createContext, useContext } from "react";
+import { type User } from "@shrimp/server/bindings/User";
 
 export type AuthValues = {
   token: string | null;
 
-  user: MeQuery | null;
+  user: User | null;
 
   logout: () => void;
 };

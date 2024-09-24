@@ -1,20 +1,22 @@
 {
   "name": "shrimp",
-  "description": "All-in-one email service, fully hosted on Cloudflare Workers.",
+  "description": "All-in-one email service, fully self-hostable.",
   "workspaces": ["packages/*", "apps/*"],
-  "packageManager": "bun@1.0.26",
+  "packageManager": "bun@1.1.26",
   "scripts": {
-    "dev": "turbo dev --filter=shrimp-client --filter=shrimp-server",
-    "dev:landing": "turbo dev --filter=landing-page",
+    "dev": "turbo dev --filter=@shrimp/client --filter=@shrimp/server",
     "build": "turbo build",
+    "build:client": "turbo build --filter=@shrimp/client",
     "lint": "turbo lint",
+    "test": "turbo test",
     "prepare": "husky"
   },
   "devDependencies": {
-    "@commitlint/cli": "^19.0.0",
-    "@commitlint/config-conventional": "^19.0.0",
-    "husky": "^9.0.11",
-    "lint-staged": "^15.2.2",
-    "turbo": "^1.12.4"
+    "husky": "^9.1.5",
+    "lint-staged": "^15.2.9",
+    "turbo": "^2.1.0"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": ["prettier --write"]
   }
 }

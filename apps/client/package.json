@@ -1,9 +1,9 @@
 {
-  "name": "shrimp-client",
+  "name": "@shrimp/client",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbo",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -63,5 +63,8 @@
     "prettier": "^3.2.5",
     "prettier-plugin-tailwindcss": "^0.5.11",
     "typescript": "^5"
+  },
+  "peerDependencies": {
+    "@shrimp/server": "^0.1.0"
   }
 }

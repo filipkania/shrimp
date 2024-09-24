@@ -1,9 +1,0 @@
-/*
-  # using default-src: 'self'; to prevent users' IP from leaking.
-  # script-src: 'self'; - should be ok, DOMPurify sanitizes mailview.
-  Content-Security-Policy: default-src 'self'; style-src 'self' 'unsafe-inline';
-
-  X-Frame-Options: DENY
-  X-Content-Type-Options: nosniff
-  Referrer-Policy: no-referrer
-  X-Robots-Tag: noindex, nofollow

@@ -1,0 +1,36 @@
+use shrimp_server::{create_app, get_config};
+use sqlx::{postgres::PgPoolOptions, PgPool};
+use tokio::net::TcpListener;
+
+const BIND: &str = "0.0.0.0:8080";
+
+#[tokio::main]
+async fn main() -> anyhow::Result<()> {
+  let _ = dotenvy::dotenv();
+  tracing_subscriber::fmt::init();
+
+  let config = get_config();
+
+  let pool = init_db_pool().await?;
+  let app = create_app(pool, config);
+
+  let listener = TcpListener::bind(BIND).await?;
+
+  tracing::info!("Listening on {}...", listener.local_addr().unwrap());
+  axum::serve(listener, app).await?;
+
+  Ok(())
+}
+
+async fn init_db_pool() -> anyhow::Result<PgPool> {
+  let database_url = dotenvy::var("DATABASE_URL")?;
+
+  let pool = PgPoolOptions::new()
+    .connect(&database_url)
+    .await
+    .expect("Can't connect to database");
+
+  sqlx::migrate!().run(&pool).await?;
+
+  Ok(pool)
+}
